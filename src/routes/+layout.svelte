@@ -14,11 +14,13 @@
 	<!-- <Header /> -->
 
 	<nav class="text-center py-16">
-		<ul class="list-none flex flex-row gap-1 mx-auto justify-center text-sm sm:text-base absolute sm:top-4 sm:right-4 top-2 right-2">
+		<ul class="list-none flex flex-row gap-2 mx-auto justify-center text-sm sm:text-base absolute sm:top-4 sm:right-4 top-2 right-2">
 			<li>
 				<a href="mailto:patark@icloud.com">email</a>
 			</li>
-			<li></li>
+			<li>
+				<a href="https://instagram.com/patark">instagram</a>
+			</li>
 			<li>
 				<a href="https://github.com/pstoica">github</a>
 				<!-- <a href="/PatrickStoica.pdf">cv</a> -->
