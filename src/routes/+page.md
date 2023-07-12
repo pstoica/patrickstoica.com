@@ -1,4 +1,4 @@
-I use technology and art to confront our disconnect from nature, our senses, and each other. Exploitation and competition take from us all. By prioritizing people over profit and sharing our wealth of information and resources, we can create a world that provides for us all.
+I use technology and art to confront our disconnect from nature, our senses, and each other. Exploitation and competition take from us all. By prioritizing people over profit and sharing our wealth of information and resources, we can create a world that provides for everyone.
 
 Be true to yourself.
 
@@ -8,9 +8,9 @@ I primarily develop webapps using TypeScript and UI frameworks (like React). I'v
 
 I have a range of startup and freelancing experiences with companies like [Squarespace](https://squarespace.com), David Chang's [Ando](https://techcrunch.com/2018/01/22/uber-eats-acquires-ando-the-food-delivery-startup-from-david-change-that-makes-its-own-food/), HBO's [Mosaic](<https://en.wikipedia.org/wiki/Mosaic_(murder_mystery)>), [Hugo & Marie](https://www.hugoandmarie.com/), [Telnyx](https://telnyx.com/), and [Puzzle](https://puzzle.io). I've filled a number of operational gaps including infrastructure and product analytics, while also emphazing fluid experiences for users and contributors.
 
-(I've also worked on a mountain of side projects and curiosities with friends. Maybe one day I'll document them... or make more.)
+(I've also worked on a mountain of side projects and curiosities with friends. Maybe one day I'll document them... or make new ones.)
 
-After experiencing the fallout of a [fraudulent anti-fraud startup](https://www.justice.gov/usao-sdny/pr/founder-cyberfraud-prevention-company-sentenced-five-years-prison-defrauding-investors), I've come to realize the venture capital model optimizes for reactive, short-term thinking. In the pursuit of never-ending growth, the tech worker, gig worker, and end-user are all inevitably exploited.
+After experiencing the fallout of a [fraudulent anti-fraud startup](https://www.justice.gov/usao-sdny/pr/founder-cyberfraud-prevention-company-sentenced-five-years-prison-defrauding-investors), I've come to realize the venture capital model optimizes for reactive, short-term thinking. In the pursuit of never-ending growth, the tech worker, gig worker, and end user are all inevitably exploited.
 
 My goal is to spend my career sharing knowledge and developing sustainable, ethical businesses; not [🦄 unicorns](<https://en.wikipedia.org/wiki/Unicorn_(finance)>). Feel the same? [Let's talk](mailto:patark@icloud.com).
 
