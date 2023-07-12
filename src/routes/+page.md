@@ -29,7 +29,7 @@ In my graphics work, I've used [Tidal](https://tidalcycles.org/) and [Processing
 <img src="tidal-4.jpeg" class="m-0" />
 </div>
 
-I view art as a lifelong practice. For me, it's an outlet for my relationship to data, frequency, and time.
+I view art as a lifelong practice, an evolving relationship to data, frequency, and time.
 
 ### Music
 
