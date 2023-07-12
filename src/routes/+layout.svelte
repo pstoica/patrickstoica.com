@@ -18,13 +18,13 @@
 				<a href="mailto:patark@icloud.com">email</a>
 			</li>
 			<li>
-				<a href="https://instagram.com/patark">instagram</a>
+				<a href="/PatrickStoicaResume.pdf">cv</a>
 			</li>
 			<li>
 				<a href="https://github.com/pstoica">github</a>
 			</li>
 			<li>
-				<a href="/PatrickStoicaResume.pdf">cv</a>
+				<a href="https://instagram.com/patark">instagram</a>
 			</li>
 		</ul>
 		<a href="/" class="title text-6xl">{config.title}</a>
