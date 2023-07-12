@@ -51,7 +51,7 @@
 
 	.title {
 		/* background-image: radial-gradient( circle at top right, hsl(180 100% 50%), hsl(180 100% 50% / 0%) ), radial-gradient( circle at bottom left, hsl(328 100% 54%), hsl(328 100% 54% / 0%) ); */
-		background-image: url(/marbling.jpeg);
+		background: theme(colors.purple.200) url(/marbling.jpeg);
 		background-position: 55px center;
 		background-clip: text;
 		color: transparent;
