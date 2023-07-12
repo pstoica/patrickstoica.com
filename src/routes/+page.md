@@ -6,7 +6,7 @@ Be true to yourself.
 
 I primarily develop webapps using TypeScript and UI frameworks (like React). I've also built and contributed to several backends using various database technologies, API paradigms, frameworks, and distributed/external services. My detail-oriented nature is most at home solving user-facing problems.
 
-My startup and freelancing experiences include [Squarespace](https://squarespace.com), David Chang's [Ando](https://techcrunch.com/2018/01/22/uber-eats-acquires-ando-the-food-delivery-startup-from-david-change-that-makes-its-own-food/), HBO's [Mosaic](<https://en.wikipedia.org/wiki/Mosaic_(murder_mystery)>), [Hugo & Marie](https://www.hugoandmarie.com/), [Telnyx](https://telnyx.com/), and [Puzzle](https://puzzle.io). I've filled operational gaps from infrastructure to product analytics and can successfully organize cross-functional teams. I emphasize fluid experiences for users and contributors.
+My startup and freelancing experiences include [Squarespace](https://squarespace.com), David Chang's [Ando](https://techcrunch.com/2018/01/22/uber-eats-acquires-ando-the-food-delivery-startup-from-david-change-that-makes-its-own-food/), HBO's [Mosaic](<https://en.wikipedia.org/wiki/Mosaic_(murder_mystery)>), [Hugo & Marie](https://www.hugoandmarie.com/), [Telnyx](https://telnyx.com/), and [Puzzle](https://puzzle.io). I've filled operational gaps from infrastructure to product analytics and can organize cross-functional teams. I emphasize fluid experiences for users and contributors.
 
 (I've also worked on a mountain of side projects and curiosities with friends. Maybe one day I'll document them... or make new ones.)
 
