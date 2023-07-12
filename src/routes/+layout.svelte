@@ -48,7 +48,7 @@
 	}
 
 	.title {
-		background-image: radial-gradient(circle at 50% 200%, #000142, #3b0083, #b300c3, #ff059f, #ff4661, #ffad86, #fff3c7);
+		background-image: radial-gradient( circle at top right, hsl(180 100% 50%), hsl(180 100% 50% / 0%) ), radial-gradient( circle at bottom left, hsl(328 100% 54%), hsl(328 100% 54% / 0%) );
 		background-size: cover;
 		background-clip: text;
 		color: transparent;
