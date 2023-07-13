@@ -1,6 +1,8 @@
 <script lang="ts">
 	import * as config from '$lib/config'
 	import '../app.css'
+
+	let y;
 </script>
 
 <svelte:head>
@@ -10,6 +12,8 @@
 	posthog.init('phc_GlHVllLBZzjEPfxsTf1U2WzjRSrJBXVkOjqSH37bnf1',{api_host:'https://app.posthog.com'})
 </script>
 </svelte:head>
+
+<svelte:window bind:scrollY={y} />
 
 <div class="layout">
 	<nav class="text-center py-16">
@@ -27,7 +31,9 @@
 				<a href="https://instagram.com/patark">instagram</a>
 			</li>
 		</ul>
-		<a href="/" class="title text-6xl">{config.title}</a>
+		<a href="/" class="title text-6xl" 
+		style="background-position: -55px calc(50% - {y * 0.6}px);"	
+		>{config.title}</a>
 	
 		<div class="subtitle">{config.description}</div>
 	
@@ -52,7 +58,7 @@
 	.title {
 		/* background-image: radial-gradient( circle at top right, hsl(180 100% 50%), hsl(180 100% 50% / 0%) ), radial-gradient( circle at bottom left, hsl(328 100% 54%), hsl(328 100% 54% / 0%) ); */
 		background: theme(colors.purple.200) url(/marbling.jpeg);
-		background-position: 55px center;
+		
 		background-clip: text;
 		color: transparent;
 	}
