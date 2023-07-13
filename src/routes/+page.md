@@ -33,7 +33,7 @@ I view art as a lifelong practice, an evolving relationship to data, frequency, 
 
 ### Music
 
-I'm admittedly returning from a musical hiatus. Most of these releases are compilations of sketches, or a short time window of improvisations; the best is yet to come.
+I'm admittedly returning from a musical hiatus. Most of these releases are compilations of sketches and/or a brief window of improvisations; the best is yet to come.
 
 - 2015-2018: [soundcloud archives](https://soundcloud.com/andthestoics)
 - aug 2017: [moon trails](https://stoica.bandcamp.com/album/moon-trails)\*
