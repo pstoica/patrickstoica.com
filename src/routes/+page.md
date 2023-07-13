@@ -35,6 +35,7 @@ I view art as a lifelong practice, an evolving relationship to data, frequency, 
 
 I'm admittedly returning from a musical hiatus. Most of these releases are compilations of sketches; the best is yet to come.
 
+- 2015-2018: [soundcloud archives](https://soundcloud.com/andthestoics)
 - aug 2017: [moon trails](https://stoica.bandcamp.com/album/moon-trails)\*
 - mar 2017: [cut a dream with scissors](https://tmp-audio.bandcamp.com/album/cut-a-dream-with-scissors)\*
 - feb 2017: [permutations](https://tmp-audio.bandcamp.com/album/permutations)
@@ -44,6 +45,5 @@ I'm admittedly returning from a musical hiatus. Most of these releases are compi
 - nov 2016: [self / sustain](https://self-sustain.bandcamp.com/album/volume-one)
 - sept 2016: [art forever and for live](https://patark.bandcamp.com/album/art-forever-and-for-live)\*
 - jan 2016: [mirrors](https://patark.bandcamp.com/album/mirrors)
-- 201x: [soundcloud archives](https://soundcloud.com/andthestoics)
 
 \* favorite
