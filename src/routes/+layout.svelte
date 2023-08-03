@@ -30,6 +30,9 @@
 			<li>
 				<a href="https://instagram.com/patark">instagram</a>
 			</li>
+			<li>
+				<a href="https://deprogramming.substack.com/">substack</a>
+			</li>
 		</ul>
 		<a href="/" class="title text-6xl" 
 		style="background-position: -55px calc(50% - {y * 0.6}px);"	
