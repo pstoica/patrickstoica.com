@@ -16,6 +16,12 @@ In VC's pursuit of never-ending growth, the tech worker, gig worker, and end use
 
 My goal is to spend my career sharing knowledge and developing sustainable, ethical businesses; not [🦄 unicorns](<https://en.wikipedia.org/wiki/Unicorn_(finance)>). Feel the same? [Let's talk](mailto:patark@icloud.com).
 
+### "Deprogramming for Programmers"
+
+I write a blog exposing dark patterns from organizations to products.
+
+- [Is QED Investors' "Social Good" Mission Morally Compromised?](https://deprogramming.substack.com/p/mission-lane-11-years-of-social-washing): Explores the relationships between LendUp, Mission Lane, Ahead Financials, Credit Karma, and more. What does Capital One cofounder Nigel Morris's involvement with fintech say about consumer finance?
+
 ## Art
 
 I view art as a lifelong practice, an evolving relationship to data, frequency, and time.
