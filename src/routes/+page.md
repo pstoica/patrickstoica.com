@@ -10,10 +10,6 @@ My startup and freelancing experiences include [Squarespace](https://squarespace
 
 (I've also worked on side projects and curiosities with friends. Maybe one day I'll document them... or make new ones.)
 
-After experiencing the fallout of a [fraudulent anti-fraud startup](https://www.justice.gov/usao-sdny/pr/founder-cyberfraud-prevention-company-sentenced-five-years-prison-defrauding-investors), I've come to realize the venture capital model optimizes for reactive, short-term thinking. Fraudulent startups are a byproduct of this, wherein modern leaders are incentivized to rely on a series of white lies for the sake of survival.
-
-In VC's pursuit of never-ending growth, the tech worker, gig worker, and end user are all inevitably exploited. The stories that end up in the news tell only a fraction of this reality.
-
 My goal is to spend my career sharing knowledge and developing sustainable, ethical businesses; not [🦄 unicorns](<https://en.wikipedia.org/wiki/Unicorn_(finance)>). Feel the same? [Let's talk](mailto:patark@icloud.com).
 
 ## Art
