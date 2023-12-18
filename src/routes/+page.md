@@ -1,4 +1,4 @@
-I'm am independent creative technologist with skills ranging from full-stack development to interactive audiovisuals.
+I'm an independent creative technologist with skills ranging from full-stack development to interactive audiovisuals.
 
 Want to reach out about opportunities or collaborations? Email me: [patark@icloud.com](patark@icloud.com)
 
