@@ -1,6 +1,8 @@
 I'm am independent creative technologist with skills ranging from full-stack development to interactive audiovisuals.
 
-You can find my new developments at [staticvoid.studio](https://staticvoid.studio).
+Want to reach out about opportunities or collaborations? Email me: [patark@icloud.com](patark@icloud.com)
+
+You can find my new art explorations at [staticvoid.studio](https://staticvoid.studio).
 
 #### Music
 
