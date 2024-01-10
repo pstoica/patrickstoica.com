@@ -2,8 +2,6 @@ I'm an independent creative technologist with skills ranging from full-stack dev
 
 Want to reach out about opportunities or collaborations? Email me: [patark@icloud.com](mailto:patark@icloud.com)
 
-You can find my new art explorations at [staticvoid.studio](https://staticvoid.studio).
-
 #### Music
 
 - 2015-2018: [soundcloud archives](https://soundcloud.com/andthestoics)
