@@ -13,7 +13,7 @@ I won't bore you with the details. unless you're [looking for my CV](PatrickStoi
 - [staticvoid.studio](https://staticvoid.studio)
 - [Living Room](https://www.kategodwin.design/living-room) with [Kate Godwin](https://kategodwin.design)
 - [Vista Golf](https://apps.apple.com/us/app/vista-golf/id1199546168) soundtrack for [Shallot Games](https://shallotgames.com/)
-- Visuals for [Passport to Magonia audiobook](https://www.youtube.com/watch?v=ftw5YE98O9Y)
+- Visuals for [disinfo.zone](http://disinfo.zone/)'s [Passport to Magonia audiobook](https://www.youtube.com/watch?v=ftw5YE98O9Y)
 - WREK 91.1 FM
   - The old [WREK.org](https://www.kategodwin.design/wrek)
   - [WREKtranet](https://github.com/wrekatlanta/wrektranet)
@@ -37,7 +37,7 @@ I won't bore you with the details. unless you're [looking for my CV](PatrickStoi
 
 ## Visuals
 
-I once made visuals in [Processing](https://processing.org) with rhythmic data from [Tidal Cycles](https://tidalcycles.org/). I'm now reviving these ideas and much more in [TouchDesigner](https://derivative.ca/), combining various digital and analog media and techniques.
+I once made visuals in [Processing](https://processing.org) with rhythmic data from [Tidal Cycles](https://tidalcycles.org/). I'm now reviving these ideas and much more at [staticvoid.studio](https://staticvoid.studio) using [TouchDesigner](https://derivative.ca/) and various digital/analog forms.
 
 <div class="grid grid-cols-2 gap-2">
 <img src="tidal-1.jpeg" class="m-0" />
