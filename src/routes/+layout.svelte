@@ -22,10 +22,16 @@
         <a href="mailto:patark@icloud.com">email</a>
       </li>
       <li>
+        <a href="https://instagram.com/patark">instagram</a>
+      </li>
+      <li>
         <a href="https://github.com/pstoica">github</a>
       </li>
       <li>
-        <a href="https://instagram.com/patark">instagram</a>
+        <a href="https://linkedin.com/in/pstoica">linkedin</a>
+      </li>
+      <li>
+        <a href="/PatrickStoicaResume.pdf">cv</a>
       </li>
     </ul>
     <a href="/" class="title text-6xl" 
