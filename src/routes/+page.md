@@ -11,6 +11,7 @@ I won't bore you with the details. unless you're [looking for my CV](PatrickStoi
 ### Extended Work
 
 - [staticvoid.studio](https://staticvoid.studio)
+- [toxic.systems](https://toxic.systems)
 - [Living Room](https://www.kategodwin.design/living-room) with [Kate Godwin](https://kategodwin.design)
 - [Vista Golf](https://apps.apple.com/us/app/vista-golf/id1199546168) soundtrack for [Shallot Games](https://shallotgames.com/)
 - Visuals for [disinfo.zone](http://disinfo.zone/)'s [Passport to Magonia audiobook](https://www.youtube.com/watch?v=ftw5YE98O9Y)
