@@ -1,4 +1,4 @@
-I'm a fullstack developer and creative technologist. It's all vibration at the end of the day.
+I'm a fullstack developer and creative technologist.
 
 For opportunities and collaborations, email me: [hi@patrickstoica.com](mailto:hi@patrickstoica.com)
 
