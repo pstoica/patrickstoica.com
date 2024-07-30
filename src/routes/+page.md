@@ -1,6 +1,6 @@
 I'm a fullstack developer and creative technologist, currently bringing software creation to more people at [Replit](https://replit.com).
 
-I'm in the process of releasing a Shopify app called [Forma](https://www.getforma.shop/) which offers pre-purchase incentives in exchange for qualitative research.
+I recently launched an incentivized product research and survey app for Shopify called [Forma](https://www.getforma.shop/).
 
 Art is in the works. For collaborations, [shoot me an email](mailto:hi@patrickstoica.com).
 
