@@ -95,19 +95,19 @@ const SettingsPanel: React.FC = () => {
         className="fixed bottom-16 left-0 right-0 bg-white p-2 z-50 border border-black"
         style={{
           maxHeight: "70vh",
-          maxWidth: "30vw",
+          maxWidth: "fit-content",
           overflowY: "auto",
         }}
       >
-        <div className="handle cursor-move mb-2 text-center font-bold text-black text-sm font-mono border-b border-black pb-2">
+        <div className="handle cursor-move mb-2 text-center text-black text-xs uppercase font-mono border-b border-black pb-2">
           Settings
         </div>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-2 gap-2">
           <Slider
             name="smoothness"
-            label="Density"
+            label="Drawing Density"
             min={0.01}
-            max={0.2}
+            max={40}
             step={0.01}
             value={params.smoothness}
             onChange={(name, value) =>
@@ -118,7 +118,7 @@ const SettingsPanel: React.FC = () => {
           />
           <Slider
             name="gradientLength"
-            label="Gradient Length"
+            label="Color Density"
             min={100}
             max={1000}
             step={10}
@@ -130,21 +130,8 @@ const SettingsPanel: React.FC = () => {
             index={1}
           />
           <Slider
-            name="baseShiftSpeed"
-            label="Base Shift Speed"
-            min={0}
-            max={40}
-            step={0.01}
-            value={params.baseShiftSpeed}
-            onChange={(name, value) =>
-              handleChange(name as keyof Params, value)
-            }
-            colorScheme={colorScheme}
-            index={2}
-          />
-          <Slider
             name="minBrushWidth"
-            label="Min Brush Width"
+            label="Min Size"
             min={0}
             max={50}
             step={1}
@@ -157,7 +144,7 @@ const SettingsPanel: React.FC = () => {
           />
           <Slider
             name="maxBrushWidth"
-            label="Max Brush Width"
+            label="Max Size"
             min={10}
             max={200}
             step={0.1}
@@ -167,19 +154,6 @@ const SettingsPanel: React.FC = () => {
             }
             colorScheme={colorScheme}
             index={4}
-          />
-          <Slider
-            name="globalSizeFrequency"
-            label="Global Size Freq"
-            min={0}
-            max={2}
-            step={0.001}
-            value={params.globalSizeFrequency}
-            onChange={(name, value) =>
-              handleChange(name as keyof Params, value)
-            }
-            colorScheme={colorScheme}
-            index={5}
           />
           <Slider
             name="sizeFrequency"
@@ -194,6 +168,33 @@ const SettingsPanel: React.FC = () => {
             colorScheme={colorScheme}
             index={6}
           />
+          <Slider
+            name="globalSizeFrequency"
+            label="Ripple Freq"
+            min={0}
+            max={0.5}
+            step={0.001}
+            value={params.globalSizeFrequency}
+            onChange={(name, value) =>
+              handleChange(name as keyof Params, value)
+            }
+            colorScheme={colorScheme}
+            index={5}
+          />
+          <Slider
+            name="baseShiftSpeed"
+            label="Color Shift Freq"
+            min={0}
+            max={40}
+            step={0.01}
+            value={params.baseShiftSpeed}
+            onChange={(name, value) =>
+              handleChange(name as keyof Params, value)
+            }
+            colorScheme={colorScheme}
+            index={2}
+          />
+
           {/* <Slider
             name="rippleFrequency"
             label="Ripple Freq"
@@ -237,22 +238,6 @@ const SettingsPanel: React.FC = () => {
       </div>
     </Draggable>
   );
-};
-
-// Helper function to get the max value for each parameter
-const getMaxValue = (name: string): number => {
-  switch (name) {
-    case "gradientLength":
-      return 1000;
-    case "maxBrushWidth":
-      return 200;
-    case "baseShiftSpeed":
-      return 40;
-    case "sizeFrequency":
-      return 20;
-    default:
-      return 2;
-  }
 };
 
 export default SettingsPanel;

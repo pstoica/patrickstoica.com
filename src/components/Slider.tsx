@@ -43,7 +43,7 @@ const Slider: React.FC<SliderProps> = ({
       const deltaY = startY - clientY;
       const deltaValue = (deltaY / 100) * (max - min);
       const newValue = Math.max(min, Math.min(max, startValue + deltaValue));
-      onChange(name, parseFloat(newValue.toFixed(2)));
+      onChange(name, parseFloat(newValue.toFixed(3)));
     }
   };
 
@@ -74,7 +74,7 @@ const Slider: React.FC<SliderProps> = ({
   return (
     <div
       ref={sliderRef}
-      className="relative w-16 h-16 touch-none font-mono text-center cursor-ns-resize border border-black"
+      className="relative w-16 h-16 touch-none font-mono text-center cursor-ns-resize border border-black select-none"
       onMouseDown={handleStart}
       onTouchStart={handleStart}
     >
@@ -87,7 +87,7 @@ const Slider: React.FC<SliderProps> = ({
         }}
       ></div>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <div className="text-lg font-bold">{value.toFixed(2)}</div>
+        <div className="text-sm font-bold">{value.toFixed(2)}</div>
         <div className="text-xs mt-1">{label}</div>
       </div>
     </div>
