@@ -1,10 +1,5 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { Image } from "astro:assets";
-import Tidal1 from "../assets/tidal-1.jpeg";
-import Tidal2 from "../assets/tidal-2.jpeg";
-import Tidal3 from "../assets/tidal-3.jpeg";
-import Tidal4 from "../assets/tidal-4.jpeg";
 
 const title = "patrick stoica";
 const description = "software engineer • audiovisual artist";
@@ -13,15 +8,6 @@ const description = "software engineer • audiovisual artist";
 <Layout title={title}>
   <div class="flex flex-col max-w-[740px] mx-auto pb-4">
     <nav class="text-center pt-16 pb-8">
-      <ul
-        class="list-none flex flex-row gap-2 mx-auto justify-center text-sm sm:text-base absolute sm:top-4 sm:right-4 top-2 right-2"
-      >
-        <li><a href="mailto:hi@patrickstoica.com">email</a></li>
-        <li><a href="https://instagram.com/patark">instagram</a></li>
-        <li><a href="https://github.com/pstoica">github</a></li>
-        <li><a href="https://linkedin.com/in/pstoica">linkedin</a></li>
-        <li><a href="/PatrickStoicaResume.pdf">cv</a></li>
-      </ul>
       <a href="/" class="title-container">
         <svg width="100%" viewBox="0 0 600 80" id="titleSvg">
           <defs>
@@ -67,7 +53,6 @@ const description = "software engineer • audiovisual artist";
                 text-anchor="middle"
                 dominant-baseline="middle"
                 font-size="72px"
-                font-weight="bold"
                 fill="white">{title}</text
               >
             </mask>
@@ -96,15 +81,35 @@ const description = "software engineer • audiovisual artist";
       <div class="text-center -mt-2 text-sm sm:text-2xl md:-mt-4">
         {description}
       </div>
+
+      <ul
+        class="list-none flex flex-row gap-2 mx-auto justify-center text-xs sm:text-base pl-0"
+      >
+        <li><a href="mailto:hi@patrickstoica.com">email</a></li>
+        <li><a href="https://instagram.com/patark">instagram</a></li>
+        <li><a href="https://github.com/pstoica">github</a></li>
+        <li><a href="https://linkedin.com/in/pstoica">linkedin</a></li>
+        <li><a href="/PatrickStoicaResume.pdf">cv</a></li>
+      </ul>
     </nav>
 
     <main class="prose prose-invert lg:prose-l max-w-none px-4">
-      <h2>Work</h2>
+      <p>
+        I'm an interdisciplinary artist weaving waveforms and pigment,
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp; computation and harmony,
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; process and emotion.
+      </p>
 
       <p>
         I'm currently making software creation more accessible at <a
           href="https://replit.com">Replit</a
-        >. My web and software development experience includes <a
+        >.
+      </p>
+
+      <p>
+        My previous software and web development work includes <a
           href="https://squarespace.com">Squarespace</a
         >, <a href="https://telnyx.com">Telnyx</a>, <a href="https://puzzle.io"
           >Puzzle</a
@@ -113,36 +118,37 @@ const description = "software engineer • audiovisual artist";
           >Ando</a
         >, Steven Soderbergh's <a
           href="https://en.wikipedia.org/wiki/Mosaic_(murder_mystery)">Mosaic</a
-        >, <a href="https://www.hugoandmarie.com/">Hugo & Marie</a>, <a
+        >, <a href="https://www.hugoandmarie.com/">Hugo & Marie</a>, and <a
           href="https://www.frankiecosmosband.com/">Frankie Cosmos</a
         >.
       </p>
 
-      <h3>Extended Work</h3>
+      <h2>Other Work</h2>
 
       <ul>
         <li>
-          Audiovisual productions at <a href="https://staticvoid.studio"
+          📺 Production at <a href="https://staticvoid.studio"
             >staticvoid.studio</a
           >
         </li>
         <li>
-          <a href="https://www.kategodwin.design/living-room">Living Room</a> with
+          🧶 <a href="https://www.kategodwin.design/living-room">Living Room</a>
+          with
           <a href="https://kategodwin.design">Kate Godwin</a>
         </li>
         <li>
-          <a href="https://apps.apple.com/us/app/vista-golf/id1199546168"
+          ⛳ <a href="https://apps.apple.com/us/app/vista-golf/id1199546168"
             >Vista Golf</a
           > soundtrack for <a href="https://shallotgames.com/">Shallot Games</a>
         </li>
         <li>
-          Visuals for <a href="http://disinfo.zone/">disinfo.zone</a>'s <a
+          👽 Visuals for <a href="http://disinfo.zone/">disinfo.zone</a>'s <a
             href="https://www.youtube.com/watch?v=ftw5YE98O9Y"
             >Passport to Magonia audiobook</a
           >
         </li>
         <li>
-          WREK 91.1 FM (s/o to all the new people :)
+          🤍 WREK 91.1 FM
           <ul>
             <li>
               <a href="https://github.com/wrekatlanta/wrektranet">WREKtranet</a>
@@ -156,14 +162,6 @@ const description = "software engineer • audiovisual artist";
       </ul>
 
       <h2>Music</h2>
-
-      <p>
-        My first instrument was the flute, but these days I'm mostly programming
-        synthesizers and sequencers. <a href="https://www.ableton.com/"
-          >Ableton Live</a
-        > is my primary DAW. I also used to livecode MIDI and granular synthesis
-        with <a href="http://tidalcycles.org/">Tidal</a>.
-      </p>
 
       <div class="grid grid-cols-2 gap-2">
         <div>
@@ -268,137 +266,97 @@ const description = "software engineer • audiovisual artist";
       </ul>
 
       <p>* favorite</p>
-
-      <h2>Visuals</h2>
-
-      <div class="grid grid-cols-2 gap-2">
-        <div class="ml-auto">
-          <iframe
-            width="100%"
-            height="560"
-            src="https://www.youtube.com/embed/ao9cc39XNdk"
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen></iframe>
-        </div>
-        <div class="mr-auto">
-          <iframe
-            width="100%"
-            height="560"
-            src="https://www.youtube.com/embed/JafQ3HQNhh4"
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen></iframe>
-        </div>
-      </div>
-
-      <p>
-        I once made visuals in <a href="https://processing.org">Processing</a> with
-        rhythmic data from <a href="https://tidalcycles.org/">Tidal Cycles</a>.
-        I'm now reviving these ideas and much more at <a
-          href="https://staticvoid.studio">staticvoid.studio</a
-        > using <a href="https://derivative.ca/">TouchDesigner</a> and various digital/analog
-        forms. New above, old below.
-      </p>
-
-      <div class="grid grid-cols-2 gap-2">
-        <Image src={Tidal1} alt="Tidal 1" class="m-0" />
-        <Image src={Tidal2} alt="Tidal 2" class="m-0" />
-        <Image src={Tidal3} alt="Tidal 3" class="m-0" />
-        <Image src={Tidal4} alt="Tidal 4" class="m-0" />
-      </div>
     </main>
   </div>
+
+  <style>
+    .title-container {
+      display: block;
+      width: 100%;
+      font-weight: 300;
+      font-family: Rubik, -apple-system, ui-sans-serif, sans-serif;
+    }
+
+    :global(html) {
+      @apply bg-zinc-900 text-zinc-300;
+    }
+
+    a {
+      @apply text-pink-300;
+      text-decoration: none;
+    }
+  </style>
+
+  <script>
+    // prettier-ignore
+    // @ts-ignore
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    // @ts-ignore
+    posthog.init("phc_GlHVllLBZzjEPfxsTf1U2WzjRSrJBXVkOjqSH37bnf1", {
+      api_host: "https://ph.patrickstoica.com",
+    });
+
+    // New animation script
+    const svg = document.getElementById("titleSvg");
+    const circle1 = document.getElementById("circle1");
+    const circle2 = document.getElementById("circle2");
+
+    let mouseX = 0;
+    let mouseY = 0;
+
+    function animate() {
+      const boundingRect = svg!.getBoundingClientRect();
+      const centerX = boundingRect.width / 2;
+      const centerY = boundingRect.height / 2;
+
+      const distanceX = (mouseX - centerX) / centerX;
+      const distanceY = Math.min((mouseY - centerY) / centerY, 10);
+      console.log(distanceY);
+
+      const time = Date.now() * 0.001;
+
+      const cx1 = 30 + Math.sin(time * 0.7) * 20 + distanceX * 10;
+      const cy1 = 50 + Math.cos(time * 0.5) * 15 + distanceY * 10;
+      circle1!.setAttribute("cx", `${cx1}%`);
+      circle1!.setAttribute("cy", `${cy1}%`);
+
+      const cx2 = 70 + Math.cos(time * 0.6) * 15 - distanceX * 10;
+      const cy2 = 50 + Math.sin(time * 0.8) * 20 - distanceY * 10;
+      circle2!.setAttribute("cx", `${cx2}%`);
+      circle2!.setAttribute("cy", `${cy2}%`);
+
+      requestAnimationFrame(animate);
+    }
+
+    document.addEventListener("mousemove", (event) => {
+      mouseX = event.clientX;
+      mouseY = event.clientY;
+    });
+
+    document.addEventListener("touchmove", (event) => {
+      mouseX = event.touches[0].clientX;
+      mouseY = event.touches[0].clientY;
+    });
+
+    animate();
+
+    // Update noise filter
+    const noiseFilter = document.querySelector("#noiseOffset");
+    let noiseX = 0;
+    let noiseY = 0;
+
+    function updateNoise() {
+      const time = Date.now() * 0.001; // Current time in seconds
+
+      const dx = Math.sin(time * 0.3) * 20;
+      const dy = Math.cos(time * 0.3) * 5;
+
+      noiseFilter!.setAttribute("dx", dx.toString());
+      // noiseFilter!.setAttribute("dy", dy.toString());
+
+      requestAnimationFrame(updateNoise);
+    }
+
+    updateNoise();
+  </script>
 </Layout>
-
-<style>
-  .title-container {
-    display: block;
-    width: 100%;
-    font-family: -apple-system, Rubik, ui-sans-serif, sans-serif;
-  }
-
-  :global(html) {
-    @apply bg-zinc-900 text-zinc-300;
-  }
-
-  a {
-    @apply text-pink-300;
-    text-decoration: none;
-  }
-</style>
-
-<script>
-  // prettier-ignore
-  // @ts-ignore
-  !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
-  // @ts-ignore
-  posthog.init("phc_GlHVllLBZzjEPfxsTf1U2WzjRSrJBXVkOjqSH37bnf1", {
-    api_host: "https://ph.patrickstoica.com",
-  });
-
-  // New animation script
-  const svg = document.getElementById("titleSvg");
-  const circle1 = document.getElementById("circle1");
-  const circle2 = document.getElementById("circle2");
-
-  let mouseX = 0;
-  let mouseY = 0;
-
-  function animate() {
-    const boundingRect = svg!.getBoundingClientRect();
-    const centerX = boundingRect.width / 2;
-    const centerY = boundingRect.height / 2;
-
-    const distanceX = (mouseX - centerX) / centerX;
-    const distanceY = Math.min((mouseY - centerY) / centerY, 10);
-    console.log(distanceY);
-
-    const time = Date.now() * 0.001;
-
-    const cx1 = 30 + Math.sin(time * 0.7) * 20 + distanceX * 10;
-    const cy1 = 50 + Math.cos(time * 0.5) * 15 + distanceY * 10;
-    circle1!.setAttribute("cx", `${cx1}%`);
-    circle1!.setAttribute("cy", `${cy1}%`);
-
-    const cx2 = 70 + Math.cos(time * 0.6) * 15 - distanceX * 10;
-    const cy2 = 50 + Math.sin(time * 0.8) * 20 - distanceY * 10;
-    circle2!.setAttribute("cx", `${cx2}%`);
-    circle2!.setAttribute("cy", `${cy2}%`);
-
-    requestAnimationFrame(animate);
-  }
-
-  document.addEventListener("mousemove", (event) => {
-    mouseX = event.clientX;
-    mouseY = event.clientY;
-  });
-
-  document.addEventListener("touchmove", (event) => {
-    mouseX = event.touches[0].clientX;
-    mouseY = event.touches[0].clientY;
-  });
-
-  animate();
-
-  // Update noise filter
-  const noiseFilter = document.querySelector("#noiseOffset");
-  let noiseX = 0;
-  let noiseY = 0;
-
-  function updateNoise() {
-    const time = Date.now() * 0.001; // Current time in seconds
-
-    const dx = Math.sin(time * 0.3) * 20;
-    const dy = Math.cos(time * 0.3) * 5;
-
-    noiseFilter!.setAttribute("dx", dx.toString());
-    // noiseFilter!.setAttribute("dy", dy.toString());
-
-    requestAnimationFrame(updateNoise);
-  }
-
-  updateNoise();
-</script>
