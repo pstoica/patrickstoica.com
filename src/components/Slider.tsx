@@ -8,6 +8,8 @@ interface SliderProps {
   step: number;
   value: number;
   onChange: (name: string, value: number) => void;
+  colorScheme: string[];
+  index: number;
 }
 
 const Slider: React.FC<SliderProps> = ({
@@ -18,44 +20,36 @@ const Slider: React.FC<SliderProps> = ({
   step,
   value,
   onChange,
+  colorScheme,
+  index,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
+  const [startY, setStartY] = useState(0);
+  const [startValue, setStartValue] = useState(0);
   const sliderRef = useRef<HTMLDivElement>(null);
-
-  const handleInteraction = (clientX: number) => {
-    if (sliderRef.current) {
-      const rect = sliderRef.current.getBoundingClientRect();
-      const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
-      const newValue =
-        Number(min) + (x / rect.width) * (Number(max) - Number(min));
-      const clampedValue = Math.max(
-        Number(min),
-        Math.min(Number(max), newValue)
-      );
-      onChange(name, parseFloat(clampedValue.toFixed(2)));
-    }
-  };
 
   const handleStart = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     setIsDragging(true);
-    if ("touches" in e) {
-      handleInteraction(e.touches[0].clientX);
-    } else {
-      handleInteraction(e.clientX);
-    }
+    setStartY("touches" in e ? e.touches[0].clientY : e.clientY);
+    setStartValue(value);
+    window.isInteractingWithUI = true;
   };
 
   const handleMove = (e: MouseEvent | TouchEvent) => {
     if (isDragging) {
       e.preventDefault();
-      const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
-      handleInteraction(clientX);
+      const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
+      const deltaY = startY - clientY;
+      const deltaValue = (deltaY / 100) * (max - min);
+      const newValue = Math.max(min, Math.min(max, startValue + deltaValue));
+      onChange(name, parseFloat(newValue.toFixed(2)));
     }
   };
 
   const handleEnd = () => {
     setIsDragging(false);
+    window.isInteractingWithUI = false;
   };
 
   useEffect(() => {
@@ -74,31 +68,27 @@ const Slider: React.FC<SliderProps> = ({
     };
   }, [isDragging]);
 
-  const percentage = ((value - min) / (max - min)) * 100;
+  const bgColor = colorScheme[index % colorScheme.length];
+  const fillPercentage = ((value - min) / (max - min)) * 100;
 
   return (
     <div
       ref={sliderRef}
-      className="relative h-12 mb-1 touch-none font-mono"
+      className="relative w-16 h-16 touch-none font-mono text-center cursor-ns-resize border border-black"
       onMouseDown={handleStart}
       onTouchStart={handleStart}
     >
-      <div className="absolute w-full h-12 bg-white border border-black rounded">
-        <div
-          className="h-full bg-gray-200 rounded-l"
-          style={{ width: `${percentage}%` }}
-        ></div>
-      </div>
       <div
-        className="absolute left-0 top-1/2 transform -translate-y-1/2 px-2 py-1 bg-white border border-black rounded text-black text-xs transition-opacity duration-200 whitespace-nowrap overflow-hidden select-none"
+        className="absolute bottom-0 left-0 right-0"
         style={{
-          left: `${percentage}%`,
-          transform: `translate(-50%, -50%)`,
-          opacity: isDragging ? 1 : 0.9,
-          maxWidth: "80%",
+          backgroundColor: bgColor,
+          height: `${fillPercentage}%`,
+          transition: "height 0.1s ease-out",
         }}
-      >
-        {label}: {value.toFixed(2)}
+      ></div>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <div className="text-lg font-bold">{value.toFixed(2)}</div>
+        <div className="text-xs mt-1">{label}</div>
       </div>
     </div>
   );

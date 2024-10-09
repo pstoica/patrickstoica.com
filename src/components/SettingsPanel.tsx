@@ -5,6 +5,7 @@ import Slider from "./Slider";
 declare global {
   interface Window {
     updateSketchParams: (newParams: any) => void;
+    isInteractingWithUI: boolean;
   }
 }
 
@@ -14,8 +15,8 @@ interface Params {
   baseShiftSpeed: number;
   minBrushWidth: number;
   maxBrushWidth: number;
-  oscillationFrequency: number;
-  drawingOscillationFrequency: number;
+  globalSizeFrequency: number;
+  sizeFrequency: number;
   rippleFrequency: number;
   rippleAmplitude: number;
   rippleSpeed: number;
@@ -29,8 +30,8 @@ const SettingsPanel: React.FC = () => {
     baseShiftSpeed: 4.0,
     minBrushWidth: 0,
     maxBrushWidth: 80,
-    oscillationFrequency: 0.05,
-    drawingOscillationFrequency: 2.0,
+    globalSizeFrequency: 0.05,
+    sizeFrequency: 2.0,
     rippleFrequency: 0.0,
     rippleAmplitude: 0.0,
     rippleSpeed: 0.5,
@@ -39,10 +40,16 @@ const SettingsPanel: React.FC = () => {
   const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const toggleSettings = () => setIsVisible(!isVisible);
+    const toggleSettings = () => {
+      setIsVisible(!isVisible);
+    };
     window.addEventListener("toggleSettings", toggleSettings);
     return () => window.removeEventListener("toggleSettings", toggleSettings);
   }, [isVisible]);
+
+  useEffect(() => {
+    window.isInteractingWithUI = false;
+  }, []);
 
   useEffect(() => {
     if (window.updateSketchParams) {
@@ -54,34 +61,51 @@ const SettingsPanel: React.FC = () => {
     setParams((prev) => ({ ...prev, [name]: value }));
   };
 
-  const preventPropagation = (e: React.TouchEvent | React.MouseEvent) => {
-    e.stopPropagation();
+  const handleInteractionStart = () => {
+    window.isInteractingWithUI = true;
   };
+
+  const handleInteractionEnd = () => {
+    window.isInteractingWithUI = false;
+  };
+
+  const colorScheme = [
+    "#FF6B6B", // Red
+    "#4ECDC4", // Teal
+    "#45B7D1", // Light Blue
+    "#FFA07A", // Light Salmon
+    "#98D8C8", // Mint
+    "#F7DC6F", // Yellow
+    "#BB8FCE", // Light Purple
+    "#82E0AA", // Light Green
+  ];
 
   if (!isVisible) return null;
 
   return (
-    <Draggable handle=".handle" nodeRef={panelRef}>
+    <Draggable
+      handle=".handle"
+      nodeRef={panelRef}
+      onStart={handleInteractionStart}
+      onStop={handleInteractionEnd}
+      defaultPosition={{ x: 20, y: 0 }}
+    >
       <div
         ref={panelRef}
-        className="fixed bottom-16 left-0 right-0 bg-white p-2 rounded-t-lg shadow-lg z-50 border border-black"
+        className="fixed bottom-16 left-0 right-0 bg-white p-2 z-50 border border-black"
         style={{
           maxHeight: "70vh",
           maxWidth: "30vw",
           overflowY: "auto",
         }}
-        onMouseDown={preventPropagation}
-        onTouchStart={preventPropagation}
-        onTouchMove={preventPropagation}
-        onTouchEnd={preventPropagation}
       >
         <div className="handle cursor-move mb-2 text-center font-bold text-black text-sm font-mono border-b border-black pb-2">
           Settings
         </div>
-        <div className="space-y-2">
+        <div className="grid grid-cols-3 gap-2">
           <Slider
             name="smoothness"
-            label="Smoothness"
+            label="Density"
             min={0.01}
             max={0.2}
             step={0.01}
@@ -89,6 +113,8 @@ const SettingsPanel: React.FC = () => {
             onChange={(name, value) =>
               handleChange(name as keyof Params, value)
             }
+            colorScheme={colorScheme}
+            index={0}
           />
           <Slider
             name="gradientLength"
@@ -100,6 +126,8 @@ const SettingsPanel: React.FC = () => {
             onChange={(name, value) =>
               handleChange(name as keyof Params, value)
             }
+            colorScheme={colorScheme}
+            index={1}
           />
           <Slider
             name="baseShiftSpeed"
@@ -111,6 +139,8 @@ const SettingsPanel: React.FC = () => {
             onChange={(name, value) =>
               handleChange(name as keyof Params, value)
             }
+            colorScheme={colorScheme}
+            index={2}
           />
           <Slider
             name="minBrushWidth"
@@ -122,6 +152,8 @@ const SettingsPanel: React.FC = () => {
             onChange={(name, value) =>
               handleChange(name as keyof Params, value)
             }
+            colorScheme={colorScheme}
+            index={3}
           />
           <Slider
             name="maxBrushWidth"
@@ -133,33 +165,94 @@ const SettingsPanel: React.FC = () => {
             onChange={(name, value) =>
               handleChange(name as keyof Params, value)
             }
+            colorScheme={colorScheme}
+            index={4}
           />
           <Slider
-            name="oscillationFrequency"
-            label="Oscillation Freq"
+            name="globalSizeFrequency"
+            label="Global Size Freq"
             min={0}
             max={2}
             step={0.001}
-            value={params.oscillationFrequency}
+            value={params.globalSizeFrequency}
             onChange={(name, value) =>
               handleChange(name as keyof Params, value)
             }
+            colorScheme={colorScheme}
+            index={5}
           />
           <Slider
-            name="drawingOscillationFrequency"
-            label="Drawing Osc Freq"
+            name="sizeFrequency"
+            label="Size Freq"
             min={0}
             max={20}
             step={0.01}
-            value={params.drawingOscillationFrequency}
+            value={params.sizeFrequency}
             onChange={(name, value) =>
               handleChange(name as keyof Params, value)
             }
+            colorScheme={colorScheme}
+            index={6}
           />
+          {/* <Slider
+            name="rippleFrequency"
+            label="Ripple Freq"
+            min={0}
+            max={2}
+            step={0.01}
+            value={params.rippleFrequency}
+            onChange={(name, value) =>
+              handleChange(name as keyof Params, value)
+            }
+            colorScheme={colorScheme}
+            index={7}
+          />
+          <Slider
+            name="rippleAmplitude"
+            label="Ripple Amp"
+            min={0}
+            max={2}
+            step={0.01}
+            value={params.rippleAmplitude}
+            onChange={(name, value) =>
+              handleChange(name as keyof Params, value)
+            }
+            colorScheme={colorScheme}
+            index={8}
+          />
+          <Slider
+            name="rippleSpeed"
+            label="Ripple Speed"
+            min={0}
+            max={2}
+            step={0.01}
+            value={params.rippleSpeed}
+            onChange={(name, value) =>
+              handleChange(name as keyof Params, value)
+            }
+            colorScheme={colorScheme}
+            index={9}
+          /> */}
         </div>
       </div>
     </Draggable>
   );
+};
+
+// Helper function to get the max value for each parameter
+const getMaxValue = (name: string): number => {
+  switch (name) {
+    case "gradientLength":
+      return 1000;
+    case "maxBrushWidth":
+      return 200;
+    case "baseShiftSpeed":
+      return 40;
+    case "sizeFrequency":
+      return 20;
+    default:
+      return 2;
+  }
 };
 
 export default SettingsPanel;

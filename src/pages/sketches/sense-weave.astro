@@ -37,8 +37,8 @@ import SettingsPanel from "@/components/SettingsPanel";
     baseShiftSpeed: 4.0,
     minBrushWidth: 0,
     maxBrushWidth: 80,
-    oscillationFrequency: 0.05,
-    drawingOscillationFrequency: 2.0,
+    globalSizeFrequency: 0.05,
+    sizeFrequency: 2.0,
     rippleFrequency: 0.0,
     rippleAmplitude: 0.0,
     rippleSpeed: 0.5,
@@ -47,8 +47,10 @@ import SettingsPanel from "@/components/SettingsPanel";
   // Global function to update params
   window.updateSketchParams = (newParams) => {
     params = { ...params, ...newParams };
-    console.log("Params updated:", params);
   };
+
+  // Add this global variable
+  window.isInteractingWithUI = false;
 
   const sketch = (p: p5) => {
     sketchInstance = p;
@@ -80,29 +82,50 @@ import SettingsPanel from "@/components/SettingsPanel";
       p.colorMode(p.HSB);
       p.background(255);
 
-      // Add event listener for the clear button
+      // Update event listeners for Clear and Settings buttons
       const clearButton = document.getElementById("clear-button");
-      clearButton?.addEventListener("click", (e) => {
+      const settingsButton = document.getElementById("settings-button");
+
+      const handleButtonInteraction = (e: Event) => {
+        e.preventDefault();
+        e.stopPropagation();
+        window.isInteractingWithUI = true;
+      };
+
+      clearButton?.addEventListener("mousedown", handleButtonInteraction);
+      clearButton?.addEventListener("touchstart", handleButtonInteraction);
+      settingsButton?.addEventListener("touchstart", handleButtonInteraction);
+
+      const handleClearButton = (e: Event) => {
         e.preventDefault();
         e.stopPropagation();
         clearCanvas();
-      });
+      };
+
+      clearButton?.addEventListener("click", handleClearButton);
       clearButton?.addEventListener("touchstart", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        clearCanvas();
+        handleClearButton(e);
+        handleButtonInteraction(e);
       });
 
-      // Update the settings button event listeners
-      const settingsButton = document.getElementById("settings-button");
       const toggleSettings = (e: Event) => {
         e.preventDefault();
         e.stopPropagation();
         const event = new CustomEvent("toggleSettings");
         window.dispatchEvent(event);
       };
-      settingsButton?.addEventListener("click", toggleSettings);
-      settingsButton?.addEventListener("touchstart", toggleSettings);
+      settingsButton?.addEventListener("touchstart", (e) => {
+        toggleSettings(e);
+        handleButtonInteraction(e);
+      });
+
+      // Add global event listeners to reset isInteractingWithUI
+      window.addEventListener("mouseup", () => {
+        window.isInteractingWithUI = false;
+      });
+      window.addEventListener("touchend", () => {
+        window.isInteractingWithUI = false;
+      });
     };
 
     p.draw = () => {
@@ -121,6 +144,7 @@ import SettingsPanel from "@/components/SettingsPanel";
     };
 
     const startDrawing = (x: number, y: number) => {
+      if (window.isInteractingWithUI) return;
       isDrawing = true;
       currentPath = [];
       currentHueOffset = p.random(360); // Random starting hue for each stroke
@@ -140,7 +164,7 @@ import SettingsPanel from "@/components/SettingsPanel";
     };
 
     const addPoint = (x: number, y: number) => {
-      if (isDrawing) {
+      if (isDrawing && !window.isInteractingWithUI) {
         const point = p.createVector(x, y);
         if (
           currentPath.length === 0 ||
@@ -154,23 +178,29 @@ import SettingsPanel from "@/components/SettingsPanel";
 
     // Mouse event handlers
     p.mousePressed = () => {
-      startDrawing(p.mouseX, p.mouseY);
+      if (!window.isInteractingWithUI) {
+        startDrawing(p.mouseX, p.mouseY);
+      }
       return false;
     };
 
     p.mouseReleased = () => {
-      stopDrawing();
+      if (!window.isInteractingWithUI) {
+        stopDrawing();
+      }
       return false;
     };
 
     p.mouseDragged = () => {
-      addPoint(p.mouseX, p.mouseY);
+      if (!window.isInteractingWithUI) {
+        addPoint(p.mouseX, p.mouseY);
+      }
       return false;
     };
 
     // Touch event handlers
     p.touchStarted = () => {
-      if (p.touches.length > 0) {
+      if (!window.isInteractingWithUI && p.touches.length > 0) {
         const touch = p.touches[0] as { x: number; y: number };
         startDrawing(touch.x, touch.y);
       }
@@ -178,12 +208,14 @@ import SettingsPanel from "@/components/SettingsPanel";
     };
 
     p.touchEnded = () => {
-      stopDrawing();
+      if (!window.isInteractingWithUI) {
+        stopDrawing();
+      }
       return false;
     };
 
     p.touchMoved = () => {
-      if (p.touches.length > 0) {
+      if (!window.isInteractingWithUI && p.touches.length > 0) {
         const touch = p.touches[0] as { x: number; y: number };
         addPoint(touch.x, touch.y);
       }
@@ -222,8 +254,8 @@ import SettingsPanel from "@/components/SettingsPanel";
         const timeSincePointCreation = point.time - startTime;
         const brushWidth = p.map(
           p.sin(
-            p.frameCount * params.oscillationFrequency +
-              params.drawingOscillationFrequency * timeSincePointCreation * 0.01
+            p.frameCount * params.globalSizeFrequency +
+              params.sizeFrequency * timeSincePointCreation * 0.01
           ),
           -1,
           1,
