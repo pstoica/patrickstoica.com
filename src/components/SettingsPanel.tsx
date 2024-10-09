@@ -88,21 +88,22 @@ const SettingsPanel: React.FC = () => {
       nodeRef={panelRef}
       onStart={handleInteractionStart}
       onStop={handleInteractionEnd}
-      defaultPosition={{ x: 20, y: 0 }}
+      // defaultPosition={{ x: 20, y: 0 }}
     >
       <div
         ref={panelRef}
-        className="fixed bottom-16 left-0 right-0 bg-white p-2 z-50 border border-black"
+        className="fixed bottom-12 left-0 right-0 bg-white pb-1 px-1 z-50 border border-black"
         style={{
           maxHeight: "70vh",
           maxWidth: "fit-content",
           overflowY: "auto",
         }}
       >
-        <div className="handle cursor-move mb-2 text-center text-black text-xs uppercase font-mono border-b border-black pb-2">
-          Settings
+        <div className="handle cursor-move mb-1 text-center text-black uppercase font-mono border-b border-black">
+          :::::::
         </div>
-        <div className="grid grid-cols-2 gap-2">
+
+        <div className="grid grid-rows-1 grid-cols-7 gap-1">
           <Slider
             name="smoothness"
             label="Drawing Density"

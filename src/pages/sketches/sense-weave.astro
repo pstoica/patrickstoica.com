@@ -114,6 +114,10 @@ import SettingsPanel from "@/components/SettingsPanel";
         const event = new CustomEvent("toggleSettings");
         window.dispatchEvent(event);
       };
+      settingsButton?.addEventListener("click", (e) => {
+        toggleSettings(e);
+        handleButtonInteraction(e);
+      });
       settingsButton?.addEventListener("touchstart", (e) => {
         toggleSettings(e);
         handleButtonInteraction(e);

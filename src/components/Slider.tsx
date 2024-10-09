@@ -87,7 +87,7 @@ const Slider: React.FC<SliderProps> = ({
   return (
     <div
       ref={sliderRef}
-      className="relative w-16 h-16 touch-none font-mono text-center cursor-ns-resize border border-black select-none"
+      className="relative w-12 h-16 touch-none font-mono text-center cursor-ns-resize border border-black select-none"
       onMouseDown={handleStart}
       onTouchStart={handleStart}
     >
