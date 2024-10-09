@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 
 interface SliderProps {
   name: string;
@@ -28,6 +28,12 @@ const Slider: React.FC<SliderProps> = ({
   const [startValue, setStartValue] = useState(0);
   const sliderRef = useRef<HTMLDivElement>(null);
 
+  // Determine the number of decimal places based on the step
+  const decimalPlaces = useMemo(
+    () => Math.max(0, -Math.floor(Math.log10(step))),
+    [step]
+  );
+
   const handleStart = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     setIsDragging(true);
@@ -43,7 +49,14 @@ const Slider: React.FC<SliderProps> = ({
       const deltaY = startY - clientY;
       const deltaValue = (deltaY / 100) * (max - min);
       const newValue = Math.max(min, Math.min(max, startValue + deltaValue));
-      onChange(name, parseFloat(newValue.toFixed(3)));
+
+      // Round the new value to the nearest step
+      const steppedValue = Math.round(newValue / step) * step;
+
+      // Ensure the value is within the min-max range
+      const clampedValue = Math.max(min, Math.min(max, steppedValue));
+
+      onChange(name, parseFloat(clampedValue.toFixed(decimalPlaces)));
     }
   };
 
@@ -87,7 +100,7 @@ const Slider: React.FC<SliderProps> = ({
         }}
       ></div>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <div className="text-sm font-bold">{value.toFixed(2)}</div>
+        {/* <div className="text-sm font-bold">{value.toFixed(2)}</div> */}
         <div className="text-xs mt-1">{label}</div>
       </div>
     </div>

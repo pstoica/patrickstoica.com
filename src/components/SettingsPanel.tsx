@@ -160,7 +160,7 @@ const SettingsPanel: React.FC = () => {
             label="Size Freq"
             min={0}
             max={20}
-            step={0.01}
+            step={0.001}
             value={params.sizeFrequency}
             onChange={(name, value) =>
               handleChange(name as keyof Params, value)
