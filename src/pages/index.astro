@@ -8,7 +8,7 @@ const description = "software engineer • audiovisual artist";
 <Layout title={title}>
   <div class="flex flex-col max-w-[740px] mx-auto pb-4">
     <nav class="text-center pt-16 pb-8">
-      <a href="/" class="title-container">
+      <div class="title-container">
         <svg width="100%" viewBox="0 0 600 80" id="titleSvg">
           <defs>
             <radialGradient id="gradient1" cx="50%">
@@ -76,7 +76,7 @@ const description = "software engineer • audiovisual artist";
             <rect width="100%" height="100%" fill="white" opacity="0.1"></rect>
           </g>
         </svg>
-      </a>
+      </div>
 
       <div class="text-center -mt-2 text-sm sm:text-2xl md:-mt-4">
         {description}
@@ -94,18 +94,14 @@ const description = "software engineer • audiovisual artist";
     </nav>
 
     <main class="prose prose-invert lg:prose-l max-w-none px-4">
-      <p>
-        I'm an interdisciplinary artist weaving waveforms and pigment,
-        <br />
-        &nbsp;&nbsp;&nbsp;&nbsp; computation and harmony,
-        <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; process and emotion.
+      <p class="w-full text-center p-4 rainbow-underline">
+        Waveforms and pigment,<br />
+        computation and harmony,<br />process and emotion.
       </p>
 
       <p>
-        I'm currently making software creation more accessible at <a
-          href="https://replit.com">Replit</a
-        >.
+        I'm an interdisciplinary artist currently making software creation more
+        accessible at <a href="https://replit.com">Replit</a>.
       </p>
 
       <p>
@@ -162,52 +158,6 @@ const description = "software engineer • audiovisual artist";
       </ul>
 
       <h2>Music</h2>
-
-      <div class="grid grid-cols-2 gap-2">
-        <div>
-          <iframe
-            width="100%"
-            height="150"
-            scrolling="no"
-            frameborder="no"
-            allow="autoplay"
-            src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/315996998&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-          ></iframe>
-        </div>
-        <div>
-          <iframe
-            width="100%"
-            height="150"
-            scrolling="no"
-            frameborder="no"
-            allow="autoplay"
-            src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/309724050&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-          ></iframe>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 gap-2">
-        <div>
-          <iframe
-            width="100%"
-            height="150"
-            scrolling="no"
-            frameborder="no"
-            allow="autoplay"
-            src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/355351100&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-          ></iframe>
-        </div>
-        <div>
-          <iframe
-            width="100%"
-            height="150"
-            scrolling="no"
-            frameborder="no"
-            allow="autoplay"
-            src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/296249568&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-          ></iframe>
-        </div>
-      </div>
 
       <ul>
         <li>
@@ -266,97 +216,264 @@ const description = "software engineer • audiovisual artist";
       </ul>
 
       <p>* favorite</p>
+
+      <div class="grid grid-rows-2 gap-2">
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <iframe
+              width="100%"
+              height="150"
+              scrolling="no"
+              frameborder="no"
+              allow="autoplay"
+              src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/315996998&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+            ></iframe>
+          </div>
+          <div>
+            <iframe
+              width="100%"
+              height="150"
+              scrolling="no"
+              frameborder="no"
+              allow="autoplay"
+              src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/309724050&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+            ></iframe>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <iframe
+              width="100%"
+              height="150"
+              scrolling="no"
+              frameborder="no"
+              allow="autoplay"
+              src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/355351100&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+            ></iframe>
+          </div>
+          <div>
+            <iframe
+              width="100%"
+              height="150"
+              scrolling="no"
+              frameborder="no"
+              allow="autoplay"
+              src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/296249568&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+            ></iframe>
+          </div>
+        </div>
+      </div>
     </main>
+
+    <style>
+      .title-container {
+        display: block;
+        width: 100%;
+        font-weight: 300;
+        font-family: Rubik, -apple-system, ui-sans-serif, sans-serif;
+      }
+
+      :global(html) {
+        @apply bg-zinc-900 text-zinc-300;
+      }
+
+      a {
+        @apply text-pink-300;
+        text-decoration: none;
+        position: relative;
+      }
+
+      a:not(.title-container) {
+        outline: none;
+
+        &::after {
+          content: "";
+          position: absolute;
+          width: 100%;
+          height: 2px;
+          bottom: -2px;
+          left: 0;
+          background: linear-gradient(
+            45deg,
+            #ff69b4,
+            #8a2be2,
+            #1e90ff,
+            #ffd700,
+            /* TODO figure out if i can increase density without duplication later */
+              #ff69b4,
+            #8a2be2,
+            #1e90ff,
+            #ffd700,
+            #ff69b4
+          );
+          /* Adjust the background-size to make the gradient denser */
+          /* You can modify this value to change the density */
+          background-size: 200% 100%;
+          opacity: 0;
+          transform-origin: bottom right;
+          transition: opacity 0.3s ease-out;
+          /* Adjust the animation duration to match the new background-size */
+          animation: gradientMove 3s linear infinite;
+          mask-image: linear-gradient(
+            to right,
+            transparent,
+            black 20%,
+            black 80%,
+            transparent
+          );
+          -webkit-mask-image: linear-gradient(
+            to right,
+            transparent,
+            black 20%,
+            black 80%,
+            transparent
+          );
+        }
+
+        &:hover::after,
+        &:focus::after {
+          opacity: 1;
+        }
+      }
+
+      @keyframes gradientMove {
+        0% {
+          background-position: 0% 50%;
+        }
+        100% {
+          /* Ensure the animation completes a full cycle */
+          background-position: 200% 50%;
+        }
+      }
+
+      .rainbow-underline {
+        position: relative;
+        display: inline-block;
+      }
+
+      .rainbow-underline::after,
+      .rainbow-underline::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        bottom: -4px;
+        left: 0;
+        background: linear-gradient(
+          45deg,
+          #ff69b4,
+          #8a2be2,
+          #1e90ff,
+          #ffd700,
+          #ff69b4,
+          #8a2be2,
+          #1e90ff,
+          #ffd700,
+          #ff69b4
+        );
+        background-size: 200% 100%;
+        opacity: 1;
+        transform-origin: bottom right;
+        animation: gradientMove 6s linear infinite;
+        mask-image: linear-gradient(
+          to right,
+          transparent,
+          transparent 20%,
+          black 50%,
+          transparent 80%,
+          transparent
+        );
+        -webkit-mask-image: linear-gradient(
+          to right,
+          transparent,
+          transparent 20%,
+          black 50%,
+          transparent 80%,
+          transparent
+        );
+      }
+
+      .rainbow-underline::before {
+        top: 0;
+        transform: rotate(180deg);
+        transform-origin: top center;
+      }
+    </style>
+
+    <script>
+      // prettier-ignore
+      // @ts-ignore
+      !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+      // @ts-ignore
+      posthog.init("phc_GlHVllLBZzjEPfxsTf1U2WzjRSrJBXVkOjqSH37bnf1", {
+        api_host: "https://ph.patrickstoica.com",
+      });
+
+      // New animation script
+      const svg = document.getElementById("titleSvg");
+      const circle1 = document.getElementById("circle1");
+      const circle2 = document.getElementById("circle2");
+
+      let mouseX = 0;
+      let mouseY = 0;
+
+      function animate() {
+        const boundingRect = svg!.getBoundingClientRect();
+        const centerX = boundingRect.width / 2;
+        const centerY = boundingRect.height / 2;
+
+        const distanceX = (mouseX - centerX) / centerX;
+        const distanceY = Math.min((mouseY - centerY) / centerY, 10);
+
+        const time = Date.now() * 0.001;
+
+        const cx1 = 30 + Math.sin(time * 0.7) * 20 + distanceX * 10;
+        const cy1 = 50 + Math.cos(time * 0.5) * 15 + distanceY * 10;
+        circle1!.setAttribute("cx", `${cx1}%`);
+        circle1!.setAttribute("cy", `${cy1}%`);
+
+        const cx2 = 70 + Math.cos(time * 0.6) * 15 - distanceX * 10;
+        const cy2 = 50 + Math.sin(time * 0.8) * 20 - distanceY * 10;
+        circle2!.setAttribute("cx", `${cx2}%`);
+        circle2!.setAttribute("cy", `${cy2}%`);
+
+        requestAnimationFrame(animate);
+      }
+
+      let isMobile = false;
+
+      document.addEventListener("touchstart", () => {
+        isMobile = true;
+      });
+
+      document.addEventListener("mousemove", (event) => {
+        if (!isMobile) {
+          mouseX = event.clientX;
+          mouseY = event.clientY;
+        }
+      });
+
+      animate();
+
+      // Update noise filter
+      const noiseFilter = document.querySelector("#noiseOffset");
+      let noiseX = 0;
+      let noiseY = 0;
+
+      function updateNoise() {
+        const time = Date.now() * 0.001; // Current time in seconds
+
+        const dx = Math.sin(time * 0.3) * 20;
+        const dy = Math.cos(time * 0.3) * 5;
+
+        noiseFilter!.setAttribute("dx", dx.toString());
+        // noiseFilter!.setAttribute("dy", dy.toString());
+
+        requestAnimationFrame(updateNoise);
+      }
+
+      updateNoise();
+    </script>
   </div>
-
-  <style>
-    .title-container {
-      display: block;
-      width: 100%;
-      font-weight: 300;
-      font-family: Rubik, -apple-system, ui-sans-serif, sans-serif;
-    }
-
-    :global(html) {
-      @apply bg-zinc-900 text-zinc-300;
-    }
-
-    a {
-      @apply text-pink-300;
-      text-decoration: none;
-    }
-  </style>
-
-  <script>
-    // prettier-ignore
-    // @ts-ignore
-    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
-    // @ts-ignore
-    posthog.init("phc_GlHVllLBZzjEPfxsTf1U2WzjRSrJBXVkOjqSH37bnf1", {
-      api_host: "https://ph.patrickstoica.com",
-    });
-
-    // New animation script
-    const svg = document.getElementById("titleSvg");
-    const circle1 = document.getElementById("circle1");
-    const circle2 = document.getElementById("circle2");
-
-    let mouseX = 0;
-    let mouseY = 0;
-
-    function animate() {
-      const boundingRect = svg!.getBoundingClientRect();
-      const centerX = boundingRect.width / 2;
-      const centerY = boundingRect.height / 2;
-
-      const distanceX = (mouseX - centerX) / centerX;
-      const distanceY = Math.min((mouseY - centerY) / centerY, 10);
-      console.log(distanceY);
-
-      const time = Date.now() * 0.001;
-
-      const cx1 = 30 + Math.sin(time * 0.7) * 20 + distanceX * 10;
-      const cy1 = 50 + Math.cos(time * 0.5) * 15 + distanceY * 10;
-      circle1!.setAttribute("cx", `${cx1}%`);
-      circle1!.setAttribute("cy", `${cy1}%`);
-
-      const cx2 = 70 + Math.cos(time * 0.6) * 15 - distanceX * 10;
-      const cy2 = 50 + Math.sin(time * 0.8) * 20 - distanceY * 10;
-      circle2!.setAttribute("cx", `${cx2}%`);
-      circle2!.setAttribute("cy", `${cy2}%`);
-
-      requestAnimationFrame(animate);
-    }
-
-    document.addEventListener("mousemove", (event) => {
-      mouseX = event.clientX;
-      mouseY = event.clientY;
-    });
-
-    document.addEventListener("touchmove", (event) => {
-      mouseX = event.touches[0].clientX;
-      mouseY = event.touches[0].clientY;
-    });
-
-    animate();
-
-    // Update noise filter
-    const noiseFilter = document.querySelector("#noiseOffset");
-    let noiseX = 0;
-    let noiseY = 0;
-
-    function updateNoise() {
-      const time = Date.now() * 0.001; // Current time in seconds
-
-      const dx = Math.sin(time * 0.3) * 20;
-      const dy = Math.cos(time * 0.3) * 5;
-
-      noiseFilter!.setAttribute("dx", dx.toString());
-      // noiseFilter!.setAttribute("dy", dy.toString());
-
-      requestAnimationFrame(updateNoise);
-    }
-
-    updateNoise();
-  </script>
 </Layout>
