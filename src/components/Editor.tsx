@@ -1,12 +1,7 @@
-import React, { useState, useCallback, useRef, useEffect } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import { javascript } from "@codemirror/lang-javascript";
 import { EditorView, keymap, ViewUpdate } from "@codemirror/view";
-import {
-  type Extension,
-  EditorState,
-  StateField,
-  StateEffect,
-} from "@codemirror/state";
+import { type Extension, StateField, StateEffect } from "@codemirror/state";
 import { DynamicCodeMirror } from "./DynamicCodeMirror";
 import { createTheme } from "@uiw/codemirror-themes";
 import { tags as t } from "@lezer/highlight";
@@ -45,26 +40,6 @@ const minimalistTheme = createTheme({
   ],
 });
 
-// Custom completions
-const customCompletions = [
-  { label: "option1", type: "keyword" },
-  { label: "option2", type: "keyword" },
-  { label: "option3", type: "keyword" },
-];
-
-// Custom autocomplete function
-function customAutocomplete(
-  context: CompletionContext
-): CompletionResult | null {
-  let word = context.matchBefore(/\w+/);
-  if (word?.from == word?.to && !context.explicit) return null;
-  return {
-    from: word?.from ?? context.pos,
-    options: customCompletions,
-    validFor: /^\w*$/,
-  };
-}
-
 // State field to store current suggestions
 const suggestionsField = StateField.define<string[]>({
   create: () => [],
@@ -77,6 +52,20 @@ const suggestionsField = StateField.define<string[]>({
 });
 
 const setSuggestions = StateEffect.define<string[]>();
+
+// Custom autocomplete function
+function customAutocomplete(
+  context: CompletionContext
+): CompletionResult | null {
+  const suggestions = context.state.field(suggestionsField);
+  if (suggestions.length === 0) return null;
+
+  return {
+    from: context.pos,
+    options: suggestions.map((label) => ({ label, type: "text" })),
+    validFor: /^\w*$/,
+  };
+}
 
 // Custom extensions for CodeMirror
 const customExtensions: Extension[] = [
@@ -98,16 +87,29 @@ const customExtensions: Extension[] = [
     ".cm-placeholder": {
       color: "#6a737d",
     },
+    // Custom styles for autocomplete popup
+    ".cm-tooltip.cm-tooltip-autocomplete": {
+      border: "none",
+      backgroundColor: "#1c1c1c",
+    },
+    ".cm-tooltip-autocomplete ul li": {
+      fontFamily: "Georgia, serif",
+    },
+    ".cm-tooltip-autocomplete ul li[aria-selected]": {
+      backgroundColor: "#2c2c2c",
+    },
   }),
-  autocompletion({ override: [customAutocomplete] }),
+  autocompletion({
+    override: [customAutocomplete],
+    defaultKeymap: false,
+    optionClass: () => "custom-autocomplete-option",
+  }),
   suggestionsField,
   keymap.of([
     {
-      key: "Mod-Space",
+      key: "Mod-i",
       run: (view) => {
-        view.dispatch({
-          effects: setSuggestions.of(customCompletions.map((c) => c.label)),
-        });
+        fetchAndShowSuggestions(view);
         return true;
       },
     },
@@ -130,121 +132,48 @@ function selectCompletion(view: EditorView, index: number) {
   return true;
 }
 
-interface SuggestionMenuProps {
-  suggestions: string[];
-  onSelect: (suggestion: string) => void;
-  position: { top: number; left: number };
+async function fetchAndShowSuggestions(view: EditorView) {
+  const cursorPos = view.state.selection.main.head;
+  const content = view.state.doc.toString();
+
+  try {
+    const response = await fetch("/divinate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        content,
+        cursorPosition: cursorPos,
+      }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      view.dispatch({
+        effects: setSuggestions.of(data.suggestions),
+      });
+      view.dispatch({ effects: EditorView.scrollIntoView(cursorPos) });
+    } else {
+      console.error("Failed to fetch suggestions");
+    }
+  } catch (error) {
+    console.error("Error fetching suggestions:", error);
+  }
+
+  return true; // Indicate that the command was handled
 }
-
-const SuggestionMenu: React.FC<SuggestionMenuProps> = ({
-  suggestions,
-  onSelect,
-  position,
-}) => {
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      const key = parseInt(e.key);
-      if (key >= 1 && key <= suggestions.length) {
-        onSelect(suggestions[key - 1]);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyPress);
-    return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [suggestions, onSelect]);
-
-  return (
-    <div
-      style={{
-        position: "absolute",
-        top: `${position.top}px`,
-        left: `${position.left}px`,
-        zIndex: 1000,
-      }}
-    >
-      {suggestions.map((suggestion, index) => (
-        <button
-          key={index}
-          onClick={() => onSelect(suggestion)}
-          className="bg-black text-white px-2 py-1 m-1 rounded focus:outline-none"
-        >
-          {index + 1}: {suggestion}
-        </button>
-      ))}
-    </div>
-  );
-};
 
 const Editor: React.FC = () => {
   const [code, setCode] = useState("");
-  const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
   const editorRef = useRef<EditorView | null>(null);
 
   const onChange = useCallback((value: string, viewUpdate: ViewUpdate) => {
     setCode(value);
-    const newSuggestions = viewUpdate.state.field(suggestionsField);
-    setSuggestions(newSuggestions);
-  }, []);
-
-  const fetchSuggestions = async (cursorPos: number) => {
-    try {
-      const response = await fetch("/divinate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          content: code,
-          cursorPosition: cursorPos,
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setSuggestions(data.suggestions);
-      } else {
-        console.error("Failed to fetch suggestions");
-      }
-    } catch (error) {
-      console.error("Error fetching suggestions:", error);
-    }
-  };
-
-  const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent) => {
-      if (event.key === "i" && (event.metaKey || event.ctrlKey)) {
-        event.preventDefault();
-        const editor = editorRef.current;
-        if (editor) {
-          const cursorPos = editor.state.selection.main.head;
-          const coords = editor.coordsAtPos(cursorPos);
-          if (coords) {
-            setMenuPosition({ top: coords.top, left: coords.left });
-            fetchSuggestions(cursorPos);
-          }
-        }
-      }
-    },
-    [code]
-  );
-
-  const handleSuggestionSelect = useCallback((suggestion: string) => {
-    const editor = editorRef.current;
-    if (editor) {
-      const cursorPos = editor.state.selection.main.head;
-      editor.dispatch({
-        changes: { from: cursorPos, insert: suggestion },
-      });
-    }
-    setSuggestions([]);
   }, []);
 
   return (
-    <div
-      onKeyDown={handleKeyDown}
-      style={{ position: "relative", height: "100vh" }}
-    >
+    <div style={{ position: "relative", height: "100vh" }}>
       <DynamicCodeMirror
         autoFocus
         value={code}
@@ -259,13 +188,6 @@ const Editor: React.FC = () => {
           }
         }}
       />
-      {suggestions.length > 0 && (
-        <SuggestionMenu
-          suggestions={suggestions}
-          onSelect={handleSuggestionSelect}
-          position={menuPosition}
-        />
-      )}
     </div>
   );
 };
