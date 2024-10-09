@@ -9,10 +9,9 @@ import SettingsPanel from "@/components/SettingsPanel";
   maxWidth=""
   aspectRatio=""
 >
-  <div id="sketch-container" class="w-full h-full"></div>
+  <div id="sketch-container" class="w-full h-lvh"></div>
   <div
-    class="fixed bottom-0 left-0 w-full flex justify-between items-center bg-white border-t border-black"
-    style="z-index: 1000"
+    class="fixed bottom-0 left-0 w-full flex justify-between items-center bg-white border-t border-black z-10"
   >
     <button id="clear-button" class="w-1/2 text-black py-2 font-mono text-lg"
       >CLEAR</button
@@ -172,7 +171,8 @@ import SettingsPanel from "@/components/SettingsPanel";
     // Touch event handlers
     p.touchStarted = () => {
       if (p.touches.length > 0) {
-        startDrawing(p.touches[0].x, p.touches[0].y);
+        const touch = p.touches[0] as { x: number; y: number };
+        startDrawing(touch.x, touch.y);
       }
       return false;
     };
@@ -184,7 +184,8 @@ import SettingsPanel from "@/components/SettingsPanel";
 
     p.touchMoved = () => {
       if (p.touches.length > 0) {
-        addPoint(p.touches[0].x, p.touches[0].y);
+        const touch = p.touches[0] as { x: number; y: number };
+        addPoint(touch.x, touch.y);
       }
       return false;
     };

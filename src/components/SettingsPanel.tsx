@@ -86,7 +86,9 @@ const SettingsPanel: React.FC = () => {
             max={0.2}
             step={0.01}
             value={params.smoothness}
-            onChange={handleChange}
+            onChange={(name, value) =>
+              handleChange(name as keyof Params, value)
+            }
           />
           <Slider
             name="gradientLength"
@@ -95,7 +97,9 @@ const SettingsPanel: React.FC = () => {
             max={1000}
             step={10}
             value={params.gradientLength}
-            onChange={handleChange}
+            onChange={(name, value) =>
+              handleChange(name as keyof Params, value)
+            }
           />
           <Slider
             name="baseShiftSpeed"
@@ -104,7 +108,9 @@ const SettingsPanel: React.FC = () => {
             max={40}
             step={0.01}
             value={params.baseShiftSpeed}
-            onChange={handleChange}
+            onChange={(name, value) =>
+              handleChange(name as keyof Params, value)
+            }
           />
           <Slider
             name="minBrushWidth"
@@ -113,7 +119,9 @@ const SettingsPanel: React.FC = () => {
             max={50}
             step={1}
             value={params.minBrushWidth}
-            onChange={handleChange}
+            onChange={(name, value) =>
+              handleChange(name as keyof Params, value)
+            }
           />
           <Slider
             name="maxBrushWidth"
@@ -122,7 +130,9 @@ const SettingsPanel: React.FC = () => {
             max={200}
             step={0.1}
             value={params.maxBrushWidth}
-            onChange={handleChange}
+            onChange={(name, value) =>
+              handleChange(name as keyof Params, value)
+            }
           />
           <Slider
             name="oscillationFrequency"
@@ -131,7 +141,9 @@ const SettingsPanel: React.FC = () => {
             max={2}
             step={0.001}
             value={params.oscillationFrequency}
-            onChange={handleChange}
+            onChange={(name, value) =>
+              handleChange(name as keyof Params, value)
+            }
           />
           <Slider
             name="drawingOscillationFrequency"
@@ -140,7 +152,9 @@ const SettingsPanel: React.FC = () => {
             max={20}
             step={0.01}
             value={params.drawingOscillationFrequency}
-            onChange={handleChange}
+            onChange={(name, value) =>
+              handleChange(name as keyof Params, value)
+            }
           />
         </div>
       </div>

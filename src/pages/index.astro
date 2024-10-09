@@ -360,7 +360,7 @@ const description = "software engineer • audiovisual artist";
   let mouseY = 0;
 
   function animate() {
-    const boundingRect = svg.getBoundingClientRect();
+    const boundingRect = svg!.getBoundingClientRect();
     const centerX = boundingRect.width / 2;
     const centerY = boundingRect.height / 2;
 
@@ -371,13 +371,13 @@ const description = "software engineer • audiovisual artist";
 
     const cx1 = 30 + Math.sin(time * 0.7) * 20 + distanceX * 10;
     const cy1 = 50 + Math.cos(time * 0.5) * 15 + distanceY * 10;
-    circle1.setAttribute("cx", `${cx1}%`);
-    circle1.setAttribute("cy", `${cy1}%`);
+    circle1!.setAttribute("cx", `${cx1}%`);
+    circle1!.setAttribute("cy", `${cy1}%`);
 
     const cx2 = 70 + Math.cos(time * 0.6) * 15 - distanceX * 10;
     const cy2 = 50 + Math.sin(time * 0.8) * 20 - distanceY * 10;
-    circle2.setAttribute("cx", `${cx2}%`);
-    circle2.setAttribute("cy", `${cy2}%`);
+    circle2!.setAttribute("cx", `${cx2}%`);
+    circle2!.setAttribute("cy", `${cy2}%`);
 
     requestAnimationFrame(animate);
   }
@@ -403,8 +403,8 @@ const description = "software engineer • audiovisual artist";
     const dx = Math.sin((noiseX * Math.PI * 2) / loopPeriod) * 10;
     const dy = Math.cos((noiseY * Math.PI * 2) / loopPeriod) * 10;
 
-    noiseFilter.setAttribute("dx", dx.toString());
-    noiseFilter.setAttribute("dy", dy.toString());
+    noiseFilter!.setAttribute("dx", dx.toString());
+    noiseFilter!.setAttribute("dy", dy.toString());
 
     requestAnimationFrame(updateNoise);
   }
