@@ -1,0 +1,267 @@
+---
+import Sketch from "@/layouts/Sketch.astro";
+import SettingsPanel from "@/components/SettingsPanel";
+---
+
+<Sketch
+  title="P5.js Dynamic Brush Stroke Sketch"
+  backgroundColor="bg-white"
+  maxWidth=""
+  aspectRatio=""
+>
+  <div id="sketch-container" class="w-full h-full"></div>
+  <div
+    class="fixed bottom-0 left-0 w-full flex justify-between items-center bg-white border-t border-black"
+    style="z-index: 1000"
+  >
+    <button id="clear-button" class="w-1/2 text-black py-2 font-mono text-lg"
+      >CLEAR</button
+    >
+    <button
+      id="settings-button"
+      class="w-1/2 text-black py-2 font-mono text-lg border-l border-black"
+      >SETTINGS</button
+    >
+  </div>
+  <div id="settings-panel-container">
+    <SettingsPanel client:load />
+  </div>
+</Sketch>
+
+<script>
+  import p5 from "p5";
+
+  let sketchInstance: p5;
+  let params = {
+    smoothness: 0.05,
+    gradientLength: 500,
+    baseShiftSpeed: 4.0,
+    minBrushWidth: 0,
+    maxBrushWidth: 80,
+    oscillationFrequency: 0.05,
+    drawingOscillationFrequency: 2.0,
+    rippleFrequency: 0.0,
+    rippleAmplitude: 0.0,
+    rippleSpeed: 0.5,
+  };
+
+  // Global function to update params
+  window.updateSketchParams = (newParams) => {
+    params = { ...params, ...newParams };
+    console.log("Params updated:", params);
+  };
+
+  const sketch = (p: p5) => {
+    sketchInstance = p;
+
+    let paths: {
+      path: { pos: p5.Vector; time: number }[];
+      startTime: number;
+      hueOffset: number;
+    }[] = [];
+    let currentPath: { pos: p5.Vector; time: number }[] = [];
+    let currentPathStartTime = 0;
+    let isDrawing = false;
+    let currentHueOffset = 0;
+
+    let rippleOffset = 0;
+
+    function clearCanvas() {
+      if (sketchInstance) {
+        sketchInstance.clear();
+        sketchInstance.background(255);
+        paths = [];
+        currentPath = [];
+      }
+    }
+
+    p.setup = () => {
+      const container = document.getElementById("sketch-container");
+      p.createCanvas(container!.clientWidth, container!.clientHeight);
+      p.colorMode(p.HSB);
+      p.background(255);
+
+      // Add event listener for the clear button
+      const clearButton = document.getElementById("clear-button");
+      clearButton?.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        clearCanvas();
+      });
+      clearButton?.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        clearCanvas();
+      });
+
+      // Update the settings button event listeners
+      const settingsButton = document.getElementById("settings-button");
+      const toggleSettings = (e: Event) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const event = new CustomEvent("toggleSettings");
+        window.dispatchEvent(event);
+      };
+      settingsButton?.addEventListener("click", toggleSettings);
+      settingsButton?.addEventListener("touchstart", toggleSettings);
+    };
+
+    p.draw = () => {
+      // Update ripple offset
+      rippleOffset += params.rippleSpeed;
+
+      // Clear the canvas and redraw all paths with updated colors and sizes
+      p.background(255);
+      paths = paths.filter((path) => path.path.length > 0);
+      paths.forEach(({ path, startTime, hueOffset }) =>
+        drawPath(path, startTime, hueOffset)
+      );
+      if (isDrawing) {
+        drawPath(currentPath, currentPathStartTime, currentHueOffset);
+      }
+    };
+
+    const startDrawing = (x: number, y: number) => {
+      isDrawing = true;
+      currentPath = [];
+      currentHueOffset = p.random(360); // Random starting hue for each stroke
+      currentPathStartTime = p.millis();
+      addPoint(x, y);
+    };
+
+    const stopDrawing = () => {
+      isDrawing = false;
+      if (currentPath.length > 0) {
+        paths.push({
+          path: currentPath,
+          startTime: currentPathStartTime,
+          hueOffset: currentHueOffset,
+        });
+      }
+    };
+
+    const addPoint = (x: number, y: number) => {
+      if (isDrawing) {
+        const point = p.createVector(x, y);
+        if (
+          currentPath.length === 0 ||
+          p5.Vector.dist(point, currentPath[currentPath.length - 1].pos) >
+            params.smoothness
+        ) {
+          currentPath.push({ pos: point, time: p.millis() });
+        }
+      }
+    };
+
+    // Mouse event handlers
+    p.mousePressed = () => {
+      startDrawing(p.mouseX, p.mouseY);
+      return false;
+    };
+
+    p.mouseReleased = () => {
+      stopDrawing();
+      return false;
+    };
+
+    p.mouseDragged = () => {
+      addPoint(p.mouseX, p.mouseY);
+      return false;
+    };
+
+    // Touch event handlers
+    p.touchStarted = () => {
+      if (p.touches.length > 0) {
+        startDrawing(p.touches[0].x, p.touches[0].y);
+      }
+      return false;
+    };
+
+    p.touchEnded = () => {
+      stopDrawing();
+      return false;
+    };
+
+    p.touchMoved = () => {
+      if (p.touches.length > 0) {
+        addPoint(p.touches[0].x, p.touches[0].y);
+      }
+      return false;
+    };
+
+    function drawPath(
+      path: { pos: p5.Vector; time: number }[],
+      startTime: number,
+      hueOffset: number
+    ) {
+      if (path.length < 2) return;
+
+      p.push();
+      p.noFill();
+      p.strokeCap(p.ROUND);
+      p.strokeJoin(p.ROUND);
+
+      let accumulatedLength = 0;
+      for (let i = 0; i < path.length; i++) {
+        const point = path[i];
+        const x = point.pos.x;
+        const y = point.pos.y;
+
+        if (i > 0) {
+          accumulatedLength += p5.Vector.dist(path[i - 1].pos, point.pos);
+        }
+
+        // Calculate the gradient position, allowing for smooth repetition
+        const t =
+          (accumulatedLength % params.gradientLength) / params.gradientLength;
+        const hue =
+          (p.frameCount * params.baseShiftSpeed + hueOffset + t * 360) % 360;
+
+        // Calculate oscillating brush width based on frameCount and point creation time
+        const timeSincePointCreation = point.time - startTime;
+        const brushWidth = p.map(
+          p.sin(
+            p.frameCount * params.oscillationFrequency +
+              params.drawingOscillationFrequency * timeSincePointCreation * 0.01
+          ),
+          -1,
+          1,
+          params.minBrushWidth,
+          params.maxBrushWidth
+        );
+
+        // Calculate ripple effect
+        const distFromCenter = p.dist(x, y, p.width / 2, p.height / 2);
+        const ripple =
+          p.sin(distFromCenter * params.rippleFrequency - rippleOffset) *
+          params.rippleAmplitude;
+
+        // Combine base width, oscillation, and ripple effect
+        const currentBrushWidth = brushWidth + ripple;
+
+        const c = p.color(hue, 80, 90);
+        p.stroke(c);
+        p.strokeWeight(currentBrushWidth);
+        p.point(x, y);
+      }
+
+      p.pop();
+    }
+
+    p.windowResized = () => {
+      const container = document.getElementById("sketch-container");
+      p.resizeCanvas(container!.clientWidth, container!.clientHeight);
+    };
+  };
+
+  new p5(sketch, document.getElementById("sketch-container") as HTMLElement);
+
+  // Add this to prevent touch events on the settings panel from reaching the canvas
+  document.getElementById("settings-panel-container")?.addEventListener(
+    "touchstart",
+    (e) => {
+      e.stopPropagation();
+    },
+    { passive: false }
+  );
+</script>
