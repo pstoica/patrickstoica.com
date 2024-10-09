@@ -27,9 +27,8 @@ const description = "software engineer • audiovisual artist";
           <defs>
             <radialGradient id="gradient1" cx="50%">
               <stop offset="0%" stop-color="#FF6B6B"></stop>
-              <stop offset="50%" stop-color="#4B0082" stop-opacity="0.75"
-              ></stop>
-              <stop offset="100%" stop-color="#FF1493" stop-opacity="0"></stop>
+              <stop offset="50%" stop-color="#4B0082" stop-opacity="1"></stop>
+              <stop offset="100%" stop-color="#FF1493" stop-opacity="1"></stop>
             </radialGradient>
             <radialGradient
               id="gradient2"
@@ -54,7 +53,7 @@ const description = "software engineer • audiovisual artist";
               <feTurbulence
                 type="fractalNoise"
                 baseFrequency="0.05"
-                numOctaves="30"
+                numOctaves="3"
                 seed="0"
                 stitchTiles="stitch"></feTurbulence>
               <feColorMatrix type="saturate" values="0.1"></feColorMatrix>
@@ -94,7 +93,7 @@ const description = "software engineer • audiovisual artist";
         </svg>
       </a>
 
-      <div class="text-center -mt-3 sm:text-2xl md:-mt-4">
+      <div class="text-center -mt-2 text-sm sm:text-2xl md:-mt-4">
         {description}
       </div>
     </nav>
@@ -354,7 +353,8 @@ const description = "software engineer • audiovisual artist";
     const centerY = boundingRect.height / 2;
 
     const distanceX = (mouseX - centerX) / centerX;
-    const distanceY = (mouseY - centerY) / centerY;
+    const distanceY = Math.min((mouseY - centerY) / centerY, 10);
+    console.log(distanceY);
 
     const time = Date.now() * 0.001;
 
@@ -391,7 +391,7 @@ const description = "software engineer • audiovisual artist";
   function updateNoise() {
     const time = Date.now() * 0.001; // Current time in seconds
 
-    const dx = Math.sin(time * 0.5) * 20;
+    const dx = Math.sin(time * 0.3) * 20;
     const dy = Math.cos(time * 0.3) * 5;
 
     noiseFilter!.setAttribute("dx", dx.toString());
