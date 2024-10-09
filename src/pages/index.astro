@@ -12,20 +12,20 @@ const description = "software engineer • audiovisual artist";
 
 <Layout title={title}>
   <div class="flex flex-col max-w-[740px] mx-auto pb-4">
-    <nav class="text-center pt-20 pb-16">
+    <nav class="text-center pt-16 pb-8">
       <ul
         class="list-none flex flex-row gap-2 mx-auto justify-center text-sm sm:text-base absolute sm:top-4 sm:right-4 top-2 right-2"
       >
-        <li><a href="mailto:patark@icloud.com">email</a></li>
+        <li><a href="mailto:hi@patrickstoica.com">email</a></li>
         <li><a href="https://instagram.com/patark">instagram</a></li>
         <li><a href="https://github.com/pstoica">github</a></li>
         <li><a href="https://linkedin.com/in/pstoica">linkedin</a></li>
         <li><a href="/PatrickStoicaResume.pdf">cv</a></li>
       </ul>
       <a href="/" class="title-container">
-        <svg width="100%" height="100" viewBox="0 0 600 100" id="titleSvg">
+        <svg width="100%" viewBox="0 0 600 80" id="titleSvg">
           <defs>
-            <radialGradient id="gradient1" cx="50%" cy="50%" r="50%">
+            <radialGradient id="gradient1" cx="50%">
               <stop offset="0%" stop-color="#FF6B6B"></stop>
               <stop offset="50%" stop-color="#4B0082" stop-opacity="0.75"
               ></stop>
@@ -44,7 +44,7 @@ const description = "software engineer • audiovisual artist";
               ></stop>
               <stop offset="100%" stop-color="#FF69B4" stop-opacity="0"></stop>
             </radialGradient>
-            <radialGradient id="gradient3" cx="50%" cy="50%" r="50%">
+            <radialGradient id="gradient3" cx="50%" cy="50%">
               <stop offset="0%" stop-color="#00CED1"></stop>
               <stop offset="50%" stop-color="#FF69B4" stop-opacity="0.75"
               ></stop>
@@ -54,7 +54,7 @@ const description = "software engineer • audiovisual artist";
               <feTurbulence
                 type="fractalNoise"
                 baseFrequency="0.05"
-                numOctaves="1"
+                numOctaves="30"
                 seed="0"
                 stitchTiles="stitch"></feTurbulence>
               <feColorMatrix type="saturate" values="0.1"></feColorMatrix>
@@ -93,27 +93,19 @@ const description = "software engineer • audiovisual artist";
           </g>
         </svg>
       </a>
-      <div class="subtitle">{description}</div>
+
+      <div class="text-center -mt-3 sm:text-2xl md:-mt-4">
+        {description}
+      </div>
     </nav>
 
     <main class="prose prose-invert lg:prose-l max-w-none px-4">
-      <p>
-        I'm a fullstack developer and creative technologist, currently bringing
-        software creation to more people at <a href="https://replit.com"
-          >Replit</a
-        >.
-      </p>
-
-      <p>
-        Art is in the works. For collaborations, <a
-          href="mailto:hi@patrickstoica.com">shoot me an email</a
-        >.
-      </p>
-
       <h2>Work</h2>
 
       <p>
-        My software development experience includes <a
+        I'm currently making software creation more accessible at <a
+          href="https://replit.com">Replit</a
+        >. My web and software development experience includes <a
           href="https://squarespace.com">Squarespace</a
         >, <a href="https://telnyx.com">Telnyx</a>, <a href="https://puzzle.io"
           >Puzzle</a
@@ -124,15 +116,6 @@ const description = "software engineer • audiovisual artist";
           href="https://en.wikipedia.org/wiki/Mosaic_(murder_mystery)">Mosaic</a
         >, <a href="https://www.hugoandmarie.com/">Hugo & Marie</a>, <a
           href="https://www.frankiecosmosband.com/">Frankie Cosmos</a
-        >, and a <a
-          href="https://www.justice.gov/usao-sdny/pr/founder-cyberfraud-prevention-company-sentenced-five-years-prison-defrauding-investors"
-          >fraudulent startup</a
-        >.
-      </p>
-
-      <p>
-        I won't bore you with the details, unless you're <a
-          href="PatrickStoicaResume.pdf">looking for my CV</a
         >.
       </p>
 
@@ -140,8 +123,9 @@ const description = "software engineer • audiovisual artist";
 
       <ul>
         <li>
-          <a href="https://staticvoid.studio">staticvoid.studio</a> - exploring the
-          art of frequency
+          Audiovisual productions at <a href="https://staticvoid.studio"
+            >staticvoid.studio</a
+          >
         </li>
         <li>
           <a href="https://www.kategodwin.design/living-room">Living Room</a> with
@@ -334,11 +318,16 @@ const description = "software engineer • audiovisual artist";
   .title-container {
     display: block;
     width: 100%;
-    height: 100px;
+    font-family: -apple-system, Rubik, ui-sans-serif, sans-serif;
   }
 
   :global(html) {
     @apply bg-zinc-900 text-zinc-300;
+  }
+
+  a {
+    @apply text-pink-300;
+    text-decoration: none;
   }
 </style>
 
@@ -387,6 +376,11 @@ const description = "software engineer • audiovisual artist";
     mouseY = event.clientY;
   });
 
+  document.addEventListener("touchmove", (event) => {
+    mouseX = event.touches[0].clientX;
+    mouseY = event.touches[0].clientY;
+  });
+
   animate();
 
   // Update noise filter
@@ -395,16 +389,13 @@ const description = "software engineer • audiovisual artist";
   let noiseY = 0;
 
   function updateNoise() {
-    const loopPeriod = 200; // Adjust this value to change the loop size
+    const time = Date.now() * 0.001; // Current time in seconds
 
-    noiseX = (noiseX + 0.5) % loopPeriod;
-    noiseY = (noiseY + 0.3) % loopPeriod;
-
-    const dx = Math.sin((noiseX * Math.PI * 2) / loopPeriod) * 10;
-    const dy = Math.cos((noiseY * Math.PI * 2) / loopPeriod) * 10;
+    const dx = Math.sin(time * 0.5) * 20;
+    const dy = Math.cos(time * 0.3) * 5;
 
     noiseFilter!.setAttribute("dx", dx.toString());
-    noiseFilter!.setAttribute("dy", dy.toString());
+    // noiseFilter!.setAttribute("dy", dy.toString());
 
     requestAnimationFrame(updateNoise);
   }
