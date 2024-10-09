@@ -64,11 +64,10 @@ const SettingsPanel: React.FC = () => {
     <Draggable handle=".handle" nodeRef={panelRef}>
       <div
         ref={panelRef}
-        className="fixed top-10 left-10 bg-gray-800 p-4 rounded shadow-lg z-50"
+        className="fixed bottom-16 left-0 right-0 bg-white p-2 rounded-t-lg shadow-lg z-50 border border-black"
         style={{
-          minWidth: "300px",
-          maxWidth: "90vw",
-          maxHeight: "90vh",
+          maxHeight: "70vh",
+          maxWidth: "30vw",
           overflowY: "auto",
         }}
         onMouseDown={preventPropagation}
@@ -76,100 +75,74 @@ const SettingsPanel: React.FC = () => {
         onTouchMove={preventPropagation}
         onTouchEnd={preventPropagation}
       >
-        <div className="handle cursor-move mb-4 text-center font-bold text-white">
-          Settings (Drag to move)
+        <div className="handle cursor-move mb-2 text-center font-bold text-black text-sm font-mono border-b border-black pb-2">
+          Settings
         </div>
-        <Slider
-          name="smoothness"
-          label="Smoothness"
-          min={0.01}
-          max={0.2}
-          step={0.01}
-          value={params.smoothness}
-          onChange={handleChange}
-        />
-        <Slider
-          name="gradientLength"
-          label="Gradient Length"
-          min={100}
-          max={1000}
-          step={10}
-          value={params.gradientLength}
-          onChange={handleChange}
-        />
-        <Slider
-          name="baseShiftSpeed"
-          label="Base Shift Speed"
-          min={0}
-          max={10}
-          step={0.01}
-          value={params.baseShiftSpeed}
-          onChange={handleChange}
-        />
-        <Slider
-          name="minBrushWidth"
-          label="Min Brush Width"
-          min={0}
-          max={50}
-          step={1}
-          value={params.minBrushWidth}
-          onChange={handleChange}
-        />
-        <Slider
-          name="maxBrushWidth"
-          label="Max Brush Width"
-          min={10}
-          max={200}
-          step={0.1}
-          value={params.maxBrushWidth}
-          onChange={handleChange}
-        />
-        <Slider
-          name="oscillationFrequency"
-          label="Oscillation Frequency"
-          min={0}
-          max={0.2}
-          step={0.001}
-          value={params.oscillationFrequency}
-          onChange={handleChange}
-        />
-        <Slider
-          name="drawingOscillationFrequency"
-          label="Drawing Oscillation Frequency"
-          min={0}
-          max={5}
-          step={0.01}
-          value={params.drawingOscillationFrequency}
-          onChange={handleChange}
-        />
-
-        {/* <Slider
-          name="rippleFrequency"
-          label="Ripple Frequency"
-          min={0}
-          max={0.1}
-          step={0.001}
-          value={params.rippleFrequency}
-          onChange={handleChange}
-        />
-        <Slider
-          name="rippleAmplitude"
-          label="Ripple Amplitude"
-          min={0}
-          max={50}
-          step={1}
-          value={params.rippleAmplitude}
-          onChange={handleChange}
-        />
-        <Slider
-          name="rippleSpeed"
-          label="Ripple Speed"
-          min={0}
-          max={2}
-          step={0.1}
-          value={params.rippleSpeed}
-          onChange={handleChange}
-        /> */}
+        <div className="space-y-2">
+          <Slider
+            name="smoothness"
+            label="Smoothness"
+            min={0.01}
+            max={0.2}
+            step={0.01}
+            value={params.smoothness}
+            onChange={handleChange}
+          />
+          <Slider
+            name="gradientLength"
+            label="Gradient Length"
+            min={100}
+            max={1000}
+            step={10}
+            value={params.gradientLength}
+            onChange={handleChange}
+          />
+          <Slider
+            name="baseShiftSpeed"
+            label="Base Shift Speed"
+            min={0}
+            max={40}
+            step={0.01}
+            value={params.baseShiftSpeed}
+            onChange={handleChange}
+          />
+          <Slider
+            name="minBrushWidth"
+            label="Min Brush Width"
+            min={0}
+            max={50}
+            step={1}
+            value={params.minBrushWidth}
+            onChange={handleChange}
+          />
+          <Slider
+            name="maxBrushWidth"
+            label="Max Brush Width"
+            min={10}
+            max={200}
+            step={0.1}
+            value={params.maxBrushWidth}
+            onChange={handleChange}
+          />
+          <Slider
+            name="oscillationFrequency"
+            label="Oscillation Freq"
+            min={0}
+            max={2}
+            step={0.001}
+            value={params.oscillationFrequency}
+            onChange={handleChange}
+          />
+          <Slider
+            name="drawingOscillationFrequency"
+            label="Drawing Osc Freq"
+            min={0}
+            max={20}
+            step={0.01}
+            value={params.drawingOscillationFrequency}
+            onChange={handleChange}
+          />
+        </div>
       </div>
     </Draggable>
   );
