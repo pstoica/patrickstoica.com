@@ -1,4 +1,12 @@
-import React, { useState, useRef, useEffect, useMemo } from "react";
+import React, { useId, useState, useMemo } from "react";
+import {
+  KnobHeadless,
+  KnobHeadlessLabel,
+  KnobHeadlessOutput,
+  useKnobKeyboardControls,
+} from "react-knob-headless";
+import { mapFrom01Linear, mapTo01Linear } from "@dsp-ts/math";
+import { KnobBaseThumb } from "./KnobBaseThumb";
 
 interface SliderProps {
   name: string;
@@ -23,85 +31,67 @@ const Slider: React.FC<SliderProps> = ({
   colorScheme,
   index,
 }) => {
-  const [isDragging, setIsDragging] = useState(false);
-  const [startY, setStartY] = useState(0);
-  const [startValue, setStartValue] = useState(0);
-  const sliderRef = useRef<HTMLDivElement>(null);
+  const knobId = useId();
+  const labelId = useId();
+  const [valueRaw, setValueRaw] = useState<number>(value);
 
-  // Determine the number of decimal places based on the step
   const decimalPlaces = useMemo(
     () => Math.max(0, -Math.floor(Math.log10(step))),
     [step]
   );
 
-  const handleStart = (e: React.MouseEvent | React.TouchEvent) => {
-    e.preventDefault();
-    setIsDragging(true);
-    setStartY("touches" in e ? e.touches[0].clientY : e.clientY);
-    setStartValue(value);
-    window.isInteractingWithUI = true;
+  const valueRawRoundFn = (v: number) => Number(v.toFixed(decimalPlaces));
+  const valueRawDisplayFn = (v: number) => v.toFixed(decimalPlaces);
+
+  const stepFn = () => step;
+  const stepLargerFn = () => step * 10;
+
+  const keyboardControlHandlers = useKnobKeyboardControls({
+    valueRaw,
+    valueMin: min,
+    valueMax: max,
+    step,
+    stepLarger: step * 10,
+    onValueRawChange: setValueRaw,
+  });
+
+  const handleValueChange = (newValue: number) => {
+    setValueRaw(newValue);
+    onChange(name, newValue);
   };
-
-  const handleMove = (e: MouseEvent | TouchEvent) => {
-    if (isDragging) {
-      e.preventDefault();
-      const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
-      const deltaY = startY - clientY;
-      const deltaValue = (deltaY / 100) * (max - min);
-      const newValue = Math.max(min, Math.min(max, startValue + deltaValue));
-
-      // Round the new value to the nearest step
-      const steppedValue = Math.round(newValue / step) * step;
-
-      // Ensure the value is within the min-max range
-      const clampedValue = Math.max(min, Math.min(max, steppedValue));
-
-      onChange(name, parseFloat(clampedValue.toFixed(decimalPlaces)));
-    }
-  };
-
-  const handleEnd = () => {
-    setIsDragging(false);
-    window.isInteractingWithUI = false;
-  };
-
-  useEffect(() => {
-    if (isDragging) {
-      window.addEventListener("mousemove", handleMove, { passive: false });
-      window.addEventListener("touchmove", handleMove, { passive: false });
-      window.addEventListener("mouseup", handleEnd);
-      window.addEventListener("touchend", handleEnd);
-    }
-
-    return () => {
-      window.removeEventListener("mousemove", handleMove);
-      window.removeEventListener("touchmove", handleMove);
-      window.removeEventListener("mouseup", handleEnd);
-      window.removeEventListener("touchend", handleEnd);
-    };
-  }, [isDragging]);
 
   const bgColor = colorScheme[index % colorScheme.length];
-  const fillPercentage = ((value - min) / (max - min)) * 100;
 
   return (
-    <div
-      ref={sliderRef}
-      className="relative w-12 h-16 touch-none font-mono text-center cursor-ns-resize border border-black select-none"
-      onMouseDown={handleStart}
-      onTouchStart={handleStart}
-    >
-      <div
-        className="absolute bottom-0 left-0 right-0"
-        style={{
-          backgroundColor: bgColor,
-          height: `${fillPercentage}%`,
-          transition: "height 0.1s ease-out",
-        }}
-      ></div>
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        {/* <div className="text-sm font-bold">{value.toFixed(2)}</div> */}
-        <div className="text-xs mt-1">{label}</div>
+    <div className="relative w-12 h-16 touch-none font-mono text-center cursor-ns-resize border border-black select-none">
+      <KnobHeadlessLabel id={labelId} className="sr-only">
+        {label}
+      </KnobHeadlessLabel>
+      <KnobHeadless
+        id={knobId}
+        aria-labelledby={labelId}
+        className="w-full h-full outline-none"
+        valueMin={min}
+        valueMax={max}
+        valueRaw={valueRaw}
+        valueRawRoundFn={valueRawRoundFn}
+        valueRawDisplayFn={valueRawDisplayFn}
+        dragSensitivity={0.006}
+        orientation="vertical"
+        mapTo01={mapTo01Linear}
+        mapFrom01={mapFrom01Linear}
+        onValueRawChange={handleValueChange}
+        {...keyboardControlHandlers}
+      >
+        <KnobBaseThumb
+          theme={bgColor}
+          value01={(valueRaw - min) / (max - min)}
+        />
+      </KnobHeadless>
+      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+        <KnobHeadlessOutput htmlFor={knobId} className="text-xs mt-1">
+          {label}
+        </KnobHeadlessOutput>
       </div>
     </div>
   );

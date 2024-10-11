@@ -58,6 +58,7 @@ const SettingsPanel: React.FC = () => {
   }, [params]);
 
   const handleChange = (name: keyof Params, value: number) => {
+    window.isInteractingWithUI = true;
     setParams((prev) => ({ ...prev, [name]: value }));
   };
 
