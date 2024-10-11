@@ -11,7 +11,7 @@ export const KnobBaseThumb: React.FC<KnobBaseThumbProps> = ({
 }) => {
   return (
     <div
-      className="absolute bottom-0 left-0 right-0 transition-height duration-100 ease-out"
+      className="absolute bottom-0 left-0 right-0"
       style={{
         backgroundColor: theme,
         height: `${value01 * 100}%`,

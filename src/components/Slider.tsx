@@ -64,6 +64,21 @@ const Slider: React.FC<SliderProps> = ({
 
   const bgColor = colorScheme[index % colorScheme.length];
 
+  // Function to determine if a color is light or dark
+  const isLightColor = (color: string) => {
+    const hex = color.replace("#", "");
+    const r = parseInt(hex.substr(0, 2), 16);
+    const g = parseInt(hex.substr(2, 2), 16);
+    const b = parseInt(hex.substr(4, 2), 16);
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    return luminance > 0.5;
+  };
+
+  // Determine contrasting color based on background
+  const contrastColor = isLightColor(bgColor) ? "#000000" : "#FFFFFF";
+
+  const value01 = (valueRaw - min) / (max - min);
+
   return (
     <div
       className={`relative text-xs w-12 h-12 md:text-base md:w-24 md:h-24 touch-none font-mono text-center cursor-ns-resize border ${
@@ -91,28 +106,37 @@ const Slider: React.FC<SliderProps> = ({
         onValueRawChange={handleValueChange}
         {...keyboardControlHandlers}
       >
-        <KnobBaseThumb
-          theme={bgColor}
-          value01={(valueRaw - min) / (max - min)}
-        />
+        <KnobBaseThumb theme={bgColor} value01={value01} />
       </KnobHeadless>
-      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none overflow-hidden">
         <KnobHeadlessOutput
           htmlFor={knobId}
-          className={`flex flex-col items-center justify-end mt-1 lowercase ${
-            isDarkMode ? "text-gray-200" : "text-gray-800"
-          }`}
-          // style={{
-          //   textShadow: isDarkMode
-          //     ? "0 2px 2px rgba(0,0,0,1)"
-          //     : "0 0px 2px rgba(255,255,255,1)",
-          // }}
+          className="flex flex-col items-center justify-end mt-1 lowercase relative w-full h-full"
         >
-          {label.split(" ").map((word, index) => (
-            <span key={index} className="block ">
-              {word}
-            </span>
-          ))}
+          <div
+            className="absolute inset-0 flex flex-col items-center justify-center"
+            style={{ color: isDarkMode ? "#FFFFFF" : "#000000" }}
+          >
+            {label.split(" ").map((word, index) => (
+              <span key={index} className="block">
+                {word}
+              </span>
+            ))}
+          </div>
+          <div
+            className="absolute inset-0 flex flex-col items-center justify-center"
+            style={{
+              color: contrastColor,
+              clipPath: `inset(${97 - value01 * 100}% 0 0 0)`,
+              backgroundColor: bgColor,
+            }}
+          >
+            {label.split(" ").map((word, index) => (
+              <span key={index} className="block">
+                {word}
+              </span>
+            ))}
+          </div>
         </KnobHeadlessOutput>
       </div>
     </div>

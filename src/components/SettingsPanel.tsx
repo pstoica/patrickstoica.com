@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Draggable from "react-draggable";
 import Slider from "./Slider";
+import debounce from "lodash/debounce";
 
 declare global {
   interface Window {
@@ -86,7 +87,7 @@ export const colorSchemes = {
   ],
 };
 
-export const defaultParams = {
+export const DEFAULT_PARAMS = {
   smoothness: 0.05,
   gradientLength: 500,
   baseShiftSpeed: 4.0,
@@ -111,22 +112,28 @@ export const defaultParams = {
   opacityRate: 0,
 };
 
-const mapTo01 = (value: number) => {
-  if (value <= 0) return 0;
-  if (value >= 0.5) return 1;
-  return value * 2;
-};
-
-const mapFrom01 = (value: number) => {
-  if (value <= 0) return 0;
-  if (value >= 1) return 0.5;
-  return value / 2;
-};
+export const localStorageKey = "sense-weave-settings";
+export const defaultParams = DEFAULT_PARAMS;
+// export const defaultParams =
+//   typeof window !== "undefined"
+//     ? window.localStorage.getItem(localStorageKey)
+//       ? JSON.parse(window.localStorage.getItem(localStorageKey) || "")
+//       : DEFAULT_PARAMS
+//     : DEFAULT_PARAMS;
 
 const SettingsPanel: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [params, setParams] = useState<Params>(defaultParams);
+  useEffect(() => {
+    setParams(
+      typeof window !== "undefined"
+        ? window.localStorage.getItem(localStorageKey)
+          ? JSON.parse(window.localStorage.getItem(localStorageKey) || "")
+          : DEFAULT_PARAMS
+        : DEFAULT_PARAMS
+    );
+  }, []);
 
   const [colorScheme, setColorScheme] = useState(
     Object.values(colorSchemes)[0]
@@ -166,10 +173,24 @@ const SettingsPanel: React.FC = () => {
     window.isInteractingWithUI = false;
   }, []);
 
+  const updateLocalStorage = useCallback(
+    debounce((params: any) => {
+      window.localStorage.setItem(localStorageKey, JSON.stringify(params));
+    }, 300),
+    [localStorageKey]
+  );
+
   useEffect(() => {
     if (window.updateSketchParams) {
       window.updateSketchParams(params);
     }
+
+    updateLocalStorage(params);
+
+    // Cleanup function to cancel any pending debounced calls
+    return () => {
+      updateLocalStorage.cancel();
+    };
   }, [params]);
 
   const handleChange = (name: keyof Params, value: number) => {
