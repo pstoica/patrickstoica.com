@@ -351,17 +351,16 @@ import SettingsPanel from "@/components/SettingsPanel";
         const adjustedColor = p.color(color);
         adjustedColor.setAlpha(finalOpacity);
 
+        const shapeSize = currentBrushWidth; // Use the same size for filled and unfilled shapes
+
         if (fillValue > 0.5) {
           p.fill(adjustedColor);
-          p.stroke(adjustedColor);
+          p.noStroke();
         } else {
           p.noFill();
           p.stroke(adjustedColor);
-          p.strokeWeight(1); // Fixed 1px stroke for filled shapes
+          p.strokeWeight(1); // Fixed 1px stroke for unfilled shapes
         }
-
-        const shapeSize =
-          fillValue > 0.5 ? currentBrushWidth : currentBrushWidth / 2;
 
         if (shapeValue < 3) {
           // Draw a circle for 2 or fewer sides

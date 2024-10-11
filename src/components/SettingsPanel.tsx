@@ -573,9 +573,8 @@ const SettingsPanel: React.FC = () => {
           </div>
         </div>
 
-        {/* Updated color scheme section */}
         <div
-          className={`mt-1 flex items-center border-t pt-1 ${
+          className={`select-none mt-1 flex items-center border-t pt-1 ${
             isDarkMode ? "border-gray-800" : "border-gray-200"
           }`}
         >
