@@ -22,6 +22,68 @@ interface Params {
   rippleSpeed: number;
 }
 
+const colorSchemes = {
+  default: [
+    "#FF6B6B",
+    "#4ECDC4",
+    "#45B7D1",
+    "#FFA07A",
+    "#98D8C8",
+    "#F7DC6F",
+    "#BB8FCE",
+    "#82E0AA",
+  ],
+  rainbow: [
+    "#FF0000",
+    "#FF7F00",
+    "#FFFF00",
+    "#00FF00",
+    "#0000FF",
+    "#4B0082",
+    "#9400D3",
+  ],
+  warm: [
+    "#FF6B6B",
+    "#FFA07A",
+    "#F7DC6F",
+    "#FFD700",
+    "#FFA500",
+    "#FF8C00",
+    "#FF7F50",
+    "#FF6347",
+  ],
+  cool: [
+    "#4ECDC4",
+    "#45B7D1",
+    "#6495ED",
+    "#87CEEB",
+    "#00CED1",
+    "#40E0D0",
+    "#48D1CC",
+    "#20B2AA",
+  ],
+  grayscale: [
+    "#000000",
+    "#1A1A1A",
+    "#333333",
+    "#4D4D4D",
+    "#666666",
+    "#999999",
+    "#CCCCCC",
+    "#FFFFFF",
+  ],
+  iridescent: [
+    "#FF1493",
+    "#FF00FF",
+    "#8A2BE2",
+    "#4B0082",
+    "#0000FF",
+    "#00FFFF",
+    "#00FF00",
+    "#FFFF00",
+  ],
+};
+
 const SettingsPanel: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -37,6 +99,9 @@ const SettingsPanel: React.FC = () => {
     rippleAmplitude: 0.0,
     rippleSpeed: 0.5,
   });
+
+  const [colorScheme, setColorScheme] = useState(colorSchemes.default);
+  const [currentSchemeIndex, setCurrentSchemeIndex] = useState(0);
 
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -87,16 +152,26 @@ const SettingsPanel: React.FC = () => {
     setPosition({ x: data.x, y: data.y });
   };
 
-  const colorScheme = [
-    "#FF6B6B", // Red
-    "#4ECDC4", // Teal
-    "#45B7D1", // Light Blue
-    "#FFA07A", // Light Salmon
-    "#98D8C8", // Mint
-    "#F7DC6F", // Yellow
-    "#BB8FCE", // Light Purple
-    "#82E0AA", // Light Green
-  ];
+  const cycleColorScheme = (direction: "next" | "prev") => {
+    const schemes = Object.values(colorSchemes);
+    let newIndex;
+    if (direction === "next") {
+      newIndex = (currentSchemeIndex + 1) % schemes.length;
+    } else {
+      newIndex = (currentSchemeIndex - 1 + schemes.length) % schemes.length;
+    }
+    setCurrentSchemeIndex(newIndex);
+    setColorScheme(schemes[newIndex]);
+
+    // Update the p5js sketch color scheme
+    if (window.updateSketchParams) {
+      window.updateSketchParams({ colorScheme: schemes[newIndex] });
+    }
+  };
+
+  const gradientStyle = {
+    background: `linear-gradient(to right, ${colorScheme.join(", ")})`,
+  };
 
   if (!isVisible) return null;
 
@@ -122,7 +197,7 @@ const SettingsPanel: React.FC = () => {
           :::::::
         </div>
 
-        <div className="border-t border-dotted border-black pt-1 grid grid-rows-1 grid-cols-7 gap-1">
+        <div className="border-t border-gray-500 border-dotted pt-1 grid grid-rows-1 grid-cols-7 gap-1">
           <Slider
             name="smoothness"
             label="Drawing Density"
@@ -254,6 +329,29 @@ const SettingsPanel: React.FC = () => {
             colorScheme={colorScheme}
             index={9}
           /> */}
+        </div>
+
+        {/* Updated color scheme section */}
+        <div className="mt-2 flex items-center">
+          <button
+            onClick={() => cycleColorScheme("prev")}
+            className="text-sm px-2 py-1 border-r border-gray-300"
+            aria-label="Previous color scheme"
+          >
+            ◀
+          </button>
+          <div
+            className="flex-grow h-6 cursor-pointer"
+            style={gradientStyle}
+            onClick={() => cycleColorScheme("next")}
+          />
+          <button
+            onClick={() => cycleColorScheme("next")}
+            className="text-sm px-2 py-1 border-l border-gray-300"
+            aria-label="Next color scheme"
+          >
+            ▶
+          </button>
         </div>
       </div>
     </Draggable>

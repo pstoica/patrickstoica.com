@@ -43,6 +43,16 @@ import SettingsPanel from "@/components/SettingsPanel";
     rippleFrequency: 0.0,
     rippleAmplitude: 0.0,
     rippleSpeed: 0.5,
+    colorScheme: [
+      "#FF6B6B",
+      "#4ECDC4",
+      "#45B7D1",
+      "#FFA07A",
+      "#98D8C8",
+      "#F7DC6F",
+      "#BB8FCE",
+      "#82E0AA",
+    ],
   };
 
   // Global function to update params
@@ -251,8 +261,8 @@ import SettingsPanel from "@/components/SettingsPanel";
         // Calculate the gradient position, allowing for smooth repetition
         const t =
           (accumulatedLength % params.gradientLength) / params.gradientLength;
-        const hue =
-          (p.frameCount * params.baseShiftSpeed + hueOffset + t * 360) % 360;
+        const colorIndex = Math.floor(t * params.colorScheme.length);
+        const color = p.color(params.colorScheme[colorIndex]);
 
         // Calculate oscillating brush width based on frameCount and point creation time
         const timeSincePointCreation = point.time - startTime;
@@ -276,8 +286,7 @@ import SettingsPanel from "@/components/SettingsPanel";
         // Combine base width, oscillation, and ripple effect
         const currentBrushWidth = brushWidth + ripple;
 
-        const c = p.color(hue, 80, 90);
-        p.stroke(c);
+        p.stroke(color);
         p.strokeWeight(currentBrushWidth);
         p.point(x, y);
       }
