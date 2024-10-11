@@ -282,9 +282,9 @@ import SettingsPanel from "@/components/SettingsPanel";
         const rotation =
           params.rotation +
           p.sin(
-            p.frameCount * params.rotationRate + timeSincePointCreation * 0.01
-          ) *
-            params.rotationWave;
+            p.frameCount * params.rotationRate +
+              params.rotationWave * timeSincePointCreation * 0.01
+          );
 
         // Calculate shape
         const shapeValue = Math.max(

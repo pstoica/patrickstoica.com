@@ -318,7 +318,7 @@ const SettingsPanel: React.FC = () => {
 
         {/* Second row of sliders */}
         <div className="border-t border-gray-500 border-dotted pt-1 grid grid-rows-1 grid-cols-7 gap-1 mt-1">
-          <Slider
+          {/* <Slider
             name="rotation"
             label="Rotation"
             min={0}
@@ -330,13 +330,13 @@ const SettingsPanel: React.FC = () => {
             }
             colorScheme={colorScheme}
             index={7}
-          />
+          /> */}
           <Slider
             name="rotationWave"
             label="Rot Wave"
             min={0}
-            max={360}
-            step={1}
+            max={10}
+            step={0.1}
             value={params.rotationWave}
             onChange={(name, value) =>
               handleChange(name as keyof Params, value)
