@@ -18,6 +18,7 @@ interface SliderProps {
   onChange: (name: string, value: number) => void;
   colorScheme: string[];
   index: number;
+  isDarkMode: boolean;
 }
 
 const Slider: React.FC<SliderProps> = ({
@@ -30,6 +31,7 @@ const Slider: React.FC<SliderProps> = ({
   onChange,
   colorScheme,
   index,
+  isDarkMode,
 }) => {
   const knobId = useId();
   const labelId = useId();
@@ -63,7 +65,13 @@ const Slider: React.FC<SliderProps> = ({
   const bgColor = colorScheme[index % colorScheme.length];
 
   return (
-    <div className="relative text-xs w-12 h-12 md:text-base md:w-24 md:h-24 touch-none font-mono text-center cursor-ns-resize border border-black select-none">
+    <div
+      className={`relative text-xs w-12 h-12 md:text-base md:w-24 md:h-24 touch-none font-mono text-center cursor-ns-resize border ${
+        isDarkMode
+          ? "border-gray-800 text-gray-200"
+          : "border-gray-200 text-gray-800"
+      } select-none`}
+    >
       <KnobHeadlessLabel id={labelId} className="sr-only">
         {label}
       </KnobHeadlessLabel>
@@ -88,15 +96,17 @@ const Slider: React.FC<SliderProps> = ({
           value01={(valueRaw - min) / (max - min)}
         />
       </KnobHeadless>
-      <div
-        className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
-        style={{
-          backgroundColor: "rgba(255,255,255,0.7)",
-        }}
-      >
+      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
         <KnobHeadlessOutput
           htmlFor={knobId}
-          className="flex flex-col items-center justify-end mt-1 lowercase w-full"
+          className={`flex flex-col items-center justify-end mt-1 lowercase ${
+            isDarkMode ? "text-gray-200" : "text-gray-800"
+          }`}
+          // style={{
+          //   textShadow: isDarkMode
+          //     ? "0 2px 2px rgba(0,0,0,1)"
+          //     : "0 0px 2px rgba(255,255,255,1)",
+          // }}
         >
           {label.split(" ").map((word, index) => (
             <span key={index} className="block ">

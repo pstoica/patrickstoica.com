@@ -5,23 +5,27 @@ import SettingsPanel from "@/components/SettingsPanel";
 
 <Sketch
   title="Sense Weave 🧶"
-  backgroundColor="bg-white"
+  backgroundColor="bg-white dark:bg-black"
   maxWidth=""
   aspectRatio=""
 >
   <div id="sketch-container" class="w-full h-lvh"></div>
   <div
-    class="fixed bottom-0 left-0 w-full flex justify-between items-center bg-white border-t border-black z-10"
+    id="button-container"
+    class="fixed bottom-0 left-0 w-full flex justify-between items-center bg-white dark:bg-black border-t border-gray-200 dark:border-gray-800 z-10"
   >
     <button
       id="clear-button"
-      class="w-1/2 text-black py-2 font-mono text-lg lowercase">Clear</button
+      class="w-1/2 text-gray-800 dark:text-gray-200 py-2 font-mono text-lg lowercase hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors"
     >
+      Clear
+    </button>
     <button
       id="settings-button"
-      class="w-1/2 text-black py-2 font-mono text-lg border-l border-black lowercase"
-      >Settings</button
+      class="w-1/2 text-gray-800 dark:text-gray-200 py-2 font-mono text-lg border-l border-gray-200 dark:border-gray-800 lowercase hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors"
     >
+      Settings
+    </button>
   </div>
   <div id="settings-panel-container">
     <SettingsPanel client:load />
@@ -36,15 +40,27 @@ import SettingsPanel from "@/components/SettingsPanel";
   let params = {
     ...defaultParams,
     colorScheme: Object.values(colorSchemes)[0],
+    isDarkMode: document.documentElement.classList.contains("dark"),
   };
 
   // Global function to update params
   window.updateSketchParams = (newParams) => {
     params = { ...params, ...newParams };
+    if ("isDarkMode" in newParams) {
+      updateDarkMode(newParams.isDarkMode);
+    }
   };
 
   // Add this global variable
   window.isInteractingWithUI = false;
+
+  function updateDarkMode(isDark: boolean) {
+    if (isDark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }
 
   const sketch = (p: p5) => {
     sketchInstance = p;
@@ -127,11 +143,15 @@ import SettingsPanel from "@/components/SettingsPanel";
     };
 
     p.draw = () => {
+      // Update background color based on dark mode
+      p.background(
+        document.documentElement.classList.contains("dark") ? 0 : 245
+      );
+
       // Update ripple offset
       rippleOffset += params.rippleSpeed;
 
       // Clear the canvas and redraw all paths with updated colors and sizes
-      p.background(255);
       paths = paths.filter((path) => path.path.length > 0);
       paths.forEach(({ path, startTime, hueOffset }) =>
         drawPath(path, startTime, hueOffset)

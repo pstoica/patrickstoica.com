@@ -135,6 +135,13 @@ const SettingsPanel: React.FC = () => {
 
   const panelRef = useRef<HTMLDivElement>(null);
 
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    // Check initial dark mode state
+    setIsDarkMode(document.documentElement.classList.contains("dark"));
+  }, []);
+
   useEffect(() => {
     const toggleSettings = () => {
       setIsVisible(!isVisible);
@@ -199,6 +206,22 @@ const SettingsPanel: React.FC = () => {
     }
   };
 
+  const toggleDarkMode = () => {
+    const newDarkMode = !isDarkMode;
+    setIsDarkMode(newDarkMode);
+    document.documentElement.classList.toggle("dark");
+    if (window.updateSketchParams) {
+      window.updateSketchParams({ isDarkMode: newDarkMode });
+    }
+  };
+
+  const resetParams = () => {
+    setParams(defaultParams);
+    if (window.updateSketchParams) {
+      window.updateSketchParams(defaultParams);
+    }
+  };
+
   const gradientStyle = {
     background: `linear-gradient(to right, ${colorScheme.join(", ")})`,
   };
@@ -216,15 +239,39 @@ const SettingsPanel: React.FC = () => {
     >
       <div
         ref={panelRef}
-        className="fixed bg-white pb-1 px-1 z-50 border border-black"
+        className={`fixed pb-1 px-1 z-50 border ${
+          isDarkMode
+            ? "bg-black text-gray-200 border-gray-800"
+            : "bg-white text-gray-800 border-gray-200"
+        }`}
         style={{
           maxHeight: "70vh",
           maxWidth: "100vw",
           overflowY: "auto",
         }}
       >
-        <div className="handle cursor-move text-center text-black uppercase font-mono border-b border-black">
-          :::::::
+        <div
+          className={`flex items-center justify-between border-b ${
+            isDarkMode ? "border-gray-800" : "border-gray-200"
+          }`}
+        >
+          <button
+            onClick={toggleDarkMode}
+            className="px-2 py-1 text-sm"
+            aria-label="Toggle dark mode"
+          >
+            {isDarkMode ? "☀️" : "🌙"}
+          </button>
+          <div className="handle cursor-move text-center uppercase font-mono flex-grow">
+            :::::::
+          </div>
+          <button
+            onClick={resetParams}
+            className="px-2 py-1 text-sm"
+            aria-label="Reset parameters"
+          >
+            ↺
+          </button>
         </div>
 
         <div className="grid gap-1 pt-1">
@@ -242,6 +289,7 @@ const SettingsPanel: React.FC = () => {
               }
               colorScheme={colorScheme}
               index={0}
+              isDarkMode={isDarkMode}
             />
             <Slider
               name="gradientLength"
@@ -255,6 +303,7 @@ const SettingsPanel: React.FC = () => {
               }
               colorScheme={colorScheme}
               index={1}
+              isDarkMode={isDarkMode}
             />
             <Slider
               name="baseShiftSpeed"
@@ -268,6 +317,7 @@ const SettingsPanel: React.FC = () => {
               }
               colorScheme={colorScheme}
               index={2}
+              isDarkMode={isDarkMode}
             />
             <Slider
               name="minBrushWidth"
@@ -281,6 +331,7 @@ const SettingsPanel: React.FC = () => {
               }
               colorScheme={colorScheme}
               index={3}
+              isDarkMode={isDarkMode}
             />
             <Slider
               name="maxBrushWidth"
@@ -294,6 +345,7 @@ const SettingsPanel: React.FC = () => {
               }
               colorScheme={colorScheme}
               index={4}
+              isDarkMode={isDarkMode}
             />
             <Slider
               name="sizeFrequency"
@@ -307,6 +359,7 @@ const SettingsPanel: React.FC = () => {
               }
               colorScheme={colorScheme}
               index={5}
+              isDarkMode={isDarkMode}
             />
             <Slider
               name="globalSizeFrequency"
@@ -320,6 +373,7 @@ const SettingsPanel: React.FC = () => {
               }
               colorScheme={colorScheme}
               index={6}
+              isDarkMode={isDarkMode}
             />
           </div>
 
@@ -350,6 +404,7 @@ const SettingsPanel: React.FC = () => {
               }
               colorScheme={colorScheme}
               index={7}
+              isDarkMode={isDarkMode}
             />
             <Slider
               name="rotationRate"
@@ -363,6 +418,7 @@ const SettingsPanel: React.FC = () => {
               }
               colorScheme={colorScheme}
               index={8}
+              isDarkMode={isDarkMode}
             />
             <Slider
               name="shape"
@@ -376,6 +432,7 @@ const SettingsPanel: React.FC = () => {
               }
               colorScheme={colorScheme}
               index={9}
+              isDarkMode={isDarkMode}
             />
             <Slider
               name="shapeWave"
@@ -389,6 +446,7 @@ const SettingsPanel: React.FC = () => {
               }
               colorScheme={colorScheme}
               index={10}
+              isDarkMode={isDarkMode}
             />
             <Slider
               name="shapeRate"
@@ -402,6 +460,7 @@ const SettingsPanel: React.FC = () => {
               }
               colorScheme={colorScheme}
               index={11}
+              isDarkMode={isDarkMode}
             />
           </div>
 
@@ -418,6 +477,7 @@ const SettingsPanel: React.FC = () => {
               }
               colorScheme={colorScheme}
               index={12}
+              isDarkMode={isDarkMode}
             />
             <Slider
               name="fillWave"
@@ -431,6 +491,7 @@ const SettingsPanel: React.FC = () => {
               }
               colorScheme={colorScheme}
               index={13}
+              isDarkMode={isDarkMode}
             />
             <Slider
               name="fillRate"
@@ -444,6 +505,7 @@ const SettingsPanel: React.FC = () => {
               }
               colorScheme={colorScheme}
               index={14}
+              isDarkMode={isDarkMode}
             />
             <Slider
               name="opacity"
@@ -457,6 +519,7 @@ const SettingsPanel: React.FC = () => {
               }
               colorScheme={colorScheme}
               index={15}
+              isDarkMode={isDarkMode}
             />
             <Slider
               name="opacityWave"
@@ -470,6 +533,7 @@ const SettingsPanel: React.FC = () => {
               }
               colorScheme={colorScheme}
               index={16}
+              isDarkMode={isDarkMode}
             />
             <Slider
               name="opacityRate"
@@ -483,12 +547,17 @@ const SettingsPanel: React.FC = () => {
               }
               colorScheme={colorScheme}
               index={17}
+              isDarkMode={isDarkMode}
             />
           </div>
         </div>
 
         {/* Updated color scheme section */}
-        <div className="mt-1 flex items-center border-t border-black pt-1">
+        <div
+          className={`mt-1 flex items-center border-t pt-1 ${
+            isDarkMode ? "border-gray-800" : "border-gray-200"
+          }`}
+        >
           <button
             onClick={() => cycleColorScheme("prev")}
             className="text-sm px-2"

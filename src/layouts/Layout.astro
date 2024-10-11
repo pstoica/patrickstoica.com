@@ -3,13 +3,14 @@ import "../styles/global.css";
 
 interface Props {
   title: string;
+  htmlClass?: string;
 }
 
-const { title } = Astro.props;
+const { title, htmlClass } = Astro.props;
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class={htmlClass}>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content="Minimal CodeMirror Editor" />
