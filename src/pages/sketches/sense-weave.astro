@@ -29,21 +29,12 @@ import SettingsPanel from "@/components/SettingsPanel";
 </Sketch>
 
 <script>
-  import { colorSchemes } from "@/components/SettingsPanel";
+  import { colorSchemes, defaultParams } from "@/components/SettingsPanel";
   import p5 from "p5";
 
   let sketchInstance: p5;
   let params = {
-    smoothness: 0.05,
-    gradientLength: 500,
-    baseShiftSpeed: 4.0,
-    minBrushWidth: 0,
-    maxBrushWidth: 80,
-    globalSizeFrequency: 0.05,
-    sizeFrequency: 2.0,
-    rippleFrequency: 0.0,
-    rippleAmplitude: 0.0,
-    rippleSpeed: 0.5,
+    ...defaultParams,
     colorScheme: Object.values(colorSchemes)[0],
   };
 
@@ -236,9 +227,6 @@ import SettingsPanel from "@/components/SettingsPanel";
       if (path.length < 2) return;
 
       p.push();
-      p.noFill();
-      p.strokeCap(p.ROUND);
-      p.strokeJoin(p.ROUND);
 
       let accumulatedLength = 0;
       for (let i = 0; i < path.length; i++) {
@@ -257,10 +245,18 @@ import SettingsPanel from "@/components/SettingsPanel";
         // Incorporate baseShiftSpeed to shift colors over time
         const shiftedT = (t + p.frameCount * params.baseShiftSpeed * 0.001) % 1;
 
-        const colorIndex = Math.floor(shiftedT * params.colorScheme.length);
-        const color = p.color(params.colorScheme[colorIndex]);
+        // Interpolate between colors in the colorScheme
+        const colorIndex = shiftedT * params.colorScheme.length;
+        const colorIndexLow =
+          Math.floor(colorIndex) % params.colorScheme.length;
+        const colorIndexHigh = (colorIndexLow + 1) % params.colorScheme.length;
+        const colorT = colorIndex - Math.floor(colorIndex);
 
-        // Calculate oscillating brush width based on frameCount and point creation time
+        const colorLow = p.color(params.colorScheme[colorIndexLow]);
+        const colorHigh = p.color(params.colorScheme[colorIndexHigh]);
+        const color = p.lerpColor(colorLow, colorHigh, colorT);
+
+        // Calculate oscillating brush width
         const timeSincePointCreation = point.time - startTime;
         const brushWidth = p.map(
           p.sin(
@@ -282,9 +278,78 @@ import SettingsPanel from "@/components/SettingsPanel";
         // Combine base width, oscillation, and ripple effect
         const currentBrushWidth = brushWidth + ripple;
 
-        p.stroke(color);
-        p.strokeWeight(currentBrushWidth);
-        p.point(x, y);
+        // Calculate rotation with wave
+        const rotation =
+          params.rotation +
+          p.sin(
+            p.frameCount * params.rotationRate + timeSincePointCreation * 0.01
+          ) *
+            params.rotationWave;
+
+        // Calculate shape
+        const shapeValue = Math.max(
+          3,
+          Math.min(
+            10,
+            Math.floor(
+              params.shape +
+                p.sin(
+                  p.frameCount * params.shapeRate +
+                    timeSincePointCreation * 0.01
+                ) *
+                  params.shapeWave
+            )
+          )
+        );
+
+        // Calculate fill
+        const fillValue =
+          params.fill +
+          p.sin(
+            p.frameCount * params.fillRate +
+              timeSincePointCreation * 0.01 * params.fillWave
+          );
+
+        p.push();
+        p.translate(x, y);
+        p.rotate(rotation);
+
+        if (fillValue > 0.5) {
+          p.fill(color);
+          p.stroke(color);
+          p.strokeWeight(1); // Fixed 1px stroke for filled shapes
+        } else {
+          p.noFill();
+          p.stroke(color);
+          // p.strokeWeight(currentBrushWidth);
+        }
+
+        const shapeSize =
+          fillValue > 0.5 ? currentBrushWidth : currentBrushWidth / 2;
+
+        if (shapeValue === 3) {
+          p.triangle(
+            -shapeSize,
+            shapeSize * 0.866, // sqrt(3)/2 for equilateral triangle
+            shapeSize,
+            shapeSize * 0.866,
+            0,
+            -shapeSize * 0.866
+          );
+        } else if (shapeValue === 4) {
+          p.rect(-shapeSize, -shapeSize, shapeSize * 2, shapeSize * 2);
+        } else {
+          p.beginShape();
+          for (let j = 0; j < shapeValue; j++) {
+            const angle = j * ((2 * Math.PI) / shapeValue);
+            const px = Math.cos(angle) * shapeSize;
+            const py = Math.sin(angle) * shapeSize;
+            p.vertex(px, py);
+          }
+          p.endShape(p.CLOSE);
+        }
+
+        p.pop();
       }
 
       p.pop();

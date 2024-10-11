@@ -20,6 +20,15 @@ interface Params {
   rippleFrequency: number;
   rippleAmplitude: number;
   rippleSpeed: number;
+  rotation: number;
+  rotationRate: number;
+  rotationWave: number;
+  shape: number;
+  shapeWave: number;
+  shapeRate: number;
+  fill: number;
+  fillWave: number;
+  fillRate: number;
 }
 
 export const colorSchemes = {
@@ -74,21 +83,44 @@ export const colorSchemes = {
   ],
 };
 
+export const defaultParams = {
+  smoothness: 0.05,
+  gradientLength: 500,
+  baseShiftSpeed: 4.0,
+  minBrushWidth: 0,
+  maxBrushWidth: 80,
+  globalSizeFrequency: 0.05,
+  sizeFrequency: 2.0,
+  rippleFrequency: 0.0,
+  rippleAmplitude: 0.0,
+  rippleSpeed: 0.5,
+  rotation: 0,
+  rotationRate: 0,
+  rotationWave: 0,
+  shape: 0,
+  shapeWave: 0,
+  shapeRate: 0,
+  fill: 1,
+  fillWave: 0,
+  fillRate: 0,
+};
+
+const mapTo01 = (value: number) => {
+  if (value <= 0) return 0;
+  if (value >= 0.5) return 1;
+  return value * 2;
+};
+
+const mapFrom01 = (value: number) => {
+  if (value <= 0) return 0;
+  if (value >= 1) return 0.5;
+  return value / 2;
+};
+
 const SettingsPanel: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [params, setParams] = useState<Params>({
-    smoothness: 0.05,
-    gradientLength: 500,
-    baseShiftSpeed: 4.0,
-    minBrushWidth: 0,
-    maxBrushWidth: 80,
-    globalSizeFrequency: 0.05,
-    sizeFrequency: 2.0,
-    rippleFrequency: 0.0,
-    rippleAmplitude: 0.0,
-    rippleSpeed: 0.5,
-  });
+  const [params, setParams] = useState<Params>(defaultParams);
 
   const [colorScheme, setColorScheme] = useState(
     Object.values(colorSchemes)[0]
@@ -189,6 +221,7 @@ const SettingsPanel: React.FC = () => {
           :::::::
         </div>
 
+        {/* First row of sliders */}
         <div className="border-t border-gray-500 border-dotted pt-1 grid grid-rows-1 grid-cols-7 gap-1">
           <Slider
             name="smoothness"
@@ -281,14 +314,17 @@ const SettingsPanel: React.FC = () => {
             colorScheme={colorScheme}
             index={5}
           />
+        </div>
 
-          {/* <Slider
-            name="rippleFrequency"
-            label="Ripple Freq"
+        {/* Second row of sliders */}
+        <div className="border-t border-gray-500 border-dotted pt-1 grid grid-rows-1 grid-cols-7 gap-1 mt-1">
+          <Slider
+            name="rotation"
+            label="Rotation"
             min={0}
-            max={2}
-            step={0.01}
-            value={params.rippleFrequency}
+            max={360}
+            step={1}
+            value={params.rotation}
             onChange={(name, value) =>
               handleChange(name as keyof Params, value)
             }
@@ -296,12 +332,12 @@ const SettingsPanel: React.FC = () => {
             index={7}
           />
           <Slider
-            name="rippleAmplitude"
-            label="Ripple Amp"
+            name="rotationWave"
+            label="Rot Wave"
             min={0}
-            max={2}
-            step={0.01}
-            value={params.rippleAmplitude}
+            max={360}
+            step={1}
+            value={params.rotationWave}
             onChange={(name, value) =>
               handleChange(name as keyof Params, value)
             }
@@ -309,18 +345,83 @@ const SettingsPanel: React.FC = () => {
             index={8}
           />
           <Slider
-            name="rippleSpeed"
-            label="Ripple Speed"
+            name="rotationRate"
+            label="Rot Rate"
             min={0}
-            max={2}
-            step={0.01}
-            value={params.rippleSpeed}
+            max={0.1}
+            step={0.001}
+            value={params.rotationRate}
             onChange={(name, value) =>
               handleChange(name as keyof Params, value)
             }
             colorScheme={colorScheme}
             index={9}
-          /> */}
+          />
+          <Slider
+            name="shape"
+            label="Shape"
+            min={3}
+            max={10}
+            step={1}
+            value={params.shape}
+            onChange={(name, value) =>
+              handleChange(name as keyof Params, value)
+            }
+            colorScheme={colorScheme}
+            index={10}
+          />
+          <Slider
+            name="shapeWave"
+            label="Shape Wave"
+            min={0}
+            max={10}
+            step={0.1}
+            value={params.shapeWave}
+            onChange={(name, value) =>
+              handleChange(name as keyof Params, value)
+            }
+            colorScheme={colorScheme}
+            index={11}
+          />
+          <Slider
+            name="shapeRate"
+            label="Shape Rate"
+            min={0}
+            max={10}
+            step={0.1}
+            value={params.shapeRate}
+            onChange={(name, value) =>
+              handleChange(name as keyof Params, value)
+            }
+            colorScheme={colorScheme}
+            index={12}
+          />
+          <Slider
+            name="fill"
+            label="Fill"
+            min={0}
+            max={1}
+            step={0.01}
+            value={params.fill}
+            onChange={(name, value) =>
+              handleChange(name as keyof Params, value)
+            }
+            colorScheme={colorScheme}
+            index={13}
+          />
+          <Slider
+            name="fillWave"
+            label="Fill Wave"
+            min={0}
+            max={10}
+            step={0.1}
+            value={params.fillWave}
+            onChange={(name, value) =>
+              handleChange(name as keyof Params, value)
+            }
+            colorScheme={colorScheme}
+            index={14}
+          />
         </div>
 
         {/* Updated color scheme section */}
