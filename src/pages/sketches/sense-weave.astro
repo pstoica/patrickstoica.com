@@ -286,56 +286,66 @@ import SettingsPanel from "@/components/SettingsPanel";
               params.rotationWave * timeSincePointCreation * 0.01
           );
 
-        // Calculate shape
+        // Calculate shape with wave
         const shapeValue = Math.max(
-          3,
+          1,
           Math.min(
             10,
             Math.floor(
               params.shape +
                 p.sin(
                   p.frameCount * params.shapeRate +
-                    timeSincePointCreation * 0.01
-                ) *
-                  params.shapeWave
+                    params.shapeWave * timeSincePointCreation * 0.01
+                )
             )
           )
         );
 
-        // Calculate fill
+        // Calculate fill with wave and rate
         const fillValue =
           params.fill +
           p.sin(
             p.frameCount * params.fillRate +
-              timeSincePointCreation * 0.01 * params.fillWave
+              params.fillWave * timeSincePointCreation * 0.01
           );
+
+        // Calculate opacity with wave and rate
+        const opacity = p.map(
+          p.sin(
+            p.frameCount * params.opacityRate +
+              params.opacityWave * timeSincePointCreation * 0.01 +
+              Math.PI / 2
+          ),
+          -1,
+          1,
+          0,
+          1
+        );
+        const finalOpacity = p.constrain(params.opacity * opacity, 0, 1);
 
         p.push();
         p.translate(x, y);
         p.rotate(rotation);
 
+        // Apply opacity to the color
+        const adjustedColor = p.color(color);
+        adjustedColor.setAlpha(finalOpacity);
+
         if (fillValue > 0.5) {
-          p.fill(color);
-          p.stroke(color);
-          p.strokeWeight(1); // Fixed 1px stroke for filled shapes
+          p.fill(adjustedColor);
+          p.stroke(adjustedColor);
         } else {
           p.noFill();
-          p.stroke(color);
-          // p.strokeWeight(currentBrushWidth);
+          p.stroke(adjustedColor);
+          p.strokeWeight(1); // Fixed 1px stroke for filled shapes
         }
 
         const shapeSize =
           fillValue > 0.5 ? currentBrushWidth : currentBrushWidth / 2;
 
-        if (shapeValue === 3) {
-          p.triangle(
-            -shapeSize,
-            shapeSize * 0.866, // sqrt(3)/2 for equilateral triangle
-            shapeSize,
-            shapeSize * 0.866,
-            0,
-            -shapeSize * 0.866
-          );
+        if (shapeValue < 3) {
+          // Draw a circle for 2 or fewer sides
+          p.ellipse(0, 0, shapeSize * 2, shapeSize * 2);
         } else if (shapeValue === 4) {
           p.rect(-shapeSize, -shapeSize, shapeSize * 2, shapeSize * 2);
         } else {
