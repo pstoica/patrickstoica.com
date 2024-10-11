@@ -29,6 +29,7 @@ import SettingsPanel from "@/components/SettingsPanel";
 </Sketch>
 
 <script>
+  import { colorSchemes } from "@/components/SettingsPanel";
   import p5 from "p5";
 
   let sketchInstance: p5;
@@ -43,16 +44,7 @@ import SettingsPanel from "@/components/SettingsPanel";
     rippleFrequency: 0.0,
     rippleAmplitude: 0.0,
     rippleSpeed: 0.5,
-    colorScheme: [
-      "#FF6B6B",
-      "#4ECDC4",
-      "#45B7D1",
-      "#FFA07A",
-      "#98D8C8",
-      "#F7DC6F",
-      "#BB8FCE",
-      "#82E0AA",
-    ],
+    colorScheme: Object.values(colorSchemes)[0],
   };
 
   // Global function to update params
@@ -261,7 +253,11 @@ import SettingsPanel from "@/components/SettingsPanel";
         // Calculate the gradient position, allowing for smooth repetition
         const t =
           (accumulatedLength % params.gradientLength) / params.gradientLength;
-        const colorIndex = Math.floor(t * params.colorScheme.length);
+
+        // Incorporate baseShiftSpeed to shift colors over time
+        const shiftedT = (t + p.frameCount * params.baseShiftSpeed * 0.001) % 1;
+
+        const colorIndex = Math.floor(shiftedT * params.colorScheme.length);
         const color = p.color(params.colorScheme[colorIndex]);
 
         // Calculate oscillating brush width based on frameCount and point creation time

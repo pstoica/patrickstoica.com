@@ -22,16 +22,16 @@ interface Params {
   rippleSpeed: number;
 }
 
-const colorSchemes = {
-  default: [
-    "#FF6B6B",
-    "#4ECDC4",
-    "#45B7D1",
-    "#FFA07A",
-    "#98D8C8",
-    "#F7DC6F",
-    "#BB8FCE",
-    "#82E0AA",
+export const colorSchemes = {
+  iridescent: [
+    "#FF1493",
+    "#FF00FF",
+    "#8A2BE2",
+    "#4B0082",
+    "#0000FF",
+    "#00FFFF",
+    "#00FF00",
+    "#FFFF00",
   ],
   rainbow: [
     "#FF0000",
@@ -72,16 +72,6 @@ const colorSchemes = {
     "#CCCCCC",
     "#FFFFFF",
   ],
-  iridescent: [
-    "#FF1493",
-    "#FF00FF",
-    "#8A2BE2",
-    "#4B0082",
-    "#0000FF",
-    "#00FFFF",
-    "#00FF00",
-    "#FFFF00",
-  ],
 };
 
 const SettingsPanel: React.FC = () => {
@@ -100,7 +90,9 @@ const SettingsPanel: React.FC = () => {
     rippleSpeed: 0.5,
   });
 
-  const [colorScheme, setColorScheme] = useState(colorSchemes.default);
+  const [colorScheme, setColorScheme] = useState(
+    Object.values(colorSchemes)[0]
+  );
   const [currentSchemeIndex, setCurrentSchemeIndex] = useState(0);
 
   const panelRef = useRef<HTMLDivElement>(null);
@@ -200,7 +192,7 @@ const SettingsPanel: React.FC = () => {
         <div className="border-t border-gray-500 border-dotted pt-1 grid grid-rows-1 grid-cols-7 gap-1">
           <Slider
             name="smoothness"
-            label="Drawing Density"
+            label="Brush Density"
             min={0.01}
             max={40}
             step={0.01}
@@ -213,7 +205,7 @@ const SettingsPanel: React.FC = () => {
           />
           <Slider
             name="gradientLength"
-            label="Color Density"
+            label="Color Wave"
             min={100}
             max={1000}
             step={10}
@@ -226,7 +218,7 @@ const SettingsPanel: React.FC = () => {
           />
           <Slider
             name="baseShiftSpeed"
-            label="Color Phase"
+            label="Color Rate"
             min={0}
             max={40}
             step={0.01}
@@ -265,7 +257,7 @@ const SettingsPanel: React.FC = () => {
           />
           <Slider
             name="sizeFrequency"
-            label="Size Freq"
+            label="Size Wave"
             min={0}
             max={20}
             step={0.01}
@@ -278,7 +270,7 @@ const SettingsPanel: React.FC = () => {
           />
           <Slider
             name="globalSizeFrequency"
-            label="Size Phase"
+            label="Size Rate"
             min={0}
             max={0.5}
             step={0.01}
@@ -335,7 +327,7 @@ const SettingsPanel: React.FC = () => {
         <div className="mt-2 flex items-center">
           <button
             onClick={() => cycleColorScheme("prev")}
-            className="text-sm px-2 py-1 border-r border-gray-300"
+            className="text-sm px-2 py-1"
             aria-label="Previous color scheme"
           >
             ◀
@@ -347,7 +339,7 @@ const SettingsPanel: React.FC = () => {
           />
           <button
             onClick={() => cycleColorScheme("next")}
-            className="text-sm px-2 py-1 border-l border-gray-300"
+            className="text-sm px-2 py-1"
             aria-label="Next color scheme"
           >
             ▶
