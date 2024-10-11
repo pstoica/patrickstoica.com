@@ -278,6 +278,7 @@ const SettingsPanel: React.FC = () => {
         >
           <button
             onClick={toggleDarkMode}
+            onTouchStart={toggleDarkMode}
             className="px-2 py-1 text-sm"
             aria-label="Toggle dark mode"
           >
@@ -288,6 +289,7 @@ const SettingsPanel: React.FC = () => {
           </div>
           <button
             onClick={resetParams}
+            onTouchStart={resetParams}
             className="px-2 py-1 text-sm"
             aria-label="Reset parameters"
           >
