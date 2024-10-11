@@ -88,13 +88,18 @@ const Slider: React.FC<SliderProps> = ({
           value01={(valueRaw - min) / (max - min)}
         />
       </KnobHeadless>
-      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+      <div
+        className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
+        style={{
+          backgroundColor: "rgba(255,255,255,0.7)",
+        }}
+      >
         <KnobHeadlessOutput
           htmlFor={knobId}
-          className="flex flex-col items-center justify-end mt-1 lowercase"
+          className="flex flex-col items-center justify-end mt-1 lowercase w-full"
         >
           {label.split(" ").map((word, index) => (
-            <span key={index} className="block">
+            <span key={index} className="block ">
               {word}
             </span>
           ))}

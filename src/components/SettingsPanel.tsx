@@ -223,108 +223,109 @@ const SettingsPanel: React.FC = () => {
           overflowY: "auto",
         }}
       >
-        <div className="handle cursor-move mb-0.5 text-center text-black uppercase font-mono border-b border-black">
+        <div className="handle cursor-move text-center text-black uppercase font-mono border-b border-black">
           :::::::
         </div>
 
-        {/* First row of sliders */}
-        <div className="border-t border-gray-500 pt-1 grid grid-rows-1 grid-cols-7 gap-1">
-          <Slider
-            name="smoothness"
-            label="Brush Density"
-            min={0.01}
-            max={40}
-            step={0.01}
-            value={params.smoothness}
-            onChange={(name, value) =>
-              handleChange(name as keyof Params, value)
-            }
-            colorScheme={colorScheme}
-            index={0}
-          />
-          <Slider
-            name="gradientLength"
-            label="Color Wave"
-            min={100}
-            max={1000}
-            step={10}
-            value={params.gradientLength}
-            onChange={(name, value) =>
-              handleChange(name as keyof Params, value)
-            }
-            colorScheme={colorScheme}
-            index={1}
-          />
-          <Slider
-            name="baseShiftSpeed"
-            label="Color Rate"
-            min={0}
-            max={40}
-            step={0.01}
-            value={params.baseShiftSpeed}
-            onChange={(name, value) =>
-              handleChange(name as keyof Params, value)
-            }
-            colorScheme={colorScheme}
-            index={2}
-          />
-          <Slider
-            name="minBrushWidth"
-            label="Min Size"
-            min={0}
-            max={50}
-            step={1}
-            value={params.minBrushWidth}
-            onChange={(name, value) =>
-              handleChange(name as keyof Params, value)
-            }
-            colorScheme={colorScheme}
-            index={3}
-          />
-          <Slider
-            name="maxBrushWidth"
-            label="Max Size"
-            min={10}
-            max={200}
-            step={0.1}
-            value={params.maxBrushWidth}
-            onChange={(name, value) =>
-              handleChange(name as keyof Params, value)
-            }
-            colorScheme={colorScheme}
-            index={4}
-          />
-          <Slider
-            name="sizeFrequency"
-            label="Size Wave"
-            min={0}
-            max={20}
-            step={0.01}
-            value={params.sizeFrequency}
-            onChange={(name, value) =>
-              handleChange(name as keyof Params, value)
-            }
-            colorScheme={colorScheme}
-            index={5}
-          />
-          <Slider
-            name="globalSizeFrequency"
-            label="Size Rate"
-            min={0}
-            max={0.5}
-            step={0.01}
-            value={params.globalSizeFrequency}
-            onChange={(name, value) =>
-              handleChange(name as keyof Params, value)
-            }
-            colorScheme={colorScheme}
-            index={6}
-          />
-        </div>
+        <div className="grid gap-1 pt-1">
+          {/* First row of sliders */}
+          <div className="border-gray-500 grid grid-rows-1 grid-cols-7 gap-1">
+            <Slider
+              name="smoothness"
+              label="Brush Density"
+              min={0.01}
+              max={40}
+              step={0.01}
+              value={params.smoothness}
+              onChange={(name, value) =>
+                handleChange(name as keyof Params, value)
+              }
+              colorScheme={colorScheme}
+              index={0}
+            />
+            <Slider
+              name="gradientLength"
+              label="Color Wave"
+              min={100}
+              max={1000}
+              step={10}
+              value={params.gradientLength}
+              onChange={(name, value) =>
+                handleChange(name as keyof Params, value)
+              }
+              colorScheme={colorScheme}
+              index={1}
+            />
+            <Slider
+              name="baseShiftSpeed"
+              label="Color Rate"
+              min={0}
+              max={40}
+              step={0.01}
+              value={params.baseShiftSpeed}
+              onChange={(name, value) =>
+                handleChange(name as keyof Params, value)
+              }
+              colorScheme={colorScheme}
+              index={2}
+            />
+            <Slider
+              name="minBrushWidth"
+              label="Min Size"
+              min={0}
+              max={50}
+              step={1}
+              value={params.minBrushWidth}
+              onChange={(name, value) =>
+                handleChange(name as keyof Params, value)
+              }
+              colorScheme={colorScheme}
+              index={3}
+            />
+            <Slider
+              name="maxBrushWidth"
+              label="Max Size"
+              min={10}
+              max={200}
+              step={0.1}
+              value={params.maxBrushWidth}
+              onChange={(name, value) =>
+                handleChange(name as keyof Params, value)
+              }
+              colorScheme={colorScheme}
+              index={4}
+            />
+            <Slider
+              name="sizeFrequency"
+              label="Size Wave"
+              min={0}
+              max={20}
+              step={0.01}
+              value={params.sizeFrequency}
+              onChange={(name, value) =>
+                handleChange(name as keyof Params, value)
+              }
+              colorScheme={colorScheme}
+              index={5}
+            />
+            <Slider
+              name="globalSizeFrequency"
+              label="Size Rate"
+              min={0}
+              max={0.5}
+              step={0.01}
+              value={params.globalSizeFrequency}
+              onChange={(name, value) =>
+                handleChange(name as keyof Params, value)
+              }
+              colorScheme={colorScheme}
+              index={6}
+            />
+          </div>
 
-        {/* Second row of sliders */}
-        <div className="border-t border-gray-500 pt-1 grid grid-rows-1 grid-cols-7 gap-1 mt-1">
-          {/* <Slider
+          {/* Second row of sliders */}
+          <div className="border-gray-500 grid grid-rows-1 grid-cols-7 gap-1">
+            {/* <Slider
             name="rotation"
             label="Rotation"
             min={0}
@@ -337,156 +338,160 @@ const SettingsPanel: React.FC = () => {
             colorScheme={colorScheme}
             index={7}
           /> */}
-          <Slider
-            name="rotationWave"
-            label="Rot Wave"
-            min={0}
-            max={10}
-            step={0.1}
-            value={params.rotationWave}
-            onChange={(name, value) =>
-              handleChange(name as keyof Params, value)
-            }
-            colorScheme={colorScheme}
-            index={7}
-          />
-          <Slider
-            name="rotationRate"
-            label="Rot Rate"
-            min={0}
-            max={0.1}
-            step={0.001}
-            value={params.rotationRate}
-            onChange={(name, value) =>
-              handleChange(name as keyof Params, value)
-            }
-            colorScheme={colorScheme}
-            index={8}
-          />
-          <Slider
-            name="shape"
-            label="Shape"
-            min={2}
-            max={10}
-            step={1}
-            value={params.shape}
-            onChange={(name, value) =>
-              handleChange(name as keyof Params, value)
-            }
-            colorScheme={colorScheme}
-            index={9}
-          />
-          <Slider
-            name="shapeWave"
-            label="Shape Wave"
-            min={0}
-            max={10}
-            step={0.1}
-            value={params.shapeWave}
-            onChange={(name, value) =>
-              handleChange(name as keyof Params, value)
-            }
-            colorScheme={colorScheme}
-            index={10}
-          />
-          <Slider
-            name="shapeRate"
-            label="Shape Rate"
-            min={0}
-            max={0.2}
-            step={0.01}
-            value={params.shapeRate}
-            onChange={(name, value) =>
-              handleChange(name as keyof Params, value)
-            }
-            colorScheme={colorScheme}
-            index={11}
-          />
-          <Slider
-            name="fill"
-            label="Fill"
-            min={0}
-            max={1}
-            step={0.01}
-            value={params.fill}
-            onChange={(name, value) =>
-              handleChange(name as keyof Params, value)
-            }
-            colorScheme={colorScheme}
-            index={12}
-          />
-          <Slider
-            name="fillWave"
-            label="Fill Wave"
-            min={0}
-            max={10}
-            step={0.1}
-            value={params.fillWave}
-            onChange={(name, value) =>
-              handleChange(name as keyof Params, value)
-            }
-            colorScheme={colorScheme}
-            index={13}
-          />
-          <Slider
-            name="fillRate"
-            label="Fill Rate"
-            min={0}
-            max={0.1}
-            step={0.001}
-            value={params.fillRate}
-            onChange={(name, value) =>
-              handleChange(name as keyof Params, value)
-            }
-            colorScheme={colorScheme}
-            index={14}
-          />
-          <Slider
-            name="opacity"
-            label="Opacity"
-            min={0}
-            max={1}
-            step={0.01}
-            value={params.opacity}
-            onChange={(name, value) =>
-              handleChange(name as keyof Params, value)
-            }
-            colorScheme={colorScheme}
-            index={15}
-          />
-          <Slider
-            name="opacityWave"
-            label="Opacity Wave"
-            min={0}
-            max={1}
-            step={0.01}
-            value={params.opacityWave}
-            onChange={(name, value) =>
-              handleChange(name as keyof Params, value)
-            }
-            colorScheme={colorScheme}
-            index={16}
-          />
-          <Slider
-            name="opacityRate"
-            label="Opacity Rate"
-            min={0}
-            max={0.1}
-            step={0.001}
-            value={params.opacityRate}
-            onChange={(name, value) =>
-              handleChange(name as keyof Params, value)
-            }
-            colorScheme={colorScheme}
-            index={17}
-          />
+            <Slider
+              name="rotationWave"
+              label="Rotate Wave"
+              min={0}
+              max={10}
+              step={0.1}
+              value={params.rotationWave}
+              onChange={(name, value) =>
+                handleChange(name as keyof Params, value)
+              }
+              colorScheme={colorScheme}
+              index={7}
+            />
+            <Slider
+              name="rotationRate"
+              label="Rotate Rate"
+              min={0}
+              max={0.1}
+              step={0.001}
+              value={params.rotationRate}
+              onChange={(name, value) =>
+                handleChange(name as keyof Params, value)
+              }
+              colorScheme={colorScheme}
+              index={8}
+            />
+            <Slider
+              name="shape"
+              label="Shape"
+              min={2}
+              max={10}
+              step={1}
+              value={params.shape}
+              onChange={(name, value) =>
+                handleChange(name as keyof Params, value)
+              }
+              colorScheme={colorScheme}
+              index={9}
+            />
+            <Slider
+              name="shapeWave"
+              label="Shape Wave"
+              min={0}
+              max={10}
+              step={0.1}
+              value={params.shapeWave}
+              onChange={(name, value) =>
+                handleChange(name as keyof Params, value)
+              }
+              colorScheme={colorScheme}
+              index={10}
+            />
+            <Slider
+              name="shapeRate"
+              label="Shape Rate"
+              min={0}
+              max={0.2}
+              step={0.01}
+              value={params.shapeRate}
+              onChange={(name, value) =>
+                handleChange(name as keyof Params, value)
+              }
+              colorScheme={colorScheme}
+              index={11}
+            />
+          </div>
+
+          <div className="border-gray-500 grid grid-rows-1 grid-cols-7 gap-1 ">
+            <Slider
+              name="fill"
+              label="Fill"
+              min={0}
+              max={1}
+              step={0.01}
+              value={params.fill}
+              onChange={(name, value) =>
+                handleChange(name as keyof Params, value)
+              }
+              colorScheme={colorScheme}
+              index={12}
+            />
+            <Slider
+              name="fillWave"
+              label="Fill Wave"
+              min={0}
+              max={10}
+              step={0.1}
+              value={params.fillWave}
+              onChange={(name, value) =>
+                handleChange(name as keyof Params, value)
+              }
+              colorScheme={colorScheme}
+              index={13}
+            />
+            <Slider
+              name="fillRate"
+              label="Fill Rate"
+              min={0}
+              max={0.1}
+              step={0.001}
+              value={params.fillRate}
+              onChange={(name, value) =>
+                handleChange(name as keyof Params, value)
+              }
+              colorScheme={colorScheme}
+              index={14}
+            />
+            <Slider
+              name="opacity"
+              label="Opacity"
+              min={0}
+              max={1}
+              step={0.01}
+              value={params.opacity}
+              onChange={(name, value) =>
+                handleChange(name as keyof Params, value)
+              }
+              colorScheme={colorScheme}
+              index={15}
+            />
+            <Slider
+              name="opacityWave"
+              label="Opacity Wave"
+              min={0}
+              max={1}
+              step={0.01}
+              value={params.opacityWave}
+              onChange={(name, value) =>
+                handleChange(name as keyof Params, value)
+              }
+              colorScheme={colorScheme}
+              index={16}
+            />
+            <Slider
+              name="opacityRate"
+              label="Opacity Rate"
+              min={0}
+              max={0.1}
+              step={0.001}
+              value={params.opacityRate}
+              onChange={(name, value) =>
+                handleChange(name as keyof Params, value)
+              }
+              colorScheme={colorScheme}
+              index={17}
+            />
+          </div>
         </div>
 
         {/* Updated color scheme section */}
-        <div className="mt-2 flex items-center">
+        <div className="mt-1 flex items-center border-t border-black pt-1">
           <button
             onClick={() => cycleColorScheme("prev")}
-            className="text-sm px-2 py-1"
+            className="text-sm px-2"
             aria-label="Previous color scheme"
           >
             ◀
@@ -498,7 +503,7 @@ const SettingsPanel: React.FC = () => {
           />
           <button
             onClick={() => cycleColorScheme("next")}
-            className="text-sm px-2 py-1"
+            className="text-sm px-2"
             aria-label="Next color scheme"
           >
             ▶
