@@ -583,18 +583,22 @@ const SettingsPanel: React.FC = () => {
             onClick={() => cycleColorScheme("prev")}
             className="text-sm px-2"
             aria-label="Previous color scheme"
+            onTouchStart={() => cycleColorScheme("prev")}
           >
             ◀
           </button>
           <div
+            role="button"
             className="flex-grow h-6 cursor-pointer"
             style={gradientStyle}
             onClick={() => cycleColorScheme("next")}
+            onTouchStart={() => cycleColorScheme("next")}
           />
           <button
             onClick={() => cycleColorScheme("next")}
             className="text-sm px-2"
             aria-label="Next color scheme"
+            onTouchStart={() => cycleColorScheme("next")}
           >
             ▶
           </button>
