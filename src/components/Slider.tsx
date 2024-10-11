@@ -63,7 +63,7 @@ const Slider: React.FC<SliderProps> = ({
   const bgColor = colorScheme[index % colorScheme.length];
 
   return (
-    <div className="relative w-12 h-16 touch-none font-mono text-center cursor-ns-resize border border-black select-none">
+    <div className="relative text-xs w-12 h-12 md:text-base md:w-24 md:h-24 touch-none font-mono text-center cursor-ns-resize border border-black select-none">
       <KnobHeadlessLabel id={labelId} className="sr-only">
         {label}
       </KnobHeadlessLabel>
@@ -89,8 +89,15 @@ const Slider: React.FC<SliderProps> = ({
         />
       </KnobHeadless>
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-        <KnobHeadlessOutput htmlFor={knobId} className="text-xs mt-1">
-          {label}
+        <KnobHeadlessOutput
+          htmlFor={knobId}
+          className="flex flex-col items-center justify-end mt-1 lowercase"
+        >
+          {label.split(" ").map((word, index) => (
+            <span key={index} className="block">
+              {word}
+            </span>
+          ))}
         </KnobHeadlessOutput>
       </div>
     </div>

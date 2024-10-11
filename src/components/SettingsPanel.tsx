@@ -23,7 +23,8 @@ interface Params {
 }
 
 const SettingsPanel: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
   const [params, setParams] = useState<Params>({
     smoothness: 0.05,
     gradientLength: 500,
@@ -45,6 +46,18 @@ const SettingsPanel: React.FC = () => {
     };
     window.addEventListener("toggleSettings", toggleSettings);
     return () => window.removeEventListener("toggleSettings", toggleSettings);
+  }, [isVisible]);
+
+  useEffect(() => {
+    if (isVisible && panelRef.current) {
+      const panelWidth = panelRef.current.offsetWidth;
+      const panelHeight = panelRef.current.offsetHeight;
+      const windowWidth = window.innerWidth;
+      setPosition({
+        x: (windowWidth - panelWidth) / 2,
+        y: -panelHeight - 50, // Set a fixed Y position near the top
+      });
+    }
   }, [isVisible]);
 
   useEffect(() => {
@@ -70,6 +83,10 @@ const SettingsPanel: React.FC = () => {
     window.isInteractingWithUI = false;
   };
 
+  const handleDrag = (e: any, data: { x: number; y: number }) => {
+    setPosition({ x: data.x, y: data.y });
+  };
+
   const colorScheme = [
     "#FF6B6B", // Red
     "#4ECDC4", // Teal
@@ -87,24 +104,25 @@ const SettingsPanel: React.FC = () => {
     <Draggable
       handle=".handle"
       nodeRef={panelRef}
+      position={position}
+      onDrag={handleDrag}
       onStart={handleInteractionStart}
       onStop={handleInteractionEnd}
-      // defaultPosition={{ x: 20, y: 0 }}
     >
       <div
         ref={panelRef}
-        className="fixed bottom-12 left-0 right-0 bg-white pb-1 px-1 z-50 border border-black"
+        className="fixed bg-white pb-1 px-1 z-50 border border-black"
         style={{
           maxHeight: "70vh",
-          maxWidth: "fit-content",
+          maxWidth: "100vw",
           overflowY: "auto",
         }}
       >
-        <div className="handle cursor-move mb-1 text-center text-black uppercase font-mono border-b border-black">
+        <div className="handle cursor-move mb-0.5 text-center text-black uppercase font-mono border-b border-black">
           :::::::
         </div>
 
-        <div className="grid grid-rows-1 grid-cols-7 gap-1">
+        <div className="border-t border-dotted border-black pt-1 grid grid-rows-1 grid-cols-7 gap-1">
           <Slider
             name="smoothness"
             label="Drawing Density"
@@ -130,6 +148,19 @@ const SettingsPanel: React.FC = () => {
             }
             colorScheme={colorScheme}
             index={1}
+          />
+          <Slider
+            name="baseShiftSpeed"
+            label="Color Phase"
+            min={0}
+            max={40}
+            step={0.01}
+            value={params.baseShiftSpeed}
+            onChange={(name, value) =>
+              handleChange(name as keyof Params, value)
+            }
+            colorScheme={colorScheme}
+            index={2}
           />
           <Slider
             name="minBrushWidth"
@@ -162,7 +193,7 @@ const SettingsPanel: React.FC = () => {
             label="Size Freq"
             min={0}
             max={20}
-            step={0.001}
+            step={0.01}
             value={params.sizeFrequency}
             onChange={(name, value) =>
               handleChange(name as keyof Params, value)
@@ -172,29 +203,16 @@ const SettingsPanel: React.FC = () => {
           />
           <Slider
             name="globalSizeFrequency"
-            label="Ripple Freq"
+            label="Size Phase"
             min={0}
             max={0.5}
-            step={0.001}
+            step={0.01}
             value={params.globalSizeFrequency}
             onChange={(name, value) =>
               handleChange(name as keyof Params, value)
             }
             colorScheme={colorScheme}
             index={5}
-          />
-          <Slider
-            name="baseShiftSpeed"
-            label="Color Shift Freq"
-            min={0}
-            max={40}
-            step={0.01}
-            value={params.baseShiftSpeed}
-            onChange={(name, value) =>
-              handleChange(name as keyof Params, value)
-            }
-            colorScheme={colorScheme}
-            index={2}
           />
 
           {/* <Slider

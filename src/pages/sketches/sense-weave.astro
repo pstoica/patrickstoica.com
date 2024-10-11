@@ -13,13 +13,14 @@ import SettingsPanel from "@/components/SettingsPanel";
   <div
     class="fixed bottom-0 left-0 w-full flex justify-between items-center bg-white border-t border-black z-10"
   >
-    <button id="clear-button" class="w-1/2 text-black py-2 font-mono text-lg"
-      >CLEAR</button
+    <button
+      id="clear-button"
+      class="w-1/2 text-black py-2 font-mono text-lg lowercase">Clear</button
     >
     <button
       id="settings-button"
-      class="w-1/2 text-black py-2 font-mono text-lg border-l border-black"
-      >SETTINGS</button
+      class="w-1/2 text-black py-2 font-mono text-lg border-l border-black lowercase"
+      >Settings</button
     >
   </div>
   <div id="settings-panel-container">
@@ -148,7 +149,6 @@ import SettingsPanel from "@/components/SettingsPanel";
     };
 
     const startDrawing = (x: number, y: number) => {
-      if (window.isInteractingWithUI) return;
       isDrawing = true;
       currentPath = [];
       currentHueOffset = p.random(360); // Random starting hue for each stroke
