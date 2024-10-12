@@ -113,16 +113,15 @@ export const DEFAULT_PARAMS = {
 };
 
 export const localStorageKey = "sense-weave-settings";
-export const defaultParams = DEFAULT_PARAMS;
-// export const defaultParams =
-//   typeof window !== "undefined"
-//     ? window.localStorage.getItem(localStorageKey)
-//       ? JSON.parse(window.localStorage.getItem(localStorageKey) || "")
-//       : DEFAULT_PARAMS
-//     : DEFAULT_PARAMS;
+export const defaultParams =
+  typeof window !== "undefined"
+    ? window.localStorage.getItem(localStorageKey)
+      ? JSON.parse(window.localStorage.getItem(localStorageKey) || "")
+      : DEFAULT_PARAMS
+    : DEFAULT_PARAMS;
 
 const SettingsPanel: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [params, setParams] = useState<Params>(defaultParams);
   useEffect(() => {
@@ -133,7 +132,10 @@ const SettingsPanel: React.FC = () => {
           : DEFAULT_PARAMS
         : DEFAULT_PARAMS
     );
+    setIsVisible(true);
   }, []);
+
+  console.log(params);
 
   const [colorScheme, setColorScheme] = useState(
     Object.values(colorSchemes)[0]
