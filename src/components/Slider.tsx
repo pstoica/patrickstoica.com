@@ -15,7 +15,7 @@ interface SliderProps {
   max: number;
   step: number;
   value: number;
-  onChange: (name: string, value: number) => void;
+  onChange: (value: number) => void;
   colorScheme: string[];
   index: number;
   isDarkMode: boolean;
@@ -59,7 +59,7 @@ const Slider: React.FC<SliderProps> = ({
 
   const handleValueChange = (newValue: number) => {
     setValueRaw(newValue);
-    onChange(name, newValue);
+    onChange(newValue);
   };
 
   const bgColor = colorScheme[index % colorScheme.length];
@@ -81,11 +81,7 @@ const Slider: React.FC<SliderProps> = ({
 
   return (
     <div
-      className={`relative text-xs w-12 h-12 md:text-base md:w-24 md:h-24 touch-none font-mono text-center cursor-ns-resize border ${
-        isDarkMode
-          ? "border-gray-800 text-gray-200"
-          : "border-gray-200 text-gray-800"
-      } select-none`}
+      className={`relative text-xs w-12 h-12 md:text-base md:w-24 md:h-24 touch-none font-mono text-center cursor-ns-resize border dark:border-gray-800 dark:text-gray-200 border-gray-200 text-gray-800 select-none`}
     >
       <KnobHeadlessLabel id={labelId} className="sr-only">
         {label}

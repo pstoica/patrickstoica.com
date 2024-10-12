@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import Draggable from "react-draggable";
 import Slider from "./Slider";
 import debounce from "lodash/debounce";
+import { useLocalStorage } from "usehooks-ts";
 
 declare global {
   interface Window {
@@ -9,6 +10,64 @@ declare global {
     isInteractingWithUI: boolean;
   }
 }
+
+export const colorSchemes = {
+  iridescent: [
+    "#FF1493",
+    "#FF00FF",
+    "#8A2BE2",
+    "#4B0082",
+    "#0000FF",
+    "#00FFFF",
+    "#00FF00",
+    "#FFFF00",
+  ],
+  rainbow: [
+    "#FF0000",
+    "#FF7F00",
+    "#FFFF00",
+    "#00FF00",
+    "#0000FF",
+    "#4B0082",
+    "#9400D3",
+  ],
+  warm: [
+    "#F7DC6F",
+    "#FFD700",
+    "#FFA500",
+    "#FF8C00",
+    "#FF7F50",
+    "#FFE4E1", // Near-white warm color (Misty Rose)
+  ],
+  cool: [
+    "#6495ED",
+    "#87CEEB",
+    "#00CED1",
+    "#40E0D0",
+    "#48D1CC",
+    "#F0FFFF", // Near-white cool color (Azure)
+  ],
+  twilight: [
+    "#4B0082", // Indigo (deep purple)
+    "#8A2BE2", // Blue Violet
+    "#9932CC", // Dark Orchid
+    "#FF4500", // Orange Red
+    "#FFA500", // Orange
+    "#FFD700", // Gold
+    "#FFFFFF", // White
+    "#F8F8FF", // Ghost White
+  ],
+  grayscale: [
+    "#000000",
+    "#1A1A1A",
+    "#333333",
+    "#4D4D4D",
+    "#666666",
+    "#999999",
+    "#CCCCCC",
+    "#FFFFFF",
+  ],
+};
 
 interface Params {
   smoothness: number;
@@ -33,69 +92,9 @@ interface Params {
   opacity: number;
   opacityWave: number;
   opacityRate: number;
+  colorScheme: keyof typeof colorSchemes;
+  isDarkMode: boolean;
 }
-
-export const colorSchemes = {
-  iridescent: [
-    "#FF1493",
-    "#FF00FF",
-    "#8A2BE2",
-    "#4B0082",
-    "#0000FF",
-    "#00FFFF",
-    "#00FF00",
-    "#FFFF00",
-  ],
-  rainbow: [
-    "#FF0000",
-    "#FF7F00",
-    "#FFFF00",
-    "#00FF00",
-    "#0000FF",
-    "#4B0082",
-    "#9400D3",
-  ],
-  warm: [
-    "#FF6B6B",
-    "#FFA07A",
-    "#F7DC6F",
-    "#FFD700",
-    "#FFA500",
-    "#FF8C00",
-    "#FF7F50",
-    "#FFE4E1", // Near-white warm color (Misty Rose)
-  ],
-  cool: [
-    "#4ECDC4",
-    "#45B7D1",
-    "#6495ED",
-    "#87CEEB",
-    "#00CED1",
-    "#40E0D0",
-    "#48D1CC",
-    "#F0FFFF", // Near-white cool color (Azure)
-  ],
-  twilight: [
-    "#4B0082", // Indigo (deep purple)
-    "#8A2BE2", // Blue Violet
-    "#9932CC", // Dark Orchid
-    "#FFA500", // Orange
-    "#FF4500", // Orange Red
-    "#FFD700", // Gold
-    "#FFFFFF", // White
-    "#F8F8FF", // Ghost White
-  ],
-  grayscale: [
-    "#000000",
-    "#1A1A1A",
-    "#333333",
-    "#4D4D4D",
-    "#666666",
-    "#999999",
-    "#CCCCCC",
-    "#FFFFFF",
-  ],
-};
 
 export const DEFAULT_PARAMS = {
   smoothness: 0.05,
@@ -120,42 +119,30 @@ export const DEFAULT_PARAMS = {
   opacity: 1,
   opacityWave: 0,
   opacityRate: 0,
+  colorScheme: Object.keys(colorSchemes)[0] as keyof typeof colorSchemes,
+  isDarkMode:
+    typeof window !== "undefined"
+      ? window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches
+      : false,
 };
-
-export const localStorageKey = "sense-weave-settings";
-export const defaultParams =
-  typeof window !== "undefined"
-    ? window.localStorage.getItem(localStorageKey)
-      ? JSON.parse(window.localStorage.getItem(localStorageKey) || "")
-      : DEFAULT_PARAMS
-    : DEFAULT_PARAMS;
 
 const SettingsPanel: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [params, setParams] = useState<Params>(defaultParams);
-  useEffect(() => {
-    setParams(
-      typeof window !== "undefined"
-        ? window.localStorage.getItem(localStorageKey)
-          ? JSON.parse(window.localStorage.getItem(localStorageKey) || "")
-          : DEFAULT_PARAMS
-        : DEFAULT_PARAMS
-    );
-    setIsVisible(true);
-  }, []);
-
-  const [colorScheme, setColorScheme] = useState(
-    Object.values(colorSchemes)[0]
+  const [params, setParams] = useLocalStorage<Params>(
+    "sense-weave-settings",
+    DEFAULT_PARAMS,
+    {
+      deserializer(value) {
+        return { ...DEFAULT_PARAMS, ...JSON.parse(value) };
+      },
+    }
   );
-  const [currentSchemeIndex, setCurrentSchemeIndex] = useState(0);
 
   const panelRef = useRef<HTMLDivElement>(null);
 
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
   useEffect(() => {
-    // Check initial dark mode state
-    setIsDarkMode(document.documentElement.classList.contains("dark"));
+    setIsVisible(true);
   }, []);
 
   useEffect(() => {
@@ -182,7 +169,6 @@ const SettingsPanel: React.FC = () => {
 
   const debouncedCalculatePosition = useCallback(
     debounce(calculatePosition, 0),
-    // calculatePosition,
     [calculatePosition]
   );
 
@@ -200,30 +186,12 @@ const SettingsPanel: React.FC = () => {
     window.isInteractingWithUI = false;
   }, []);
 
-  const updateLocalStorage = useCallback(
-    debounce((params: any) => {
-      window.localStorage.setItem(localStorageKey, JSON.stringify(params));
-    }, 300),
-    [localStorageKey]
-  );
-
   useEffect(() => {
+    console.log(params);
     if (window.updateSketchParams) {
       window.updateSketchParams(params);
     }
-
-    updateLocalStorage(params);
-
-    // Cleanup function to cancel any pending debounced calls
-    return () => {
-      updateLocalStorage.cancel();
-    };
   }, [params]);
-
-  const handleChange = (name: keyof Params, value: number) => {
-    window.isInteractingWithUI = true;
-    setParams((prev) => ({ ...prev, [name]: value }));
-  };
 
   const handleInteractionStart = () => {
     window.isInteractingWithUI = true;
@@ -233,45 +201,54 @@ const SettingsPanel: React.FC = () => {
     window.isInteractingWithUI = false;
   };
 
+  const handleChange = (name: keyof Params, value: number | string) => {
+    handleInteractionStart();
+    setParams((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleDrag = (e: any, data: { x: number; y: number }) => {
     setPosition({ x: data.x, y: data.y });
   };
 
   const cycleColorScheme = (direction: "next" | "prev") => {
-    const schemes = Object.values(colorSchemes);
+    handleInteractionStart();
+    const schemes = Object.keys(colorSchemes) as Array<
+      keyof typeof colorSchemes
+    >;
+    const currentIndex = schemes.indexOf(params.colorScheme);
     let newIndex;
     if (direction === "next") {
-      newIndex = (currentSchemeIndex + 1) % schemes.length;
+      newIndex = (currentIndex + 1) % schemes.length;
     } else {
-      newIndex = (currentSchemeIndex - 1 + schemes.length) % schemes.length;
+      newIndex = (currentIndex - 1 + schemes.length) % schemes.length;
     }
-    setCurrentSchemeIndex(newIndex);
-    setColorScheme(schemes[newIndex]);
-
-    // Update the p5js sketch color scheme
-    if (window.updateSketchParams) {
-      window.updateSketchParams({ colorScheme: schemes[newIndex] });
-    }
+    const newScheme = schemes[newIndex];
+    setParams((prev) => ({ ...prev, colorScheme: newScheme }));
   };
 
   const toggleDarkMode = () => {
-    const newDarkMode = !isDarkMode;
-    setIsDarkMode(newDarkMode);
-    document.documentElement.classList.toggle("dark");
+    handleInteractionStart();
+    setParams((prev) => ({ ...prev, isDarkMode: !prev.isDarkMode }));
     if (window.updateSketchParams) {
-      window.updateSketchParams({ isDarkMode: newDarkMode });
+      window.updateSketchParams({ isDarkMode: !params.isDarkMode });
     }
   };
 
-  const resetParams = () => {
+  const resetParams = (e: React.MouseEvent | React.TouchEvent) => {
+    handleInteractionStart();
+    e.preventDefault();
+    e.stopPropagation();
     setParams(DEFAULT_PARAMS);
-    if (window.updateSketchParams) {
-      window.updateSketchParams(DEFAULT_PARAMS);
-    }
   };
 
   const gradientStyle = {
-    background: `linear-gradient(to right, ${colorScheme.join(", ")})`,
+    background: `linear-gradient(to right, ${colorSchemes[
+      params.colorScheme
+    ].join(", ")})`,
+  };
+
+  const preventTouchPropagation = (e: React.TouchEvent) => {
+    e.stopPropagation();
   };
 
   if (!isVisible) return null;
@@ -287,35 +264,32 @@ const SettingsPanel: React.FC = () => {
     >
       <div
         ref={panelRef}
-        className={`fixed pb-1 px-1 z-50 border ${
-          isDarkMode
-            ? "bg-black text-gray-200 border-gray-800"
-            : "bg-white text-gray-800 border-gray-200"
-        }`}
+        className={`fixed pb-1 px-1 z-50 border dark:bg-black dark:text-gray-200 dark:border-gray-800 bg-white text-gray-800 border-gray-200`}
         style={{
           maxHeight: "70vh",
           maxWidth: "100vw",
           overflowY: "auto",
         }}
+        onTouchStart={preventTouchPropagation}
+        onTouchMove={preventTouchPropagation}
+        onTouchEnd={preventTouchPropagation}
       >
         <div
-          className={`flex items-center justify-between border-b ${
-            isDarkMode ? "border-gray-800" : "border-gray-200"
-          }`}
+          className={`flex items-center justify-between border-b dark:border-gray-800 border-gray-200`}
         >
           <button
-            onClick={toggleDarkMode}
+            onMouseDown={toggleDarkMode}
             onTouchStart={toggleDarkMode}
             className="px-2 py-1 text-sm"
             aria-label="Toggle dark mode"
           >
-            {isDarkMode ? "☀️" : "🌙"}
+            {params.isDarkMode ? "☀️" : "🌙"}
           </button>
           <div className="handle cursor-move text-center uppercase font-mono flex-grow">
             :::::::
           </div>
           <button
-            onClick={resetParams}
+            onMouseDown={resetParams}
             onTouchStart={resetParams}
             className="px-2 py-1 text-sm"
             aria-label="Reset parameters"
@@ -331,15 +305,13 @@ const SettingsPanel: React.FC = () => {
               name="smoothness"
               label="Brush Density"
               min={0.01}
-              max={40}
+              max={100}
               step={0.01}
               value={params.smoothness}
-              onChange={(name, value) =>
-                handleChange(name as keyof Params, value)
-              }
-              colorScheme={colorScheme}
+              onChange={(value) => handleChange("smoothness", value)}
+              colorScheme={colorSchemes[params.colorScheme]}
               index={0}
-              isDarkMode={isDarkMode}
+              isDarkMode={params.isDarkMode}
             />
             <Slider
               name="gradientLength"
@@ -348,12 +320,10 @@ const SettingsPanel: React.FC = () => {
               max={1000}
               step={10}
               value={params.gradientLength}
-              onChange={(name, value) =>
-                handleChange(name as keyof Params, value)
-              }
-              colorScheme={colorScheme}
+              onChange={(value) => handleChange("gradientLength", value)}
+              colorScheme={colorSchemes[params.colorScheme]}
               index={1}
-              isDarkMode={isDarkMode}
+              isDarkMode={params.isDarkMode}
             />
             <Slider
               name="baseShiftSpeed"
@@ -362,12 +332,10 @@ const SettingsPanel: React.FC = () => {
               max={40}
               step={0.01}
               value={params.baseShiftSpeed}
-              onChange={(name, value) =>
-                handleChange(name as keyof Params, value)
-              }
-              colorScheme={colorScheme}
+              onChange={(value) => handleChange("baseShiftSpeed", value)}
+              colorScheme={colorSchemes[params.colorScheme]}
               index={2}
-              isDarkMode={isDarkMode}
+              isDarkMode={params.isDarkMode}
             />
             <Slider
               name="minBrushWidth"
@@ -376,12 +344,10 @@ const SettingsPanel: React.FC = () => {
               max={50}
               step={1}
               value={params.minBrushWidth}
-              onChange={(name, value) =>
-                handleChange(name as keyof Params, value)
-              }
-              colorScheme={colorScheme}
+              onChange={(value) => handleChange("minBrushWidth", value)}
+              colorScheme={colorSchemes[params.colorScheme]}
               index={3}
-              isDarkMode={isDarkMode}
+              isDarkMode={params.isDarkMode}
             />
             <Slider
               name="maxBrushWidth"
@@ -390,12 +356,10 @@ const SettingsPanel: React.FC = () => {
               max={200}
               step={0.1}
               value={params.maxBrushWidth}
-              onChange={(name, value) =>
-                handleChange(name as keyof Params, value)
-              }
-              colorScheme={colorScheme}
+              onChange={(value) => handleChange("maxBrushWidth", value)}
+              colorScheme={colorSchemes[params.colorScheme]}
               index={4}
-              isDarkMode={isDarkMode}
+              isDarkMode={params.isDarkMode}
             />
             <Slider
               name="sizeFrequency"
@@ -404,12 +368,10 @@ const SettingsPanel: React.FC = () => {
               max={20}
               step={0.01}
               value={params.sizeFrequency}
-              onChange={(name, value) =>
-                handleChange(name as keyof Params, value)
-              }
-              colorScheme={colorScheme}
+              onChange={(value) => handleChange("sizeFrequency", value)}
+              colorScheme={colorSchemes[params.colorScheme]}
               index={5}
-              isDarkMode={isDarkMode}
+              isDarkMode={params.isDarkMode}
             />
             <Slider
               name="globalSizeFrequency"
@@ -418,12 +380,10 @@ const SettingsPanel: React.FC = () => {
               max={0.5}
               step={0.01}
               value={params.globalSizeFrequency}
-              onChange={(name, value) =>
-                handleChange(name as keyof Params, value)
-              }
-              colorScheme={colorScheme}
+              onChange={(value) => handleChange("globalSizeFrequency", value)}
+              colorScheme={colorSchemes[params.colorScheme]}
               index={6}
-              isDarkMode={isDarkMode}
+              isDarkMode={params.isDarkMode}
             />
           </div>
 
@@ -449,12 +409,10 @@ const SettingsPanel: React.FC = () => {
               max={10}
               step={0.1}
               value={params.rotationWave}
-              onChange={(name, value) =>
-                handleChange(name as keyof Params, value)
-              }
-              colorScheme={colorScheme}
+              onChange={(value) => handleChange("rotationWave", value)}
+              colorScheme={colorSchemes[params.colorScheme]}
               index={7}
-              isDarkMode={isDarkMode}
+              isDarkMode={params.isDarkMode}
             />
             <Slider
               name="rotationRate"
@@ -463,12 +421,10 @@ const SettingsPanel: React.FC = () => {
               max={0.1}
               step={0.001}
               value={params.rotationRate}
-              onChange={(name, value) =>
-                handleChange(name as keyof Params, value)
-              }
-              colorScheme={colorScheme}
+              onChange={(value) => handleChange("rotationRate", value)}
+              colorScheme={colorSchemes[params.colorScheme]}
               index={8}
-              isDarkMode={isDarkMode}
+              isDarkMode={params.isDarkMode}
             />
             <Slider
               name="shape"
@@ -477,12 +433,10 @@ const SettingsPanel: React.FC = () => {
               max={10}
               step={1}
               value={params.shape}
-              onChange={(name, value) =>
-                handleChange(name as keyof Params, value)
-              }
-              colorScheme={colorScheme}
+              onChange={(value) => handleChange("shape", value)}
+              colorScheme={colorSchemes[params.colorScheme]}
               index={9}
-              isDarkMode={isDarkMode}
+              isDarkMode={params.isDarkMode}
             />
             <Slider
               name="shapeWave"
@@ -491,12 +445,10 @@ const SettingsPanel: React.FC = () => {
               max={10}
               step={0.1}
               value={params.shapeWave}
-              onChange={(name, value) =>
-                handleChange(name as keyof Params, value)
-              }
-              colorScheme={colorScheme}
+              onChange={(value) => handleChange("shapeWave", value)}
+              colorScheme={colorSchemes[params.colorScheme]}
               index={10}
-              isDarkMode={isDarkMode}
+              isDarkMode={params.isDarkMode}
             />
             <Slider
               name="shapeRate"
@@ -505,12 +457,10 @@ const SettingsPanel: React.FC = () => {
               max={0.2}
               step={0.01}
               value={params.shapeRate}
-              onChange={(name, value) =>
-                handleChange(name as keyof Params, value)
-              }
-              colorScheme={colorScheme}
+              onChange={(value) => handleChange("shapeRate", value)}
+              colorScheme={colorSchemes[params.colorScheme]}
               index={11}
-              isDarkMode={isDarkMode}
+              isDarkMode={params.isDarkMode}
             />
           </div>
 
@@ -522,12 +472,10 @@ const SettingsPanel: React.FC = () => {
               max={1}
               step={0.01}
               value={params.fill}
-              onChange={(name, value) =>
-                handleChange(name as keyof Params, value)
-              }
-              colorScheme={colorScheme}
+              onChange={(value) => handleChange("fill", value)}
+              colorScheme={colorSchemes[params.colorScheme]}
               index={12}
-              isDarkMode={isDarkMode}
+              isDarkMode={params.isDarkMode}
             />
             <Slider
               name="fillWave"
@@ -536,12 +484,10 @@ const SettingsPanel: React.FC = () => {
               max={10}
               step={0.1}
               value={params.fillWave}
-              onChange={(name, value) =>
-                handleChange(name as keyof Params, value)
-              }
-              colorScheme={colorScheme}
+              onChange={(value) => handleChange("fillWave", value)}
+              colorScheme={colorSchemes[params.colorScheme]}
               index={13}
-              isDarkMode={isDarkMode}
+              isDarkMode={params.isDarkMode}
             />
             <Slider
               name="fillRate"
@@ -550,12 +496,10 @@ const SettingsPanel: React.FC = () => {
               max={0.1}
               step={0.001}
               value={params.fillRate}
-              onChange={(name, value) =>
-                handleChange(name as keyof Params, value)
-              }
-              colorScheme={colorScheme}
+              onChange={(value) => handleChange("fillRate", value)}
+              colorScheme={colorSchemes[params.colorScheme]}
               index={14}
-              isDarkMode={isDarkMode}
+              isDarkMode={params.isDarkMode}
             />
             <Slider
               name="opacity"
@@ -564,12 +508,10 @@ const SettingsPanel: React.FC = () => {
               max={1}
               step={0.01}
               value={params.opacity}
-              onChange={(name, value) =>
-                handleChange(name as keyof Params, value)
-              }
-              colorScheme={colorScheme}
+              onChange={(value) => handleChange("opacity", value)}
+              colorScheme={colorSchemes[params.colorScheme]}
               index={15}
-              isDarkMode={isDarkMode}
+              isDarkMode={params.isDarkMode}
             />
             <Slider
               name="opacityWave"
@@ -578,12 +520,10 @@ const SettingsPanel: React.FC = () => {
               max={1}
               step={0.01}
               value={params.opacityWave}
-              onChange={(name, value) =>
-                handleChange(name as keyof Params, value)
-              }
-              colorScheme={colorScheme}
+              onChange={(value) => handleChange("opacityWave", value)}
+              colorScheme={colorSchemes[params.colorScheme]}
               index={16}
-              isDarkMode={isDarkMode}
+              isDarkMode={params.isDarkMode}
             />
             <Slider
               name="opacityRate"
@@ -592,26 +532,25 @@ const SettingsPanel: React.FC = () => {
               max={0.1}
               step={0.001}
               value={params.opacityRate}
-              onChange={(name, value) =>
-                handleChange(name as keyof Params, value)
-              }
-              colorScheme={colorScheme}
+              onChange={(value) => handleChange("opacityRate", value)}
+              colorScheme={colorSchemes[params.colorScheme]}
               index={17}
-              isDarkMode={isDarkMode}
+              isDarkMode={params.isDarkMode}
             />
           </div>
         </div>
 
         <div
-          className={`select-none mt-1 flex items-center border-t pt-1 ${
-            isDarkMode ? "border-gray-800" : "border-gray-200"
-          }`}
+          className={`select-none mt-1 flex items-center border-t pt-1 dark:border-gray-800 border-gray-200`}
         >
           <button
-            onClick={() => cycleColorScheme("prev")}
+            onMouseDown={() => cycleColorScheme("prev")}
+            onTouchStart={(e) => {
+              preventTouchPropagation(e);
+              cycleColorScheme("prev");
+            }}
             className="text-sm px-2"
             aria-label="Previous color scheme"
-            onTouchStart={() => cycleColorScheme("prev")}
           >
             ◀
           </button>
@@ -619,14 +558,23 @@ const SettingsPanel: React.FC = () => {
             role="button"
             className="flex-grow h-6 cursor-pointer"
             style={gradientStyle}
-            onClick={() => cycleColorScheme("next")}
-            onTouchStart={() => cycleColorScheme("next")}
+            onMouseDown={() => cycleColorScheme("next")}
+            onTouchStart={(e) => {
+              preventTouchPropagation(e);
+              cycleColorScheme("next");
+            }}
           />
           <button
-            onClick={() => cycleColorScheme("next")}
+            onMouseDown={(e) => {
+              e.preventDefault();
+              cycleColorScheme("next");
+            }}
+            onTouchStart={(e) => {
+              preventTouchPropagation(e);
+              cycleColorScheme("next");
+            }}
             className="text-sm px-2"
             aria-label="Next color scheme"
-            onTouchStart={() => cycleColorScheme("next")}
           >
             ▶
           </button>

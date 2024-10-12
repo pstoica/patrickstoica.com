@@ -33,22 +33,19 @@ import SettingsPanel from "@/components/SettingsPanel";
 </Sketch>
 
 <script>
-  import { colorSchemes, defaultParams } from "@/components/SettingsPanel";
+  import { colorSchemes } from "@/components/SettingsPanel";
+  import { DEFAULT_PARAMS } from "@/components/SettingsPanel";
   import p5 from "p5";
 
   let sketchInstance: p5;
   let params = {
-    ...defaultParams,
-    colorScheme: Object.values(colorSchemes)[0],
-    isDarkMode: document.documentElement.classList.contains("dark"),
+    ...DEFAULT_PARAMS,
   };
 
   // Global function to update params
   window.updateSketchParams = (newParams) => {
     params = { ...params, ...newParams };
-    if ("isDarkMode" in newParams) {
-      updateDarkMode(newParams.isDarkMode);
-    }
+    updateDarkMode(newParams.isDarkMode);
   };
 
   // Add this global variable
@@ -242,7 +239,7 @@ import SettingsPanel from "@/components/SettingsPanel";
       startTime: number,
       hueOffset: number
     ) {
-      if (path.length < 2) return;
+      const colorScheme = colorSchemes[params.colorScheme];
 
       p.push();
 
@@ -264,14 +261,13 @@ import SettingsPanel from "@/components/SettingsPanel";
         const shiftedT = (t + p.frameCount * params.baseShiftSpeed * 0.001) % 1;
 
         // Interpolate between colors in the colorScheme
-        const colorIndex = shiftedT * params.colorScheme.length;
-        const colorIndexLow =
-          Math.floor(colorIndex) % params.colorScheme.length;
-        const colorIndexHigh = (colorIndexLow + 1) % params.colorScheme.length;
+        const colorIndex = shiftedT * colorScheme.length;
+        const colorIndexLow = Math.floor(colorIndex) % colorScheme.length;
+        const colorIndexHigh = (colorIndexLow + 1) % colorScheme.length;
         const colorT = colorIndex - Math.floor(colorIndex);
 
-        const colorLow = p.color(params.colorScheme[colorIndexLow]);
-        const colorHigh = p.color(params.colorScheme[colorIndexHigh]);
+        const colorLow = p.color(colorScheme[colorIndexLow]);
+        const colorHigh = p.color(colorScheme[colorIndexHigh]);
         const color = p.lerpColor(colorLow, colorHigh, colorT);
 
         // Calculate oscillating brush width
