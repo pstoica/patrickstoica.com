@@ -80,7 +80,6 @@ import SettingsPanel from "@/components/SettingsPanel";
     function clearCanvas() {
       if (sketchInstance) {
         sketchInstance.clear();
-        sketchInstance.background(255);
         paths = [];
         currentPath = [];
       }
@@ -90,7 +89,6 @@ import SettingsPanel from "@/components/SettingsPanel";
       const container = document.getElementById("sketch-container");
       p.createCanvas(container!.clientWidth, container!.clientHeight);
       p.colorMode(p.HSB);
-      p.background(255);
 
       // Update event listeners for Clear and Settings buttons
       const clearButton = document.getElementById("clear-button");

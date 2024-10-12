@@ -144,8 +144,6 @@ const SettingsPanel: React.FC = () => {
     setIsVisible(true);
   }, []);
 
-  console.log(params);
-
   const [colorScheme, setColorScheme] = useState(
     Object.values(colorSchemes)[0]
   );
