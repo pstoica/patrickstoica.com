@@ -256,9 +256,9 @@ const SettingsPanel: React.FC = () => {
   };
 
   const resetParams = () => {
-    setParams(defaultParams);
+    setParams(DEFAULT_PARAMS);
     if (window.updateSketchParams) {
-      window.updateSketchParams(defaultParams);
+      window.updateSketchParams(DEFAULT_PARAMS);
     }
   };
 
