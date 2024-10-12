@@ -102,21 +102,21 @@ export const DEFAULT_PARAMS = {
   baseShiftSpeed: 4.0,
   minBrushWidth: 0,
   maxBrushWidth: 80,
+  sizeFrequency: 3.0,
   globalSizeFrequency: 0.05,
-  sizeFrequency: 2.0,
   rippleFrequency: 0.0,
   rippleAmplitude: 0.0,
   rippleSpeed: 0.5,
   rotation: 0,
-  rotationRate: 0,
-  rotationWave: 0,
-  shape: 0,
+  rotationRate: 0.05,
+  rotationWave: 1.5,
+  shape: 3,
   shapeWave: 0,
   shapeRate: 0,
   fill: 1,
   fillWave: 0,
   fillRate: 0,
-  opacity: 1,
+  opacity: 0.6,
   opacityWave: 0,
   opacityRate: 0,
   colorScheme: Object.keys(colorSchemes)[0] as keyof typeof colorSchemes,
@@ -141,9 +141,9 @@ const SettingsPanel: React.FC = () => {
 
   const panelRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
+  // useEffect(() => {
+  //   setIsVisible(true);
+  // }, []);
 
   useEffect(() => {
     const toggleSettings = () => {
@@ -158,11 +158,21 @@ const SettingsPanel: React.FC = () => {
   const calculatePosition = useCallback(() => {
     if (isVisible && panelRef.current) {
       const panelWidth = panelRef.current.offsetWidth;
-      const panelHeight = panelRef.current.offsetHeight;
+      const panelHeigth = panelRef.current.offsetHeight;
       const windowWidth = window.innerWidth;
+
+      // Check for iOS and Safari
+      const isIOS =
+        /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+        !(window as any).MSStream;
+      const isSafari = /^((?!chrome|android).)*safari/i.test(
+        navigator.userAgent
+      );
+      const isMobileSafari = isIOS && isSafari;
+
       setPosition({
         x: (windowWidth - panelWidth) / 2,
-        y: -panelHeight - 50, // Set a fixed Y position near the top
+        y: -panelHeigth + (isMobileSafari ? -135 : -50),
       });
     }
   }, [isVisible]);

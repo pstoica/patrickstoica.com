@@ -100,6 +100,7 @@ import SettingsPanel from "@/components/SettingsPanel";
       clearButton?.addEventListener("mousedown", handleButtonInteraction);
       clearButton?.addEventListener("touchstart", handleButtonInteraction);
       settingsButton?.addEventListener("touchstart", handleButtonInteraction);
+      settingsButton?.addEventListener("mousedown", handleButtonInteraction);
 
       const handleClearButton = (e: Event) => {
         e.preventDefault();
