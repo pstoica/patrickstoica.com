@@ -63,7 +63,7 @@ export const colorSchemes = {
     "#FFA500",
     "#FF8C00",
     "#FF7F50",
-    "#FF6347",
+    "#FFE4E1", // Near-white warm color (Misty Rose)
   ],
   cool: [
     "#4ECDC4",
@@ -73,7 +73,17 @@ export const colorSchemes = {
     "#00CED1",
     "#40E0D0",
     "#48D1CC",
-    "#20B2AA",
+    "#F0FFFF", // Near-white cool color (Azure)
+  ],
+  twilight: [
+    "#4B0082", // Indigo (deep purple)
+    "#8A2BE2", // Blue Violet
+    "#9932CC", // Dark Orchid
+    "#FFA500", // Orange
+    "#FF4500", // Orange Red
+    "#FFD700", // Gold
+    "#FFFFFF", // White
+    "#F8F8FF", // Ghost White
   ],
   grayscale: [
     "#000000",
