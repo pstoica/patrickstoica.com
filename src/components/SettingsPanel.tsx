@@ -187,7 +187,6 @@ const SettingsPanel: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log(params);
     if (window.updateSketchParams) {
       window.updateSketchParams(params);
     }
