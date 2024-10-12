@@ -122,7 +122,6 @@ export const defaultParams =
 
 const SettingsPanel: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
   const [params, setParams] = useState<Params>(defaultParams);
   useEffect(() => {
     setParams(
@@ -159,7 +158,9 @@ const SettingsPanel: React.FC = () => {
     return () => window.removeEventListener("toggleSettings", toggleSettings);
   }, [isVisible]);
 
-  useEffect(() => {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  const calculatePosition = useCallback(() => {
     if (isVisible && panelRef.current) {
       const panelWidth = panelRef.current.offsetWidth;
       const panelHeight = panelRef.current.offsetHeight;
@@ -170,6 +171,22 @@ const SettingsPanel: React.FC = () => {
       });
     }
   }, [isVisible]);
+
+  const debouncedCalculatePosition = useCallback(
+    debounce(calculatePosition, 0),
+    // calculatePosition,
+    [calculatePosition]
+  );
+
+  useEffect(() => {
+    calculatePosition();
+    window.addEventListener("resize", debouncedCalculatePosition);
+
+    return () => {
+      window.removeEventListener("resize", debouncedCalculatePosition);
+      debouncedCalculatePosition.cancel();
+    };
+  }, [isVisible, debouncedCalculatePosition]);
 
   useEffect(() => {
     window.isInteractingWithUI = false;

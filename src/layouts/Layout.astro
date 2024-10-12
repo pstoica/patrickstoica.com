@@ -3,17 +3,18 @@ import "../styles/global.css";
 
 interface Props {
   title: string;
+  description?: string;
   htmlClass?: string;
 }
 
-const { title, htmlClass } = Astro.props;
+const { title, description, htmlClass } = Astro.props;
 ---
 
 <!DOCTYPE html>
 <html lang="en" class={htmlClass}>
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Minimal CodeMirror Editor" />
+    {description && <meta name="description" content={description} />}
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" href="https://fav.farm/✨" />
     <meta name="generator" content={Astro.generator} />
