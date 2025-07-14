@@ -1,8 +1,8 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Layout from '../layouts/Layout.astro';
 
-const title = "patrick stoica";
-const description = "software engineer • audiovisual artist";
+const title = 'patrick stoica';
+const description = 'software engineer • audiovisual artist';
 ---
 
 <Layout title={title}>
@@ -101,16 +101,15 @@ const description = "software engineer • audiovisual artist";
       </p>
 
       <p>
-        I'm an interdisciplinary artist currently making software creation more
-        accessible at <a href="https://replit.com">Replit</a>.
+        I'm an interdisciplinary artist weaving painting, music, and software.
       </p>
 
       <p>
         My previous software and web development work includes <a
-          href="https://squarespace.com">Squarespace</a
-        >, <a href="https://telnyx.com">Telnyx</a>, <a href="https://puzzle.io"
-          >Puzzle</a
-        >, David Chang's <a
+          href="https://www.replit.com">Replit</a
+        >, <a href="https://squarespace.com">Squarespace</a>, <a
+          href="https://telnyx.com">Telnyx</a
+        >, <a href="https://puzzle.io">Puzzle</a>, David Chang's <a
           href="https://techcrunch.com/2018/01/22/uber-eats-acquires-ando-the-food-delivery-startup-from-david-change-that-makes-its-own-food/"
           >Ando</a
         >, Steven Soderbergh's <a
@@ -275,7 +274,11 @@ const description = "software engineer • audiovisual artist";
         display: block;
         width: 100%;
         font-weight: 300;
-        font-family: Rubik, -apple-system, ui-sans-serif, sans-serif;
+        font-family:
+          Rubik,
+          -apple-system,
+          ui-sans-serif,
+          sans-serif;
       }
 
       :global(html) {
@@ -292,7 +295,7 @@ const description = "software engineer • audiovisual artist";
         outline: none;
 
         &::after {
-          content: "";
+          content: '';
           position: absolute;
           width: 100%;
           height: 2px;
@@ -358,7 +361,7 @@ const description = "software engineer • audiovisual artist";
 
       .rainbow-underline::after,
       .rainbow-underline::before {
-        content: "";
+        content: '';
         position: absolute;
         width: 100%;
         height: 2px;
@@ -407,9 +410,9 @@ const description = "software engineer • audiovisual artist";
 
     <script>
       // New animation script
-      const svg = document.getElementById("titleSvg");
-      const circle1 = document.getElementById("circle1");
-      const circle2 = document.getElementById("circle2");
+      const svg = document.getElementById('titleSvg');
+      const circle1 = document.getElementById('circle1');
+      const circle2 = document.getElementById('circle2');
 
       let mouseX = 0;
       let mouseY = 0;
@@ -426,24 +429,24 @@ const description = "software engineer • audiovisual artist";
 
         const cx1 = 30 + Math.sin(time * 0.7) * 20 + distanceX * 10;
         const cy1 = 50 + Math.cos(time * 0.5) * 15 + distanceY * 10;
-        circle1!.setAttribute("cx", `${cx1}%`);
-        circle1!.setAttribute("cy", `${cy1}%`);
+        circle1!.setAttribute('cx', `${cx1}%`);
+        circle1!.setAttribute('cy', `${cy1}%`);
 
         const cx2 = 70 + Math.cos(time * 0.6) * 15 - distanceX * 10;
         const cy2 = 50 + Math.sin(time * 0.8) * 20 - distanceY * 10;
-        circle2!.setAttribute("cx", `${cx2}%`);
-        circle2!.setAttribute("cy", `${cy2}%`);
+        circle2!.setAttribute('cx', `${cx2}%`);
+        circle2!.setAttribute('cy', `${cy2}%`);
 
         requestAnimationFrame(animate);
       }
 
       let isMobile = false;
 
-      document.addEventListener("touchstart", () => {
+      document.addEventListener('touchstart', () => {
         isMobile = true;
       });
 
-      document.addEventListener("mousemove", (event) => {
+      document.addEventListener('mousemove', (event) => {
         if (!isMobile) {
           mouseX = event.clientX;
           mouseY = event.clientY;
@@ -453,7 +456,7 @@ const description = "software engineer • audiovisual artist";
       animate();
 
       // Update noise filter
-      const noiseFilter = document.querySelector("#noiseOffset");
+      const noiseFilter = document.querySelector('#noiseOffset');
       let noiseX = 0;
       let noiseY = 0;
 
@@ -463,7 +466,7 @@ const description = "software engineer • audiovisual artist";
         const dx = Math.sin(time * 0.3) * 20;
         const dy = Math.cos(time * 0.3) * 5;
 
-        noiseFilter!.setAttribute("dx", dx.toString());
+        noiseFilter!.setAttribute('dx', dx.toString());
         // noiseFilter!.setAttribute("dy", dy.toString());
 
         requestAnimationFrame(updateNoise);
