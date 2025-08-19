@@ -46,6 +46,28 @@ const description = 'software engineer • audiovisual artist';
               <feBlend in="SourceGraphic" mode="overlay"></feBlend>
               <feOffset id="noiseOffset" dx="0" dy="0"></feOffset>
             </filter>
+            <filter id="staticFilter">
+              <feTurbulence
+                type="fractalNoise"
+                baseFrequency="15"
+                numOctaves="1"
+                seed="2">
+                <animate
+                  attributeName="seed"
+                  values="0;100;0"
+                  dur="0.05s"
+                  repeatCount="indefinite"/>
+              </feTurbulence>
+              <feColorMatrix values="1 0 0 0 0
+                                     0 1 0 0 0
+                                     0 0 1 0 0
+                                     0 0 0 1 0"/>
+              <feComponentTransfer>
+                <feFuncA type="discrete" tableValues="0 0.5 0.5 0 0.5 0 0.5 0"/>
+              </feComponentTransfer>
+              <feComposite operator="multiply" in2="SourceGraphic"/>
+              <feComposite operator="over" in2="SourceGraphic"/>
+            </filter>
             <mask id="titleMask">
               <text
                 x="50%"
@@ -89,7 +111,6 @@ const description = 'software engineer • audiovisual artist';
         <li><a href="https://instagram.com/patark">instagram</a></li>
         <li><a href="https://github.com/pstoica">github</a></li>
         <li><a href="https://linkedin.com/in/pstoica">linkedin</a></li>
-        <li><a href="/PatrickStoicaResume.pdf">cv</a></li>
       </ul>
     </nav>
 
@@ -105,11 +126,15 @@ const description = 'software engineer • audiovisual artist';
       </p>
 
       <p>
+        I run <a href="https://staticvoid.studio" class="static-text">staticvoid.studio</a> where I'm currently building <a href="https://senseweave.xyz" class="gradient-text">senseweave</a>, a synesthetic drawing app.
+      </p>
+
+      <p>
         My previous software and web development work includes <a
           href="https://www.replit.com">Replit</a
         >, <a href="https://squarespace.com">Squarespace</a>, <a
           href="https://telnyx.com">Telnyx</a
-        >, <a href="https://puzzle.io">Puzzle</a>, David Chang's <a
+        >, David Chang's <a
           href="https://techcrunch.com/2018/01/22/uber-eats-acquires-ando-the-food-delivery-startup-from-david-change-that-makes-its-own-food/"
           >Ando</a
         >, Steven Soderbergh's <a
@@ -129,14 +154,6 @@ const description = 'software engineer • audiovisual artist';
 
       <ul>
         <li>
-          🎨 <a href="https://senseweave.xyz">sense weave</a>
-        </li>
-        <li>
-          📺 Production at <a href="https://staticvoid.studio"
-            >staticvoid.studio</a
-          >
-        </li>
-        <li>
           🧶 <a href="https://www.kategodwin.design/living-room">Living Room</a>
           with
           <a href="https://kategodwin.design">Kate Godwin</a>
@@ -153,7 +170,7 @@ const description = 'software engineer • audiovisual artist';
           >
         </li>
         <li>
-          🤍 WREK 91.1 FM
+          📡 WREK 91.1 FM
           <ul>
             <li>
               <a href="https://github.com/wrekatlanta/wrektranet">WREKtranet</a>
@@ -295,6 +312,58 @@ const description = 'software engineer • audiovisual artist';
         @apply text-pink-300;
         text-decoration: none;
         position: relative;
+      }
+
+      a.gradient-text {
+        background: linear-gradient(
+          45deg,
+          #ff69b4,
+          #8a2be2,
+          #1e90ff,
+          #ffd700,
+          #ff69b4
+        );
+        background-size: 200% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradientMove 3s linear infinite;
+        font-weight: 600;
+      }
+
+      a.static-text {
+        background: linear-gradient(
+          90deg,
+          #4b5563,
+          #d1d5db,
+          #4b5563,
+          #e5e7eb,
+          #6b7280,
+          #d1d5db,
+          #374151,
+          #e5e7eb,
+          #4b5563
+        );
+        background-size: 200% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: staticDrift 16s linear infinite;
+        font-weight: 500;
+        filter: brightness(0.6);
+      }
+
+      @keyframes staticDrift {
+        0% { 
+          background-position: 0% 50%;
+        }
+        100% { 
+          background-position: 200% 50%;
+        }
+      }
+
+      a.static-text:hover {
+        filter: brightness(1.2);
       }
 
       a:not(.title-container) {

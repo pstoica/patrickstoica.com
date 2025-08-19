@@ -8,9 +8,6 @@ import path from 'path';
 export default defineConfig({
   integrations: [tailwind(), react()],
   output: 'static',
-  redirects: {
-    '/sketches/sense-weave': 'https://senseweave.xyz',
-  },
   vite: {
     resolve: {
       alias: {
